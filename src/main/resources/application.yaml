@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: local
+  datasource:
+    username: postgres
+    password: postgres_password
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    user: postgres
+    password: postgres_password
+    locations: classpath:db/migration/main
+#  data:
+#    mongodb:
+#      port: 27017
+#      database: users
+#      username: mongo
+#      password: mongo_password
+#      authentication-database: admin

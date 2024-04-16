@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-presents:5432/presents
+  flyway:
+    url: jdbc:postgresql://postgres-presents:5432/presents
+  #  data:
+  #    mongodb:
+  #      host: mongo
+  kafka:
+    bootstrap-servers: kafka:9092
+

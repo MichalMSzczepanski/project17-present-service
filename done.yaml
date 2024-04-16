@@ -1,0 +1,11 @@
+logic:
+semantics:
+config:
+  3 configure local, prod and test application configuration
+  2 configure postgresql-presents connection for prod and local development
+  1 bootstrap pom.xml with majority of required dependencies
+git:
+  1 initialize git
+
+wishlist:
+  - lorem

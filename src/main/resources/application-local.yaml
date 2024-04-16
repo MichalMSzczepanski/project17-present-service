@@ -1,0 +1,13 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/presents
+  flyway:
+    url: jdbc:postgresql://localhost:5434/presents
+  #  data:
+  #    mongodb:
+  #      host: localhost
+  kafka:
+    bootstrap-servers: localhost:9092

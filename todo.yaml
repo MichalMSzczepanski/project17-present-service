@@ -1,0 +1,12 @@
+logic:
+  - lorem
+semantics:
+  - communication with user service
+  - entities with relationships - person, occasion, present
+config:
+  - ensure users manage their own data in service
+git:
+  - lorem
+
+wishlist:
+  - lorem
