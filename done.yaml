@@ -1,5 +1,6 @@
 logic:
 semantics:
+  1 initial entities
 config:
   3 configure local, prod and test application configuration
   2 configure postgresql-presents connection for prod and local development
