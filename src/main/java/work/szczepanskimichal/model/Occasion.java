@@ -27,12 +27,10 @@ public class Occasion {
 
     private LocalDateTime date;
 
-    @OneToMany
-    //todo cascade
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Reminder> reminders;
 
-    @ManyToMany
-    //todo cascade
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PresentIdea> presentIdeas;
 
 }

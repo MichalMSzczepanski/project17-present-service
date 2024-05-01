@@ -7,11 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "presentIdeas")
+@Table(name = "present_ideas")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -28,9 +27,6 @@ public class PresentIdea {
     private String description;
 
     private BigDecimal price;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Occasion> occasions;
 
 }
 

@@ -11,3 +11,13 @@ spring:
   #      host: localhost
   kafka:
     bootstrap-servers: localhost:9092
+
+logging:
+  level:
+    org.flywaydb: TRACE
+    org.hibernate.SQL: TRACE
+    org.apache:
+      kafka:
+        clients:
+          producer:
+            internals: TRACE

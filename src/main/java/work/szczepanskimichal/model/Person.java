@@ -26,16 +26,13 @@ public class Person {
 
     private String lastname;
 
-    @OneToMany
-    //todo cascade
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Occasion> occasions;
 
-    @OneToMany
-    //todo cascade
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PresentIdea> presentsIdeas;
 
-    @OneToMany
-    //todo cascade
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PresentPurchased> presentsPurchased;
 
 
