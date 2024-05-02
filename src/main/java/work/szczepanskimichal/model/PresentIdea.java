@@ -28,5 +28,8 @@ public class PresentIdea {
 
     private BigDecimal price;
 
+//    todo
+//    private String currency;
+
 }
 

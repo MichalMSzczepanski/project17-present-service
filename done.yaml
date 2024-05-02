@@ -1,5 +1,6 @@
 logic:
 semantics:
+  3 person entity children cascading functionality tests
   2 initial person entity tests working
   1 initial entities
 config:
