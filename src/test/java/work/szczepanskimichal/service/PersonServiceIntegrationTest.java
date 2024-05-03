@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import work.szczepanskimichal.model.*;
 import work.szczepanskimichal.repository.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -32,15 +30,20 @@ class PersonServiceIntegrationTest {
     @Autowired
     private PresentPurchasedRepository presentPurchasedRepository;
 
+    final String PERSON_NAME = "personName";
+    final String PERSON_LASTNAME = "personLastName";
+    final String REMINDER_NAME = "reminderName";
+    final String OCCASION_NAME = "occasionName";
+    final String PRESENT_IDEA_NAME = "presentIdeaName";
+    final String PRESENT_IDEA_DESCRIPTION = "presentIdeaDescription";
+    final String PRESENT_PURCHASED_NAME = "presentPurchasedName";
+    final String PRESENT_PURCHASED_DESCRIPTION = "presentPurchasedDescription";
+
     @Test
     void shouldCreatePerson_withoutOccasions_withoutReminders() {
+
         //given
-        var personName = "personName";
-        var personLastName = "personLastName";
-        var person = Person.builder()
-                .name(personName)
-                .lastname(personLastName)
-                .build();
+        var person = PersonAssembler.assemblePerson(PERSON_NAME, PERSON_LASTNAME);
 
         //when
         var result = personService.createPerson(person);
@@ -48,8 +51,8 @@ class PersonServiceIntegrationTest {
 
         //then
         assertNotNull(persistedPerson.getId());
-        assertEquals(persistedPerson.getName(), personName);
-        assertEquals(persistedPerson.getLastname(), personLastName);
+        assertEquals(persistedPerson.getName(), PERSON_NAME);
+        assertEquals(persistedPerson.getLastname(), PERSON_LASTNAME);
         assertNull(persistedPerson.getOccasions());
         assertNull(persistedPerson.getPresentsIdeas());
         assertNull(persistedPerson.getPresentsPurchased());
@@ -58,36 +61,26 @@ class PersonServiceIntegrationTest {
 
     @Test
     void shouldCreatePerson_withOccasion_withReminder_withPresentIdeas_withPresentsPurchased() {
-        var reminder = Reminder.builder()
-                .name("weeklyReminder")
-                .build();
-        var occasionTime = LocalDateTime.now();
-        var occasionSet = Set.of(Occasion.builder()
-                .name("birthdayOccasion")
-                .date(occasionTime)
-                .reminders(Set.of(reminder))
-                .build());
-        var presentIdeaSet = Set.of(PresentIdea.builder()
-                .name("presentIdea")
-                .description("presentIdeaDescription")
-                .price(BigDecimal.valueOf(11L))
-                .build());
-        var presentPurchasedSet = Set.of(PresentPurchased.builder()
-                .name("presentPurchased")
-                .description("presentPurchasedDescription")
-                .price(BigDecimal.valueOf(99L))
-                .build());
-
         //given
-        var personName = "personName";
-        var personLastName = "personLastName";
-        var person = Person.builder()
-                .name(personName)
-                .lastname(personLastName)
-                .occasions(occasionSet)
-                .presentsIdeas(presentIdeaSet)
-                .presentsPurchased(presentPurchasedSet)
-                .build();
+        var reminder = ReminderAssembler.assembleReminder(REMINDER_NAME);
+        var occasionTime = LocalDateTime.now();
+        var occasionSet = Set.of(OccasionAssembler.assembleOccasion(
+                OCCASION_NAME,
+                occasionTime,
+                reminder));
+        var presentIdeaSet = Set.of(PresentIdeaAssembler.assemblePresentIdea(
+                PRESENT_IDEA_NAME,
+                PRESENT_IDEA_DESCRIPTION));
+        var presentPurchasedSet = Set.of(PresentPurchasedAssembler.assemblePresentIdea(
+                PRESENT_PURCHASED_NAME,
+                PRESENT_PURCHASED_DESCRIPTION));
+
+        var person = PersonAssembler.assemblePerson(
+                PERSON_NAME,
+                PERSON_LASTNAME,
+                occasionSet,
+                presentIdeaSet,
+                presentPurchasedSet);
 
         //when
         var result = personService.createPerson(person);
@@ -95,8 +88,8 @@ class PersonServiceIntegrationTest {
 
         //then
         assertNotNull(persistedPerson.getId());
-        assertEquals(persistedPerson.getName(), personName);
-        assertEquals(persistedPerson.getLastname(), personLastName);
+        assertEquals(persistedPerson.getName(), PERSON_NAME);
+        assertEquals(persistedPerson.getLastname(), PERSON_LASTNAME);
         assertEquals(persistedPerson.getOccasions(), occasionSet);
         assertEquals(persistedPerson.getPresentsIdeas(), presentIdeaSet);
         assertEquals(persistedPerson.getPresentsPurchased(), presentPurchasedSet);
@@ -104,44 +97,34 @@ class PersonServiceIntegrationTest {
     }
 
     @Test
-    void shouldCreatePerson_andDeleteAllChildrenAfterParentPersonDeletion() {
-        var reminder = Reminder.builder()
-                .name("weeklyReminder")
-                .build();
-        var occasionTime = LocalDateTime.now();
-        var occasionSet = Set.of(Occasion.builder()
-                .name("birthdayOccasion")
-                .date(occasionTime)
-                .reminders(Set.of(reminder))
-                .build());
-        var presentIdeaSet = Set.of(PresentIdea.builder()
-                .name("presentIdea")
-                .description("presentIdeaDescription")
-                .price(BigDecimal.valueOf(11L))
-                .build());
-        var presentPurchasedSet = Set.of(PresentPurchased.builder()
-                .name("presentPurchased")
-                .description("presentPurchasedDescription")
-                .price(BigDecimal.valueOf(99L))
-                .build());
-
+    void shouldCreatePerson_andDeleteAllChildren_afterParentPersonDeletion() {
         //given
-        var personName = "personName";
-        var personLastName = "personLastName";
-        var person = Person.builder()
-                .name(personName)
-                .lastname(personLastName)
-                .occasions(occasionSet)
-                .presentsIdeas(presentIdeaSet)
-                .presentsPurchased(presentPurchasedSet)
-                .build();
+        var reminder = ReminderAssembler.assembleReminder(REMINDER_NAME);
+        var occasionTime = LocalDateTime.now();
+        var occasionSet = Set.of(OccasionAssembler.assembleOccasion(
+                OCCASION_NAME,
+                occasionTime,
+                reminder));
+        var presentIdeaSet = Set.of(PresentIdeaAssembler.assemblePresentIdea(
+                PRESENT_IDEA_NAME,
+                PRESENT_IDEA_DESCRIPTION));
+        var presentPurchasedSet = Set.of(PresentPurchasedAssembler.assemblePresentIdea(
+                PRESENT_PURCHASED_NAME,
+                PRESENT_PURCHASED_DESCRIPTION));
+
+        var person = PersonAssembler.assemblePerson(
+                PERSON_NAME,
+                PERSON_LASTNAME,
+                occasionSet,
+                presentIdeaSet,
+                presentPurchasedSet);
 
         //when
         var result = personService.createPerson(person);
         var persistedPerson = personRepository.findById(result.getId()).get();
         assertNotNull(persistedPerson.getId());
-        assertEquals(persistedPerson.getName(), personName);
-        assertEquals(persistedPerson.getLastname(), personLastName);
+        assertEquals(persistedPerson.getName(), PERSON_NAME);
+        assertEquals(persistedPerson.getLastname(), PERSON_LASTNAME);
         assertEquals(persistedPerson.getOccasions(), occasionSet);
         assertEquals(persistedPerson.getPresentsIdeas(), presentIdeaSet);
         assertEquals(persistedPerson.getPresentsPurchased(), presentPurchasedSet);
@@ -155,7 +138,6 @@ class PersonServiceIntegrationTest {
         assertTrue(reminderRepository.findAll().isEmpty());
         assertTrue(presentIdeaRepository.findAll().isEmpty());
         assertTrue(presentPurchasedRepository.findAll().isEmpty());
-
     }
 
 }

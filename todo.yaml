@@ -5,6 +5,10 @@ logic:
         - remind vie email 2 weeks prior at 9:00, 1 week prior at 9:00, 1 day prior at 9:00
         -
 semantics:
+  - occasion, reminder relationships with person (bidirectional):
+      - scenarios:
+          - i want to save an occasion to a person id
+          - i want to save a reminder to an occasion id
   - entities with relationships - person, occasion, present + reminders about occasions:
       - person has (one to many) occasions that have reminders (one to many)
       - person has present(s) gifted (one to many)
