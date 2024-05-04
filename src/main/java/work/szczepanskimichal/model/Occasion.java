@@ -30,7 +30,11 @@ public class Occasion {
 
     private LocalDateTime date;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+    @OneToMany(mappedBy = "occasion", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Reminder> reminders;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

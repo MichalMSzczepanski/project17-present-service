@@ -1,7 +1,8 @@
+-- Create tables if not exists
 CREATE TABLE IF NOT EXISTS persons
 (
     id       UUID PRIMARY KEY,
-    owner    UUID         NOT NULL,
+    owner    UUID NOT NULL,
     name     VARCHAR(255) NOT NULL,
     lastname VARCHAR(255)
 );
@@ -9,7 +10,7 @@ CREATE TABLE IF NOT EXISTS persons
 CREATE TABLE IF NOT EXISTS occasions
 (
     id        UUID PRIMARY KEY,
-    owner     UUID         NOT NULL,
+    owner     UUID NOT NULL,
     name      VARCHAR(255) NOT NULL,
     date      TIMESTAMP,
     person_id UUID,
@@ -19,7 +20,7 @@ CREATE TABLE IF NOT EXISTS occasions
 CREATE TABLE IF NOT EXISTS reminders
 (
     id          UUID PRIMARY KEY,
-    owner       UUID         NOT NULL,
+    owner       UUID NOT NULL,
     name        VARCHAR(255) NOT NULL,
     occasion_id UUID,
     CONSTRAINT fk_occasion_id_rem FOREIGN KEY (occasion_id) REFERENCES occasions (id) ON DELETE CASCADE
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS reminders
 CREATE TABLE IF NOT EXISTS presents_purchased
 (
     id          UUID PRIMARY KEY,
-    owner       UUID         NOT NULL,
+    owner       UUID NOT NULL,
     name        VARCHAR(255) NOT NULL,
     description TEXT,
     price       DECIMAL(10, 2),
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS presents_purchased
 CREATE TABLE IF NOT EXISTS present_ideas
 (
     id          UUID PRIMARY KEY,
-    owner       UUID         NOT NULL,
+    owner       UUID NOT NULL,
     name        VARCHAR(255) NOT NULL,
     description TEXT,
     price       DECIMAL(10, 2),

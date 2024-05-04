@@ -1,5 +1,6 @@
 logic:
 semantics:
+  6 create bidirectional relationships between person, occasion, reminder
   5 update entities to have owner
   4 create entity assemblers for testing purposes
   3 person entity children cascading functionality tests

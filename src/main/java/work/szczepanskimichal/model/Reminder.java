@@ -26,12 +26,8 @@ public class Reminder {
     @Column(nullable = false)
     private String name;
 
-    //todo fields:
-        //frequency
-
-
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "occasion_id")
+    private Occasion occasion;
 
 }

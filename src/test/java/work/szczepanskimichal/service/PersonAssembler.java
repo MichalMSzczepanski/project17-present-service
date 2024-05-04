@@ -6,11 +6,13 @@ import work.szczepanskimichal.model.PresentIdea;
 import work.szczepanskimichal.model.PresentPurchased;
 
 import java.util.Set;
+import java.util.UUID;
 
- abstract class PersonAssembler {
+abstract class PersonAssembler {
 
     static Person assemblePerson(String personName, String personLastName) {
         return Person.builder()
+                .owner(UUID.randomUUID())
                 .name(personName)
                 .lastname(personLastName)
                 .build();
@@ -22,6 +24,7 @@ import java.util.Set;
                                  Set<PresentIdea> presentIdeas,
                                  Set<PresentPurchased> presentsPurchased) {
         return Person.builder()
+                .owner(UUID.randomUUID())
                 .name(name)
                 .lastname(lastName)
                 .occasions(occasions)

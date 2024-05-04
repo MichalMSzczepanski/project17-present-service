@@ -29,7 +29,7 @@ public class Person {
 
     private String lastname;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Occasion> occasions;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
