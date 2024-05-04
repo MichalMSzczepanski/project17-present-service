@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -30,4 +31,11 @@ public class Reminder {
     @JoinColumn(name = "occasion_id")
     private Occasion occasion;
 
+    @Column(name = "reminder_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date reminderDate;
+
+    //todo recurring details
+        //recurring boolean for quick check
+        //recurring data structure with details
 }

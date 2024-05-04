@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS reminders
     owner       UUID NOT NULL,
     name        VARCHAR(255) NOT NULL,
     occasion_id UUID,
+    reminder_date TIMESTAMP,
     CONSTRAINT fk_occasion_id_rem FOREIGN KEY (occasion_id) REFERENCES occasions (id) ON DELETE CASCADE
 );
 
