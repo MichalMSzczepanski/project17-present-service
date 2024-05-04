@@ -21,9 +21,8 @@ public class PresentPurchased {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    //    todo
-    //    nullable false
-//    private UUID owner;
+    @Column(nullable = false)
+    private UUID owner;
 
     @Column(nullable = false)
     private String name;
@@ -31,9 +30,6 @@ public class PresentPurchased {
     private String description;
 
     private BigDecimal price;
-
-    //todo fields:
-        //receipt (image?)
 
 }
 

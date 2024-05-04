@@ -21,9 +21,8 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-//    todo
-    //    nullable false
-//    private UUID owner;
+    @Column(nullable = false)
+    private UUID owner;
 
     @Column(nullable = false)
     private String name;
