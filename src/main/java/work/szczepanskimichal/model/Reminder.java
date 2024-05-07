@@ -27,10 +27,6 @@ public class Reminder {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "occasion_id")
-    private Occasion occasion;
-
     @Column(name = "reminder_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date reminderDate;

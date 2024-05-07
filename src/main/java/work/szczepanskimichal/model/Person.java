@@ -29,14 +29,17 @@ public class Person {
 
     private String lastname;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<Occasion> occasions;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PresentIdea> presentsIdeas;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PresentPurchased> presentsPurchased;
-
+//    @OneToMany(cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    private Set<PresentIdea> presentsIdeas;
+//
+//    @OneToMany(cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    private Set<PresentPurchased> presentsPurchased;
 
 }
