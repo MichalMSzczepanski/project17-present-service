@@ -1,5 +1,6 @@
 logic:
 semantics:
+  8 configure bidirectional relationship person-occasion
   7 update reminder with reminder_date and recurring logic approach
   6 create bidirectional relationships between person, occasion, reminder
   5 update entities to have owner

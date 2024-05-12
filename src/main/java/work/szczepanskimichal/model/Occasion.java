@@ -1,12 +1,13 @@
 package work.szczepanskimichal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,12 +31,22 @@ public class Occasion {
 
     private LocalDateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_person_id"
+//            referencedColumnName = "id",
+//            nullable = false
+    )
+    @JsonIgnore
+    private Person person;
+
     @OneToMany(
+            mappedBy = "occasion",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<Reminder> reminders;
+    private Set<Present> presentIdeas = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PresentIdea> presentIdeas;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
 }

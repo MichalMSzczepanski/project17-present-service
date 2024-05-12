@@ -2,20 +2,22 @@ package work.szczepanskimichal.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import work.szczepanskimichal.model.Occasion;
 import work.szczepanskimichal.model.Person;
+import work.szczepanskimichal.repository.OccasionRepository;
 import work.szczepanskimichal.service.PersonService;
 
 import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-public class PersonController {
+public class OccasionController {
 
-    private final PersonService personService;
+    private final OccasionRepository occasionRepository;
 
-    @PostMapping("/person/")
-    public Person createPerson(@RequestBody Person person) {
-        return personService.createPerson(person);
+    @PostMapping("/occasion/")
+    public Occasion createPerson(@RequestBody Occasion occasion) {
+        return occasionRepository.save(occasion);
 //        example json
 //        {
 //            "owner": "5df0d7d1-8326-4c38-844e-80de64e8ff84",
@@ -39,10 +41,5 @@ public class PersonController {
 //  ]
 //        }
 
-    }
-
-    @GetMapping("/person/")
-    public Person getPerson(@RequestParam UUID id) {
-        return personService.getPersonById(id);
     }
 }
