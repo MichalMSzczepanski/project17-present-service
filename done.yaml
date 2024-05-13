@@ -1,5 +1,6 @@
 logic:
 semantics:
+  10 introduce DTOs for creating all entities
   9 bidirectional relationships working with manual persistence one by one
   8 bidirectional relationships person-occasion-present working. issue with duplicate occasions
   8 configure bidirectional relationship person-occasion
