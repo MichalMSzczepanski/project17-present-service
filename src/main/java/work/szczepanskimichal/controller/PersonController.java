@@ -1,9 +1,11 @@
 package work.szczepanskimichal.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import work.szczepanskimichal.model.Person;
 import work.szczepanskimichal.model.PersonCreateDto;
+import work.szczepanskimichal.model.PersonCreatedDto;
 import work.szczepanskimichal.service.PersonService;
 
 import java.util.UUID;
@@ -16,8 +18,8 @@ public class PersonController {
     private final PersonService personService;
 
     @PostMapping()
-    public Person createPerson(@RequestBody PersonCreateDto personDto) {
-        return personService.createPerson(personDto);
+    public ResponseEntity<PersonCreatedDto> createPerson(@RequestBody PersonCreateDto personDto) {
+        return ResponseEntity.ok(personService.createPerson(personDto));
     }
 
     @GetMapping()

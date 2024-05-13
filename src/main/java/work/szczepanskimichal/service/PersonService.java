@@ -2,8 +2,10 @@ package work.szczepanskimichal.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import work.szczepanskimichal.mapper.PersonMapper;
 import work.szczepanskimichal.model.Person;
 import work.szczepanskimichal.model.PersonCreateDto;
+import work.szczepanskimichal.model.PersonCreatedDto;
 import work.szczepanskimichal.repository.PersonRepository;
 
 import java.util.UUID;
@@ -13,14 +15,11 @@ import java.util.UUID;
 public class PersonService {
 
     private final PersonRepository personRepository;
+    private final PersonMapper personMapper;
 
-    public Person createPerson(PersonCreateDto personDto) {
-        var person = Person.builder()
-                .owner(personDto.getOwner())
-                .name(personDto.getName())
-                .lastname(personDto.getLastname())
-                .build();
-        return personRepository.save(person);
+    public PersonCreatedDto createPerson(PersonCreateDto personDto) {
+        var person = personMapper.toEntity(personDto);
+        return personMapper.toDto(personRepository.save(person));
     }
 
     public Person getPersonById(UUID id) {
