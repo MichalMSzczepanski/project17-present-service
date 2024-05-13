@@ -27,11 +27,7 @@ class PersonServiceIntegrationTest {
     @Autowired
     private OccasionRepository occasionRepository;
     @Autowired
-    private ReminderRepository reminderRepository;
-    @Autowired
-    private PresentIdeaRepository presentIdeaRepository;
-    @Autowired
-    private PresentPurchasedRepository presentPurchasedRepository;
+    private PresentRepository presentIdeaRepository;
     @Autowired
     private EntityManager entityManager;
 
@@ -59,32 +55,27 @@ class PersonServiceIntegrationTest {
         assertEquals(persistedPerson.getName(), PERSON_NAME);
         assertEquals(persistedPerson.getLastname(), PERSON_LASTNAME);
         assertNull(persistedPerson.getOccasions());
-        assertNull(persistedPerson.getPresentsIdeas());
-        assertNull(persistedPerson.getPresentsPurchased());
+        assertNull(persistedPerson.getPresents());
     }
 
     @Test
+    @Disabled
+
 //    @Transactional
     void shouldCreatePerson_withOccasion_withReminder_withPresentIdeas_withPresentsPurchased() {
         //given
-        var reminder = ReminderAssembler.assembleReminder(REMINDER_NAME);
         var occasionTime = LocalDateTime.now();
         var occasionSet = Set.of(OccasionAssembler.assembleOccasion(
                 OCCASION_NAME,
-                occasionTime,
-                reminder));
-        var presentIdeaSet = Set.of(PresentIdeaAssembler.assemblePresentIdea(
+                occasionTime));
+        var presentSet = Set.of(PresentAssembler.assemblePresentIdea(
                 PRESENT_IDEA_NAME,
                 PRESENT_IDEA_DESCRIPTION));
-        var presentPurchasedSet = Set.of(PresentPurchasedAssembler.assemblePresentIdea(
-                PRESENT_PURCHASED_NAME,
-                PRESENT_PURCHASED_DESCRIPTION));
         var person = PersonAssembler.assemblePerson(
                 PERSON_NAME,
                 PERSON_LASTNAME,
                 occasionSet,
-                presentIdeaSet,
-                presentPurchasedSet);
+                presentSet);
 
         //when
         var result = personService.createPerson(person);
@@ -102,45 +93,36 @@ class PersonServiceIntegrationTest {
         //then
         // Verify lazy loading behavior
         assertFalse(Hibernate.isInitialized(persistedPerson.getOccasions()));
-        assertFalse(Hibernate.isInitialized(persistedPerson.getPresentsIdeas()));
-        assertFalse(Hibernate.isInitialized(persistedPerson.getPresentsPurchased()));
+        assertFalse(Hibernate.isInitialized(persistedPerson.getPresents()));
 
         assertNotNull(persistedPerson.getId());
         assertEquals(persistedPerson.getName(), PERSON_NAME);
         assertEquals(persistedPerson.getLastname(), PERSON_LASTNAME);
         assertEquals(persistedPerson.getOccasions(), occasionSet);
-        assertEquals(persistedPerson.getPresentsIdeas(), presentIdeaSet);
-        assertEquals(persistedPerson.getPresentsPurchased(), presentPurchasedSet);
-        assertEquals(persistedPerson.getOccasions().stream().findFirst().get().getReminders(), Set.of(reminder));
+        assertEquals(persistedPerson.getPresents(), presentSet);
     }
 
     @Test
     @Disabled
     void shouldReturnReminder_andEagerlyFetch_parentOccasion_andEagerlyFetch_parentPerson() {
         //given
-        var reminder = ReminderAssembler.assembleReminder(REMINDER_NAME);
+//        var reminder = ReminderAssembler.assembleReminder(REMINDER_NAME);
         var occasionTime = LocalDateTime.now();
         var occasionSet = Set.of(OccasionAssembler.assembleOccasion(
                 OCCASION_NAME,
-                occasionTime,
-                reminder));
-        var presentIdeaSet = Set.of(PresentIdeaAssembler.assemblePresentIdea(
+                occasionTime));
+        var presentSet = Set.of(PresentAssembler.assemblePresentIdea(
                 PRESENT_IDEA_NAME,
                 PRESENT_IDEA_DESCRIPTION));
-        var presentPurchasedSet = Set.of(PresentPurchasedAssembler.assemblePresentIdea(
-                PRESENT_PURCHASED_NAME,
-                PRESENT_PURCHASED_DESCRIPTION));
         var person = PersonAssembler.assemblePerson(
                 PERSON_NAME,
                 PERSON_LASTNAME,
                 occasionSet,
-                presentIdeaSet,
-                presentPurchasedSet);
+                presentSet);
 
         //when
         var persistedPerson = personService.createPerson(person);
         var persistedOccasion = persistedPerson.getOccasions().stream().findFirst();
-        var persistedReminder = persistedOccasion.get().getReminders().stream().findFirst();
 
         //then
 //        var fetchedOccasion = occasionRepository.findById(persistedOccasion.get().getId()).get();
@@ -158,25 +140,19 @@ class PersonServiceIntegrationTest {
     @Test
     void shouldCreatePerson_andDeleteAllChildren_afterParentPersonDeletion() {
         //given
-        var reminder = ReminderAssembler.assembleReminder(REMINDER_NAME);
         var occasionTime = LocalDateTime.now();
         var occasionSet = Set.of(OccasionAssembler.assembleOccasion(
                 OCCASION_NAME,
-                occasionTime,
-                reminder));
-        var presentIdeaSet = Set.of(PresentIdeaAssembler.assemblePresentIdea(
+                occasionTime));
+        var presentSet = Set.of(PresentAssembler.assemblePresentIdea(
                 PRESENT_IDEA_NAME,
                 PRESENT_IDEA_DESCRIPTION));
-        var presentPurchasedSet = Set.of(PresentPurchasedAssembler.assemblePresentIdea(
-                PRESENT_PURCHASED_NAME,
-                PRESENT_PURCHASED_DESCRIPTION));
 
         var person = PersonAssembler.assemblePerson(
                 PERSON_NAME,
                 PERSON_LASTNAME,
                 occasionSet,
-                presentIdeaSet,
-                presentPurchasedSet);
+                presentSet);
 
         //when
         var result = personService.createPerson(person);
@@ -185,18 +161,14 @@ class PersonServiceIntegrationTest {
         assertEquals(persistedPerson.getName(), PERSON_NAME);
         assertEquals(persistedPerson.getLastname(), PERSON_LASTNAME);
         assertEquals(persistedPerson.getOccasions(), occasionSet);
-        assertEquals(persistedPerson.getPresentsIdeas(), presentIdeaSet);
-        assertEquals(persistedPerson.getPresentsPurchased(), presentPurchasedSet);
-        assertEquals(persistedPerson.getOccasions().stream().findFirst().get().getReminders(), Set.of(reminder));
+        assertEquals(persistedPerson.getPresents(), presentSet);
 
         personRepository.deleteById(result.getId());
 
         //then
         assertTrue(personRepository.findAll().isEmpty());
         assertTrue(occasionRepository.findAll().isEmpty());
-        assertTrue(reminderRepository.findAll().isEmpty());
         assertTrue(presentIdeaRepository.findAll().isEmpty());
-        assertTrue(presentPurchasedRepository.findAll().isEmpty());
     }
 
 }

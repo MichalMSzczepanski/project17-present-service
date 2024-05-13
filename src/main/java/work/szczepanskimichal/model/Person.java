@@ -1,11 +1,11 @@
 package work.szczepanskimichal.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,16 +30,12 @@ public class Person {
     private String lastname;
 
     @OneToMany(
+            mappedBy = "person",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<Occasion> occasions;
+    private Set<Occasion> occasions = new HashSet<>();
 
-//    @OneToMany(cascade = CascadeType.ALL,
-//            orphanRemoval = true)
-//    private Set<PresentIdea> presentsIdeas;
-//
-//    @OneToMany(cascade = CascadeType.ALL,
-//            orphanRemoval = true)
-//    private Set<PresentPurchased> presentsPurchased;
-
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }
