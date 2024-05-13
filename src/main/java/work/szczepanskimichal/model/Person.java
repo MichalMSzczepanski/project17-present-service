@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -40,13 +39,6 @@ public class Person {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Set<Occasion> occasions = new HashSet<>();
-
-    @OneToMany(
-            mappedBy = "person",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private Set<Present> presents = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
