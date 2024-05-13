@@ -2,8 +2,10 @@ package work.szczepanskimichal.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import work.szczepanskimichal.mapper.PresentMapper;
 import work.szczepanskimichal.model.Present;
 import work.szczepanskimichal.model.PresentCreateDto;
+import work.szczepanskimichal.model.PresentCreatedDto;
 import work.szczepanskimichal.repository.PresentRepository;
 
 import java.util.UUID;
@@ -14,18 +16,15 @@ public class PresentService {
 
     private final PresentRepository presentRepository;
     private final OccasionService occasionService;
+    private final PresentMapper presentMapper;
 
-    public Present createPresent(PresentCreateDto presentDto) {
+    public PresentCreatedDto createPresent(PresentCreateDto presentDto) {
         var parentOccasion = occasionService.getOccasionById(presentDto.getOccasionId());
-        var present = Present.builder()
-                .owner(presentDto.getOwner())
-                .name(presentDto.getName())
-                .type(presentDto.getType())
-                .description(presentDto.getDescription())
-                .price(presentDto.getPrice())
+        var present = presentMapper.toEntity(presentDto)
+                .toBuilder()
                 .occasion(parentOccasion)
                 .build();
-        return presentRepository.save(present);
+        return presentMapper.toDto(presentRepository.save(present));
     }
 
     public Present getPresentById(UUID id) {

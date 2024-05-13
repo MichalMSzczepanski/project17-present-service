@@ -42,7 +42,7 @@ public class Occasion {
             mappedBy = "occasion",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<Present> presentIdeas = new HashSet<>();
+    private final Set<Present> presentIdeas = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
