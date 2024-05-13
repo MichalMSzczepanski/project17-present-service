@@ -2,10 +2,8 @@ package work.szczepanskimichal.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import work.szczepanskimichal.model.Occasion;
 import work.szczepanskimichal.model.Present;
 import work.szczepanskimichal.model.PresentCreateDto;
-import work.szczepanskimichal.repository.OccasionRepository;
 import work.szczepanskimichal.repository.PresentRepository;
 
 import java.util.UUID;

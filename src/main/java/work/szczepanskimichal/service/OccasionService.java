@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.model.Occasion;
 import work.szczepanskimichal.model.OccasionCreateDto;
-import work.szczepanskimichal.model.Person;
 import work.szczepanskimichal.repository.OccasionRepository;
-import work.szczepanskimichal.repository.PersonRepository;
-import work.szczepanskimichal.repository.PresentRepository;
 
 import java.util.UUID;
 
