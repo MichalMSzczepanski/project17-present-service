@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
-@JsonPropertyOrder({"id", "owner", "name", "date", "person", "presentIdeas", "createdAt"})
+//@JsonPropertyOrder({"id", "owner", "name", "date", "person", "presentIdeas", "createdAt"})
 public class Occasion {
 
     @Id
@@ -37,8 +37,8 @@ public class Occasion {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
-            name = "fk_person_id"
-//            nullable = false
+            name = "fk_person_id",
+            nullable = false
     )
     @JsonIgnore
     private Person person;
@@ -53,14 +53,14 @@ public class Occasion {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @JsonCreator
-    public Occasion(@JsonProperty("presentIdeas") Set<Present> presents) {
-        if (presents != null) {
-            this.presentIdeas = presents.stream()
-                    .map(p -> p.toBuilder()
-                            .occasion(this)
-                            .build()).collect(Collectors.toSet());
-        }
-    }
+//    @JsonCreator
+//    public Occasion(@JsonProperty("presentIdeas") Set<Present> presents) {
+//        if (presents != null) {
+//            this.presentIdeas = presents.stream()
+//                    .map(p -> p.toBuilder()
+//                            .occasion(this)
+//                            .build()).collect(Collectors.toSet());
+//        }
+//    }
 
 }
