@@ -33,7 +33,7 @@ public class Person {
             mappedBy = "person",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<Occasion> occasions = new HashSet<>();
+    private final Set<Occasion> occasions = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")

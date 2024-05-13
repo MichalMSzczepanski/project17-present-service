@@ -10,8 +10,7 @@ import java.util.UUID;
 public class PersonCreateDto {
 
     private UUID owner;
-
     private String name;
-
     private String lastname;
+
 }
