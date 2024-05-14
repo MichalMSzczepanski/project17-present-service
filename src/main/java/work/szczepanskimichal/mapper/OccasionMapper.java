@@ -2,7 +2,9 @@ package work.szczepanskimichal.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import work.szczepanskimichal.model.*;
+import work.szczepanskimichal.model.occasion.Occasion;
+import work.szczepanskimichal.model.occasion.OccasionCreateDto;
+import work.szczepanskimichal.model.occasion.OccasionCreatedDto;
 
 @Mapper(componentModel = "spring")
 public abstract class OccasionMapper {

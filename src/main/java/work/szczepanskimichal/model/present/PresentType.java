@@ -1,4 +1,4 @@
-package work.szczepanskimichal.model;
+package work.szczepanskimichal.model.present;
 
 public enum PresentType {
     IDEA,

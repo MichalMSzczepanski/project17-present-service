@@ -1,8 +1,9 @@
-package work.szczepanskimichal.model;
+package work.szczepanskimichal.model.person;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import work.szczepanskimichal.model.occasion.Occasion;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

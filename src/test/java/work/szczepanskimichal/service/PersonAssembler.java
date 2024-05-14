@@ -1,8 +1,8 @@
 //package work.szczepanskimichal.service;
 //
-//import work.szczepanskimichal.model.Occasion;
-//import work.szczepanskimichal.model.Person;
-//import work.szczepanskimichal.model.Present;
+//import work.szczepanskimichal.model.occasion.Occasion;
+//import work.szczepanskimichal.model.person.Person;
+//import work.szczepanskimichal.model.present.Present;
 //
 //import java.util.Set;
 //import java.util.UUID;

@@ -3,9 +3,9 @@ package work.szczepanskimichal.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import work.szczepanskimichal.model.Present;
-import work.szczepanskimichal.model.PresentCreateDto;
-import work.szczepanskimichal.model.PresentCreatedDto;
+import work.szczepanskimichal.model.present.Present;
+import work.szczepanskimichal.model.present.PresentCreateDto;
+import work.szczepanskimichal.model.present.PresentCreatedDto;
 import work.szczepanskimichal.service.PresentService;
 
 import java.util.UUID;

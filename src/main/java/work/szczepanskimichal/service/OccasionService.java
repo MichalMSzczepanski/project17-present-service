@@ -3,9 +3,9 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.mapper.OccasionMapper;
-import work.szczepanskimichal.model.Occasion;
-import work.szczepanskimichal.model.OccasionCreateDto;
-import work.szczepanskimichal.model.OccasionCreatedDto;
+import work.szczepanskimichal.model.occasion.Occasion;
+import work.szczepanskimichal.model.occasion.OccasionCreateDto;
+import work.szczepanskimichal.model.occasion.OccasionCreatedDto;
 import work.szczepanskimichal.repository.OccasionRepository;
 
 import java.util.UUID;

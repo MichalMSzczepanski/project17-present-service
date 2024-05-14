@@ -3,9 +3,9 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.mapper.PersonMapper;
-import work.szczepanskimichal.model.Person;
-import work.szczepanskimichal.model.PersonCreateDto;
-import work.szczepanskimichal.model.PersonCreatedDto;
+import work.szczepanskimichal.model.person.Person;
+import work.szczepanskimichal.model.person.PersonCreateDto;
+import work.szczepanskimichal.model.person.PersonCreatedDto;
 import work.szczepanskimichal.repository.PersonRepository;
 
 import java.util.UUID;

@@ -1,24 +1,24 @@
-package work.szczepanskimichal.model;
+package work.szczepanskimichal.model.occasion;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import work.szczepanskimichal.model.person.Person;
+import work.szczepanskimichal.model.present.Present;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "presents")
+@Table(name = "occasions")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
-public class Present {
+public class Occasion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,24 +30,23 @@ public class Present {
     @Column(nullable = false)
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private PresentType type;
-
-    private String description;
-
-    private BigDecimal price;
+    private LocalDateTime date;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
-            name = "fk_occasion_id",
+            name = "fk_person_id",
             nullable = false
     )
     @JsonIgnore
-    private Occasion occasion;
+    private Person person;
+
+    @OneToMany(
+            mappedBy = "occasion",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private final Set<Present> presentIdeas = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
 }
-

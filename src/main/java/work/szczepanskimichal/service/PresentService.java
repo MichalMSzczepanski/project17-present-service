@@ -3,9 +3,9 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.mapper.PresentMapper;
-import work.szczepanskimichal.model.Present;
-import work.szczepanskimichal.model.PresentCreateDto;
-import work.szczepanskimichal.model.PresentCreatedDto;
+import work.szczepanskimichal.model.present.Present;
+import work.szczepanskimichal.model.present.PresentCreateDto;
+import work.szczepanskimichal.model.present.PresentCreatedDto;
 import work.szczepanskimichal.repository.PresentRepository;
 
 import java.util.UUID;

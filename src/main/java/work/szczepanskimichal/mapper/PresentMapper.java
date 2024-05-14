@@ -2,9 +2,9 @@ package work.szczepanskimichal.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import work.szczepanskimichal.model.Present;
-import work.szczepanskimichal.model.PresentCreateDto;
-import work.szczepanskimichal.model.PresentCreatedDto;
+import work.szczepanskimichal.model.present.Present;
+import work.szczepanskimichal.model.present.PresentCreateDto;
+import work.szczepanskimichal.model.present.PresentCreatedDto;
 
 @Mapper(componentModel = "spring")
 public abstract class PresentMapper {

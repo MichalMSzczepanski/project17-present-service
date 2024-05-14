@@ -1,4 +1,4 @@
-package work.szczepanskimichal.model;
+package work.szczepanskimichal.model.occasion;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,10 +6,11 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder(toBuilder = true)
+@Builder
 @Getter
-public class OccasionCreateDto {
+public class OccasionCreatedDto {
 
+    private UUID id;
     private UUID owner;
     private String name;
     private LocalDateTime date;

@@ -1,6 +1,6 @@
 package work.szczepanskimichal.service;
 
-import work.szczepanskimichal.model.Present;
+import work.szczepanskimichal.model.present.Present;
 
 import java.math.BigDecimal;
 import java.util.UUID;

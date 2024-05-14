@@ -1,4 +1,4 @@
-package work.szczepanskimichal.model;
+package work.szczepanskimichal.model.present;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,11 +6,10 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
-public class PresentCreatedDto {
+public class PresentCreateDto {
 
-    private UUID id;
     private UUID owner;
     private String name;
     private PresentType type;

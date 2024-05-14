@@ -1,9 +1,8 @@
 package work.szczepanskimichal.service;
 
-import work.szczepanskimichal.model.Occasion;
+import work.szczepanskimichal.model.occasion.Occasion;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 abstract class OccasionAssembler {

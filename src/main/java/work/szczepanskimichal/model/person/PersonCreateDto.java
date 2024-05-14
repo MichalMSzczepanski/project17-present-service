@@ -1,4 +1,4 @@
-package work.szczepanskimichal.model;
+package work.szczepanskimichal.model.person;
 
 import lombok.Builder;
 import lombok.Getter;
