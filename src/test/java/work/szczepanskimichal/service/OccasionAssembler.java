@@ -1,8 +1,6 @@
 package work.szczepanskimichal.service;
 
-import work.szczepanskimichal.model.occasion.Occasion;
 import work.szczepanskimichal.model.occasion.OccasionCreateDto;
-import work.szczepanskimichal.model.occasion.OccasionCreatedDto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
