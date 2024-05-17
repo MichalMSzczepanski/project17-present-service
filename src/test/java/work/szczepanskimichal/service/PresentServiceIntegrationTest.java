@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import work.szczepanskimichal.repository.OccasionRepository;
 
 import java.time.LocalDateTime;
 
@@ -32,8 +31,6 @@ class PresentServiceIntegrationTest {
     final String PRESENT_NAME = "presentIdeaName";
     final String PRESENT_DESCRIPTION = "presentIdeaDescription";
     final LocalDateTime NOW = LocalDateTime.now();
-    @Autowired
-    private OccasionRepository occasionRepository;
 
     @Test
     void shouldCreatePerson_withOccasion_withMultiplePresents() {

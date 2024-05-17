@@ -24,6 +24,8 @@ class PersonServiceIntegrationTest {
     @Autowired
     private OccasionService occasionService;
     @Autowired
+    private OccasionRepository occasionRepository;
+    @Autowired
     private PresentService presentService;
     @Autowired
     private EntityManager entityManager;
@@ -34,8 +36,7 @@ class PersonServiceIntegrationTest {
     final String PRESENT_NAME = "presentIdeaName";
     final String PRESENT_DESCRIPTION = "presentIdeaDescription";
     final LocalDateTime NOW = LocalDateTime.now();
-    @Autowired
-    private OccasionRepository occasionRepository;
+
 
     @Test
     void shouldCreatePerson_withOccasion_withPresent() {
