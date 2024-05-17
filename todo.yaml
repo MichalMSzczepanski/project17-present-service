@@ -1,25 +1,18 @@
 logic:
   - case 1:
     - create reminder about wife's birthday:
-        - 30 april
+        - 30 april (done)
         - remind vie email 2 weeks prior at 9:00, 1 week prior at 9:00, 1 day prior at 9:00
-        -
 semantics:
   - occasion, reminder relationships with person (bidirectional):
       - scenarios:
           - i want to save an occasion to a person id
           - i want to save a reminder to an occasion id
   - entities with relationships - person, occasion, present + reminders about occasions:
-      - person has (one to many) occasions that have reminders (one to many)
-      - person has present(s) gifted (one to many)
-      - occasion has present ideas (one to many)
-      - present idea once purchased is substituted by present gifted:
-          - present gifted is associated with person AND occasion:
-              - when person is deleted, all occasions nad presents are deleted
-              - when occasion is deleted, presents gifted are not deleted (specific cascade!)
+      - present type IDEA once purchased has type changed to PURCHASED
   - communication with user service
 config:
-  - ensure users manage their own data in service
+  - ensure users manage their own data in service (filter via aspects like in user-service)
 git:
   - lorem
 

@@ -1,5 +1,6 @@
 logic:
 semantics:
+  14 introduce global exception handler
   13 add integration tests with h2 for person, occasion and present entity management
   12 introduce person and occasion mapstruct mappers
   11 introduce create & created dtos for person, occasion, present entities; introduce PresentMapper
