@@ -8,6 +8,7 @@ import work.szczepanskimichal.model.person.PersonCreateDto;
 import work.szczepanskimichal.model.person.PersonCreatedDto;
 import work.szczepanskimichal.service.PersonService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +26,11 @@ public class PersonController {
     @GetMapping()
     public Person getPerson(@RequestParam UUID id) {
         return personService.getPersonById(id);
+    }
+
+    @GetMapping("/all")
+    public List<Person> getAllPersons() {
+        return personService.getAllPersons();
     }
 
     @DeleteMapping

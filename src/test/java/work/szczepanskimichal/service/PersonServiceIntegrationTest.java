@@ -39,7 +39,6 @@ class PersonServiceIntegrationTest {
 
     @Test
     void shouldCreatePerson_withOccasion_withPresent() {
-
         //given
         var personCreateDto = PersonAssembler.assemblePersonCreateDto(PERSON_NAME, PERSON_LASTNAME);
         var persistedPerson = personService.createPerson(personCreateDto);
@@ -68,7 +67,6 @@ class PersonServiceIntegrationTest {
 
     @Test
     void shouldDeleteAllPersonChildren_onPersonDeletion() {
-
         //given
         var personCreateDto = PersonAssembler.assemblePersonCreateDto(PERSON_NAME, PERSON_LASTNAME);
         var persistedPerson = personService.createPerson(personCreateDto);
@@ -88,4 +86,22 @@ class PersonServiceIntegrationTest {
         assertTrue(occasionRepository.findAll().isEmpty());
         assertTrue(personRepository.findAll().isEmpty());
     }
+
+    @Test
+    void shouldCreateMultiplePersons() {
+        //given
+        var personCreateDtoOne = PersonAssembler.assemblePersonCreateDto(PERSON_NAME, PERSON_LASTNAME);
+        personService.createPerson(personCreateDtoOne);
+        var personCreateDtoTwo = PersonAssembler.assemblePersonCreateDto(PERSON_NAME, PERSON_LASTNAME);
+        personService.createPerson(personCreateDtoTwo);
+
+        //when
+        entityManager.flush();
+        entityManager.clear();
+        var persons = personService.getAllPersons();
+
+        //then
+        assertEquals(2, persons.size());
+    }
+
 }

@@ -8,6 +8,7 @@ import work.szczepanskimichal.model.person.PersonCreateDto;
 import work.szczepanskimichal.model.person.PersonCreatedDto;
 import work.szczepanskimichal.repository.PersonRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,6 +25,10 @@ public class PersonService {
 
     public Person getPersonById(UUID id) {
         return personRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    public List<Person> getAllPersons() {
+        return personRepository.findAll();
     }
 
     public void deletePersonById(UUID id) {

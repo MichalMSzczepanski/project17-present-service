@@ -8,6 +8,7 @@ import work.szczepanskimichal.model.present.PresentCreateDto;
 import work.szczepanskimichal.model.present.PresentCreatedDto;
 import work.szczepanskimichal.service.PresentService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController()
@@ -25,5 +26,10 @@ public class PresentController {
     @GetMapping()
     public Present getPerson(@RequestParam UUID id) {
         return presentService.getPresentById(id);
+    }
+
+    @GetMapping("/all")
+    public List<Present> getPresentsByOccasions(@RequestParam UUID occasionId) {
+        return presentService.getPresentsByOccasionId(occasionId);
     }
 }

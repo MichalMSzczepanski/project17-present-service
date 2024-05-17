@@ -8,6 +8,7 @@ import work.szczepanskimichal.model.occasion.OccasionCreateDto;
 import work.szczepanskimichal.model.occasion.OccasionCreatedDto;
 import work.szczepanskimichal.repository.OccasionRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,5 +30,9 @@ public class OccasionService {
 
     public Occasion getOccasionById(UUID id) {
         return occasionRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    public List<Occasion> getOccasionsByPersonId(UUID personId) {
+        return occasionRepository.findAllByPersonId(personId);
     }
 }

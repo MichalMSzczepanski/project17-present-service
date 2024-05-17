@@ -8,6 +8,7 @@ import work.szczepanskimichal.model.present.PresentCreateDto;
 import work.szczepanskimichal.model.present.PresentCreatedDto;
 import work.szczepanskimichal.repository.PresentRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,5 +30,9 @@ public class PresentService {
 
     public Present getPresentById(UUID id) {
         return presentRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    public List<Present> getPresentsByOccasionId(UUID occasionId) {
+        return presentRepository.getPresentsByOccasionId(occasionId);
     }
 }

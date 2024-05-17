@@ -1,5 +1,6 @@
 logic:
 semantics:
+  15 introduce fetching all associated occasions to a person and presents to an occasion
   14 introduce global exception handler
   13 add integration tests with h2 for person, occasion and present entity management
   12 introduce person and occasion mapstruct mappers

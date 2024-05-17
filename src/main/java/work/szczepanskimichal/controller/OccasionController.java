@@ -8,6 +8,7 @@ import work.szczepanskimichal.model.occasion.OccasionCreateDto;
 import work.szczepanskimichal.model.occasion.OccasionCreatedDto;
 import work.szczepanskimichal.service.OccasionService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,5 +26,10 @@ public class OccasionController {
     @GetMapping()
     public Occasion getOccasionById(@RequestParam("id") UUID id) {
         return occasionService.getOccasionById(id);
+    }
+
+    @GetMapping("/all")
+    public List<Occasion> getOccasionsByPerson(@RequestParam("personId") UUID personId) {
+        return occasionService.getOccasionsByPersonId(personId);
     }
 }
