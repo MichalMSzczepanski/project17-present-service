@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GlobalExceptionHandler {
 
-
     @ExceptionHandler(MissingFieldException.class)
     public ResponseEntity<String> handleMissingFieldException(MissingFieldException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -18,6 +17,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingHeaderException.class)
     public ResponseEntity<String> handleMissingHeaderException(MissingHeaderException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingAuthenticationParameterException.class)
+    public ResponseEntity<String> handleMissingAuthenticationParameterException(MissingAuthenticationParameterException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
