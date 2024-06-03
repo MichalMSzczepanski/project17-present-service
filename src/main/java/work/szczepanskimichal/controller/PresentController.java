@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController()
-@RequestMapping("/present")
+@RequestMapping("/v1/present")
 @RequiredArgsConstructor
 public class PresentController {
 
@@ -23,7 +23,7 @@ public class PresentController {
         return ResponseEntity.ok(presentService.createPresent(presentDto));
     }
 
-    @GetMapping()
+    @GetMapping
     public Present getPerson(@RequestParam UUID id) {
         return presentService.getPresentById(id);
     }

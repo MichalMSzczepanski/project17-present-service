@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/v1/present/person")
 @RequiredArgsConstructor
 public class PersonController {
 
@@ -23,9 +23,9 @@ public class PersonController {
         return ResponseEntity.ok(personService.createPerson(personDto));
     }
 
-    @GetMapping()
-    public Person getPerson(@RequestParam UUID id) {
-        return personService.getPersonById(id);
+    @GetMapping("/{personId}")
+    public Person getPerson(@PathVariable UUID personId) {
+        return personService.getPersonById(personId);
     }
 
     @GetMapping("/all")
@@ -33,8 +33,8 @@ public class PersonController {
         return personService.getAllPersons();
     }
 
-    @DeleteMapping
-    public void deletePerson(@RequestParam UUID id) {
-        personService.deletePersonById(id);
+    @DeleteMapping("/{personId}")
+    public void deletePerson(@PathVariable UUID personId) {
+        personService.deletePersonById(personId);
     }
 }

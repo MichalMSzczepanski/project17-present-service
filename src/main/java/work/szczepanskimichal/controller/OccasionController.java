@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/occasion")
+@RequestMapping("/v1/present/occasion")
 @RequiredArgsConstructor
 public class OccasionController {
 
