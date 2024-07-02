@@ -9,6 +9,7 @@ import java.util.UUID;
 @Getter
 public class ReminderCreateDto {
 
+    private UUID id;
     private UUID owner;
     private String name;
     private UUID occasionId;
