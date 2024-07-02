@@ -32,7 +32,23 @@ CREATE TABLE IF NOT EXISTS presents
     CONSTRAINT fk_occasion_id_pre FOREIGN KEY (fk_occasion_id) REFERENCES occasions (id) ON DELETE CASCADE
 );
 
-ALTER TABLE occasions
-    ADD CONSTRAINT fk_person_id_occ_bi_directional FOREIGN KEY (fk_person_id) REFERENCES persons (id) ON DELETE CASCADE;
-ALTER TABLE presents
-    ADD CONSTRAINT fk_occasion_id_pre_bi_directional FOREIGN KEY (fk_occasion_id) REFERENCES occasions (id) ON DELETE CASCADE;
+-- Create reminders table
+CREATE TABLE IF NOT EXISTS reminders
+(
+    id             UUID PRIMARY KEY,
+    owner          UUID         NOT NULL,
+    name           VARCHAR(255) NOT NULL,
+    recurring      BOOLEAN,
+    created_at     TIMESTAMP,
+    fk_occasion_id UUID,
+    CONSTRAINT fk_occasion_id_rem FOREIGN KEY (fk_occasion_id) REFERENCES occasions (id) ON DELETE CASCADE
+);
+
+-- Create reminder_dates table with foreign key
+CREATE TABLE IF NOT EXISTS reminder_dates
+(
+    id             UUID PRIMARY KEY,
+    fk_reminder_id UUID      NOT NULL,
+    date           TIMESTAMP NOT NULL,
+    CONSTRAINT fk_reminder_id_dates FOREIGN KEY (fk_reminder_id) REFERENCES reminders (id) ON DELETE CASCADE
+);

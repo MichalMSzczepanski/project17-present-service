@@ -1,6 +1,6 @@
 //package work.szczepanskimichal.service;
 //
-//import work.szczepanskimichal.model.Reminder;
+//import work.szczepanskimichal.model.reminder.Reminder;
 //
 //import java.util.UUID;
 //

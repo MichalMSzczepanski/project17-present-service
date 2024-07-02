@@ -1,5 +1,6 @@
 logic:
 semantics:
+  18 introduce Reminder and ReminderDate entities
   17 authenticate user via aspects by x-user-id header
   16 dockerize application
   15 introduce fetching all associated occasions to a person and presents to an occasion

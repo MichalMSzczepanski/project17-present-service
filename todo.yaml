@@ -1,9 +1,19 @@
 logic:
-  - case 1:
-    - create reminder about wife's birthday:
-        - 30 april (done)
-        - remind vie email 2 weeks prior at 9:00, 1 week prior at 9:00, 1 day prior at 9:00
+  - lorem
 semantics:
+  - create reminder (to Person many2one; to occasion many2one)
+    - reminder controller & service
+    - earliest reminder next day after midnight
+    - create pojo form managing reminders frequency (?); check if recurring
+  - add redis
+  - add singleton for daily checking and storing of reminders in redis
+  - add controller read-only for checking redis pojo with reminders
+  - trigger reminders with scheduled job each minute
+    - one a reminder is triggered, update it in the database
+      - do this async so that response is not required (CompletableFuture onSuccess onFailure)
+      - create a pojo singleton for storing failed db transactions for future update/ deletion
+    - mock sending an email once the reminder is triggered
+  - kafka with notification-service for sending reminder emails
   - occasion, reminder relationships with person (bidirectional):
       - scenarios:
           - i want to save an occasion to a person id

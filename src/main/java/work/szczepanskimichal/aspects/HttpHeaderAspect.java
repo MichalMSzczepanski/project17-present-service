@@ -8,13 +8,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.HandlerMapping;
-import work.szczepanskimichal.exception.MissingAuthenticationParameterException;
 import work.szczepanskimichal.exception.MissingHeaderException;
-import work.szczepanskimichal.exception.UnauthorizedAccessException;
 
-import java.util.Map;
-import java.util.UUID;
 
 @Aspect
 @Component
@@ -22,7 +17,6 @@ import java.util.UUID;
 public class HttpHeaderAspect {
 
     private static final String X_USER_ID = "X-User-ID";
-//    private static final String USER_ID = "userId";
 
     @Before("execution(* work.szczepanskimichal.controller..*(..))")
     public void checkForUserIdHeader(JoinPoint joinPoint) {
@@ -35,18 +29,5 @@ public class HttpHeaderAspect {
         if (headerUserId == null || headerUserId.isEmpty()) {
             throw new MissingHeaderException(X_USER_ID);
         }
-
-//        UUID userIdFromHeader = UUID.fromString(headerUserId);
-//        Map<String, String> pathVariables =
-//                (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-//        if (pathVariables == null || !pathVariables.containsKey(USER_ID)) {
-//            throw new MissingAuthenticationParameterException(USER_ID);
-//        }
-//
-//        UUID userIdFromPath = UUID.fromString(pathVariables.get(USER_ID));
-//        if (!userIdFromPath.equals(userIdFromHeader)) {
-//            throw new UnauthorizedAccessException(userIdFromPath);
-//        }
-
     }
 }

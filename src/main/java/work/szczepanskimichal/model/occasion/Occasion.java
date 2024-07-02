@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import work.szczepanskimichal.model.person.Person;
 import work.szczepanskimichal.model.present.Present;
+import work.szczepanskimichal.model.reminder.Reminder;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class Occasion {
 
     private LocalDateTime date;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(
             name = "fk_person_id",
             nullable = false
@@ -43,8 +44,16 @@ public class Occasion {
     @OneToMany(
             mappedBy = "occasion",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true
+    )
     private Set<Present> presentIdeas = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "occasion",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Reminder> reminders = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
