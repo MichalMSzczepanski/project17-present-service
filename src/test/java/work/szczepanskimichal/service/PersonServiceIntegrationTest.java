@@ -45,7 +45,7 @@ class PersonServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var presentCreateDto = PresentAssembler.assemblePresentIdea(PRESENT_NAME, PRESENT_DESCRIPTION,
+        var presentCreateDto = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
                 persistedOccasion.getId());
         var persistedPresent = presentService.createPresent(presentCreateDto);
 
@@ -73,7 +73,7 @@ class PersonServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var presentCreateDto = PresentAssembler.assemblePresentIdea(PRESENT_NAME, PRESENT_DESCRIPTION,
+        var presentCreateDto = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
                 persistedOccasion.getId());
         presentService.createPresent(presentCreateDto);
 

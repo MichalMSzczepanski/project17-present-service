@@ -1,8 +1,9 @@
 logic:
   - lorem
 semantics:
-  - create reminder (to Person many2one; to occasion many2one)
-    - reminder controller & service
+  - (done) create reminder (to Person many2one; to occasion many2one)
+    - (done) reminder controller & service
+    - (done) test 
     - earliest reminder next day after midnight
     - create pojo form managing reminders frequency (?); check if recurring
   - add redis
@@ -14,6 +15,7 @@ semantics:
       - create a pojo singleton for storing failed db transactions for future update/ deletion
     - mock sending an email once the reminder is triggered
   - kafka with notification-service for sending reminder emails
+    - introduce external library configuration
   - occasion, reminder relationships with person (bidirectional):
       - scenarios:
           - i want to save an occasion to a person id

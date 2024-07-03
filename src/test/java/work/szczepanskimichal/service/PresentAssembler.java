@@ -7,9 +7,9 @@ import java.util.UUID;
 
 abstract class PresentAssembler {
 
-    static PresentCreateDto assemblePresentIdea(String name,
-                                                String description,
-                                                UUID occasionId) {
+    static PresentCreateDto assemblePresentCreateDto(String name,
+                                                     String description,
+                                                     UUID occasionId) {
         return PresentCreateDto.builder()
                 .owner(UUID.randomUUID())
                 .name(name)

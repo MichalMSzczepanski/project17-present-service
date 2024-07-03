@@ -1,16 +1,19 @@
-//package work.szczepanskimichal.service;
-//
-//import work.szczepanskimichal.model.reminder.Reminder;
-//
-//import java.util.UUID;
-//
-//abstract class ReminderAssembler {
-//
-//    static Reminder assembleReminder(String reminderName) {
-//        return Reminder.builder()
-//                .owner(UUID.randomUUID())
-//                .name(reminderName)
-//                .build();
-//    }
-//
-//}
+package work.szczepanskimichal.service;
+
+import work.szczepanskimichal.model.reminder.ReminderCreateDto;
+
+import java.util.UUID;
+
+abstract class ReminderAssembler {
+
+    static ReminderCreateDto AssembleReminderCreateDto(String name,
+                                                       boolean recurring,
+                                                       UUID occasionId) {
+        return ReminderCreateDto.builder()
+                .owner(UUID.randomUUID())
+                .name(name)
+                .occasionId(occasionId)
+                .recurring(recurring)
+                .build();
+    }
+}
