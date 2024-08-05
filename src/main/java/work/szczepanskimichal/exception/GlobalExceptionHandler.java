@@ -12,17 +12,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingFieldException.class)
     public ResponseEntity<String> handleMissingFieldException(MissingFieldException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MissingHeaderException.class)
     public ResponseEntity<String> handleMissingHeaderException(MissingHeaderException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MissingHeadersException.class)
+    public ResponseEntity<String> handleMissingHeadersException(MissingHeadersException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MissingAuthenticationParameterException.class)
     public ResponseEntity<String> handleMissingAuthenticationParameterException(MissingAuthenticationParameterException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UnauthorizedAccessException.class)

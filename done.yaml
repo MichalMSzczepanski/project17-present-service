@@ -1,5 +1,6 @@
 logic:
 semantics:
+  20 fix x-user-id aspects to check only create and update endpoints
   19 add integration test for Reminder and ReminderDate
   18 introduce Reminder and ReminderDate entities
   17 authenticate user via aspects by x-user-id header

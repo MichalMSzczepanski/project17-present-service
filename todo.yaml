@@ -4,10 +4,15 @@ semantics:
   - (done) create reminder (to Person many2one; to occasion many2one)
     - (done) reminder controller & service
     - (done) test 
+    - update services with updating and deleting methods
+    - upon managing entities, check if logged in user is the actual owner (x-user-id?) 
+      - use aspects to save a global, static variable that lives only in that one request/ thread/ request scoped bean?
+    - edge case tests with cascading removals
+    - exceptions 
     - earliest reminder next day after midnight
     - create pojo form managing reminders frequency (?); check if recurring
   - add redis
-  - add singleton for daily checking and storing of reminders in redis
+    - add singleton for daily checking and storing of reminders in redis
   - add controller read-only for checking redis pojo with reminders
   - trigger reminders with scheduled job each minute
     - one a reminder is triggered, update it in the database
