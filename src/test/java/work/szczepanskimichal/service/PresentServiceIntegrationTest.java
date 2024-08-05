@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import work.szczepanskimichal.model.present.PresentUpdateDto;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +30,7 @@ class PresentServiceIntegrationTest {
     final String PERSON_LASTNAME = "personLastName";
     final String OCCASION_NAME = "occasionName";
     final String PRESENT_NAME = "presentIdeaName";
+    final String PRESENT_NAME_UPDATED = "presentNameUpdated";
     final String PRESENT_DESCRIPTION = "presentIdeaDescription";
     final LocalDateTime NOW = LocalDateTime.now();
 
@@ -54,6 +56,34 @@ class PresentServiceIntegrationTest {
 
         //then
         assertEquals(2, presents.size());
+    }
+
+    @Test
+    void shouldUpdatePresent() {
+        //given
+        var personCreateDto = PersonAssembler.assemblePersonCreateDto(PERSON_NAME, PERSON_LASTNAME);
+        var persistedPerson = personService.createPerson(personCreateDto);
+        var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
+        var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
+        var presentCreateDtoOne = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
+                persistedOccasion.getId());
+        var present = presentService.createPresent(presentCreateDtoOne);
+        var updatedPresent = PresentUpdateDto.builder()
+                .id(present.getId())
+                .name(PRESENT_NAME_UPDATED)
+                .type(present.getType())
+                .description(present.getDescription())
+                .price(present.getPrice())
+                .occasionId(present.getOccasionId())
+                .build();
+
+        //when
+        entityManager.flush();
+        entityManager.clear();
+        var presentUpdated = presentService.updatePresent(updatedPresent);
+
+        //then
+        assertEquals(PRESENT_NAME_UPDATED, presentUpdated.getName());
     }
 
 }

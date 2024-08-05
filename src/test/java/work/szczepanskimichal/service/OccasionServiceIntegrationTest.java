@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import work.szczepanskimichal.model.occasion.OccasionUpdateDto;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +27,7 @@ class OccasionServiceIntegrationTest {
     final String PERSON_NAME = "personName";
     final String PERSON_LASTNAME = "personLastName";
     final String OCCASION_NAME = "occasionName";
+    final String OCCASION_UPDATED_NAME = "occasionUpdatedName";
     final LocalDateTime NOW = LocalDateTime.now();
 
 
@@ -47,5 +49,29 @@ class OccasionServiceIntegrationTest {
 
         //then
         assertEquals(2, occasions.size());
+    }
+
+    @Test
+    void shouldUpdateOccasion() {
+        //given
+        var personCreateDto = PersonAssembler.assemblePersonCreateDto(PERSON_NAME, PERSON_LASTNAME);
+        var persistedPerson = personService.createPerson(personCreateDto);
+        var occasionOneCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
+        var occasion = occasionService.createOccasion(occasionOneCreateDto);
+
+        var updatedOccasion = OccasionUpdateDto.builder()
+                .id(occasion.getId())
+                .name(OCCASION_UPDATED_NAME)
+                .date(occasion.getDate())
+                .personId(occasion.getPersonId())
+                .build();
+
+        //when
+        entityManager.flush();
+        entityManager.clear();
+        var occasionUpdated = occasionService.updateOccasion(updatedOccasion);
+
+        //then
+        assertEquals(OCCASION_UPDATED_NAME, occasionUpdated.getName());
     }
 }

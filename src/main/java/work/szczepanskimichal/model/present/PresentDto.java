@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class PresentCreatedDto {
+public class PresentDto {
 
     private UUID id;
     private UUID owner;

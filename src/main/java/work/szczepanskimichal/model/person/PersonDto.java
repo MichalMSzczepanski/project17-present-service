@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class PersonCreatedDto {
+public class PersonDto {
 
     private UUID id;
     private UUID owner;

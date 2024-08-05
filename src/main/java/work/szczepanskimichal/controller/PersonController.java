@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import work.szczepanskimichal.model.person.Person;
 import work.szczepanskimichal.model.person.PersonCreateDto;
-import work.szczepanskimichal.model.person.PersonCreatedDto;
+import work.szczepanskimichal.model.person.PersonDto;
+import work.szczepanskimichal.model.person.PersonUpdateDto;
 import work.szczepanskimichal.service.PersonService;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class PersonController {
 
     private final PersonService personService;
 
-    @PostMapping()
-    public ResponseEntity<PersonCreatedDto> createPerson(@RequestBody PersonCreateDto personDto) {
+    @PostMapping("/create")
+    public ResponseEntity<PersonDto> createPerson(@RequestBody PersonCreateDto personDto) {
         return ResponseEntity.ok(personService.createPerson(personDto));
     }
 
@@ -31,6 +32,11 @@ public class PersonController {
     @GetMapping("/all")
     public List<Person> getAllPersons() {
         return personService.getAllPersons();
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<PersonDto> updatePerson(@RequestBody PersonUpdateDto personDto) {
+        return ResponseEntity.ok(personService.updatePerson(personDto));
     }
 
     @DeleteMapping("/{personId}")

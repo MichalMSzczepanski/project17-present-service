@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import work.szczepanskimichal.model.present.Present;
 import work.szczepanskimichal.model.present.PresentCreateDto;
-import work.szczepanskimichal.model.present.PresentCreatedDto;
+import work.szczepanskimichal.model.present.PresentDto;
+import work.szczepanskimichal.model.present.PresentUpdateDto;
 import work.szczepanskimichal.service.PresentService;
 
 import java.util.List;
@@ -18,18 +19,32 @@ public class PresentController {
 
     private final PresentService presentService;
 
-    @PostMapping
-    public ResponseEntity<PresentCreatedDto> createPresent(@RequestBody PresentCreateDto presentDto) {
+    @PostMapping("/create")
+    public ResponseEntity<PresentDto> createPresent(@RequestBody PresentCreateDto presentDto) {
         return ResponseEntity.ok(presentService.createPresent(presentDto));
     }
 
-    @GetMapping
-    public Present getPerson(@RequestParam UUID id) {
-        return presentService.getPresentById(id);
+    @GetMapping("/{presentId}")
+    public Present getPerson(@PathVariable UUID presentId) {
+        return presentService.getPresentById(presentId);
     }
 
-    @GetMapping("/all")
-    public List<Present> getPresentsByOccasions(@RequestParam UUID occasionId) {
+    @GetMapping("/occasion/{occasionId}")
+    public List<Present> getPresentsByOccasion(@PathVariable UUID occasionId) {
         return presentService.getPresentsByOccasionId(occasionId);
+    }
+
+    //todo get presents by personId
+
+    //todo get presents by type
+
+    @PatchMapping("/update")
+    public ResponseEntity<PresentDto> updatePresent(@RequestBody PresentUpdateDto presentDto) {
+        return ResponseEntity.ok(presentService.updatePresent(presentDto));
+    }
+
+    @DeleteMapping("/delete/{presentId}")
+    public void deletePresent(@PathVariable UUID presentId) {
+        presentService.deletePresent(presentId);
     }
 }

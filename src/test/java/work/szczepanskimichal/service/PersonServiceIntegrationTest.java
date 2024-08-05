@@ -2,10 +2,12 @@ package work.szczepanskimichal.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import work.szczepanskimichal.model.person.PersonUpdateDto;
 import work.szczepanskimichal.repository.*;
 
 import java.time.LocalDateTime;
@@ -32,6 +34,7 @@ class PersonServiceIntegrationTest {
 
     final String PERSON_NAME = "personName";
     final String PERSON_LASTNAME = "personLastName";
+    final String PERSON_LASTNAME_CHANGED = "personLastNameChanged";
     final String OCCASION_NAME = "occasionName";
     final String PRESENT_NAME = "presentIdeaName";
     final String PRESENT_DESCRIPTION = "presentIdeaDescription";
@@ -105,4 +108,21 @@ class PersonServiceIntegrationTest {
         assertEquals(2, persons.size());
     }
 
+    @Test
+    void shouldUpdatePerson() {
+        var personCreateDtoOne = PersonAssembler.assemblePersonCreateDto(PERSON_NAME, PERSON_LASTNAME);
+        var createdPerson = personService.createPerson(personCreateDtoOne);
+        var personUpdatedDto = PersonUpdateDto.builder()
+                .id(createdPerson.getId())
+                .name(createdPerson.getName())
+                .lastname(PERSON_LASTNAME_CHANGED).build();
+
+        //when
+        entityManager.flush();
+        entityManager.clear();
+        var updatePerson = personService.updatePerson(personUpdatedDto);
+
+        //then
+        assertEquals(PERSON_LASTNAME_CHANGED, updatePerson.getLastname());
+    }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class OccasionCreatedDto {
+public class OccasionDto {
 
     private UUID id;
     private UUID owner;

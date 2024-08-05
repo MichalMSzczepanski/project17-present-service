@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import work.szczepanskimichal.model.occasion.Occasion;
 import work.szczepanskimichal.model.occasion.OccasionCreateDto;
-import work.szczepanskimichal.model.occasion.OccasionCreatedDto;
+import work.szczepanskimichal.model.occasion.OccasionDto;
+import work.szczepanskimichal.model.occasion.OccasionUpdateDto;
 import work.szczepanskimichal.service.OccasionService;
 
 import java.util.List;
@@ -18,18 +19,28 @@ public class OccasionController {
 
     private final OccasionService occasionService;
 
-    @PostMapping()
-    public ResponseEntity<OccasionCreatedDto> createOccasion(@RequestBody OccasionCreateDto occasionDto) {
+    @PostMapping("/create")
+    public ResponseEntity<OccasionDto> createOccasion(@RequestBody OccasionCreateDto occasionDto) {
         return ResponseEntity.ok(occasionService.createOccasion(occasionDto));
     }
 
-    @GetMapping()
-    public Occasion getOccasionById(@RequestParam("id") UUID id) {
-        return occasionService.getOccasionById(id);
+    @GetMapping("/{occasionId}")
+    public Occasion getOccasionById(@PathVariable("occasionId") UUID occasionId) {
+        return occasionService.getOccasionById(occasionId);
     }
 
-    @GetMapping("/all")
-    public List<Occasion> getOccasionsByPerson(@RequestParam("personId") UUID personId) {
+    @GetMapping("/person/{personId}")
+    public List<Occasion> getOccasionsByPerson(@PathVariable("personId") UUID personId) {
         return occasionService.getOccasionsByPersonId(personId);
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<OccasionDto> updateOccasion(@RequestBody OccasionUpdateDto occasionDto) {
+        return ResponseEntity.ok(occasionService.updateOccasion(occasionDto));
+    }
+
+    @DeleteMapping("/{occasionId}")
+    public void deleteOccasion(@PathVariable("occasionId") UUID occasionId) {
+        occasionService.deleteOccasion(occasionId);
     }
 }
