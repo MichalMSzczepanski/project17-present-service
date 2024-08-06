@@ -24,7 +24,7 @@ public class HttpHeaderAspect {
     private UserContext userContext;
 
     @Before("execution(* work.szczepanskimichal.controller..*(..)) && " +
-            "(execution(* *..*update*(..)) || execution(* *..*create*(..)))")
+            "(execution(* *.update*(..)) || execution(* *.create*(..)) || execution(* *.delete*(..)))")
     public void checkForUserIdHeader() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {

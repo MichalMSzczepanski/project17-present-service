@@ -15,8 +15,4 @@ public class UserContext {
 
     private UUID userId;
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
 }

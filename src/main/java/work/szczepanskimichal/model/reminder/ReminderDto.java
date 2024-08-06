@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Builder(toBuilder = true)
 @Getter
-public class ReminderCreatedDto {
+public class ReminderDto {
 
     private UUID id;
     private UUID owner;

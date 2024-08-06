@@ -19,7 +19,7 @@ public class OccasionController {
 
     private final OccasionService occasionService;
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<OccasionDto> createOccasion(@RequestBody OccasionCreateDto occasionDto) {
         return ResponseEntity.ok(occasionService.createOccasion(occasionDto));
     }
@@ -29,12 +29,12 @@ public class OccasionController {
         return occasionService.getOccasionById(occasionId);
     }
 
-    @GetMapping("/person/{personId}")
+    @GetMapping("/{personId}")
     public List<Occasion> getOccasionsByPerson(@PathVariable("personId") UUID personId) {
         return occasionService.getOccasionsByPersonId(personId);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping()
     public ResponseEntity<OccasionDto> updateOccasion(@RequestBody OccasionUpdateDto occasionDto) {
         return ResponseEntity.ok(occasionService.updateOccasion(occasionDto));
     }

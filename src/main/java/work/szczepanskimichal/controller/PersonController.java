@@ -19,7 +19,7 @@ public class PersonController {
 
     private final PersonService personService;
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<PersonDto> createPerson(@RequestBody PersonCreateDto personDto) {
         return ResponseEntity.ok(personService.createPerson(personDto));
     }
@@ -34,7 +34,7 @@ public class PersonController {
         return personService.getAllPersons();
     }
 
-    @PatchMapping("/update")
+    @PatchMapping()
     public ResponseEntity<PersonDto> updatePerson(@RequestBody PersonUpdateDto personDto) {
         return ResponseEntity.ok(personService.updatePerson(personDto));
     }

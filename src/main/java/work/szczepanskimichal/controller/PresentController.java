@@ -19,7 +19,7 @@ public class PresentController {
 
     private final PresentService presentService;
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<PresentDto> createPresent(@RequestBody PresentCreateDto presentDto) {
         return ResponseEntity.ok(presentService.createPresent(presentDto));
     }
@@ -29,7 +29,7 @@ public class PresentController {
         return presentService.getPresentById(presentId);
     }
 
-    @GetMapping("/occasion/{occasionId}")
+    @GetMapping("/{occasionId}")
     public List<Present> getPresentsByOccasion(@PathVariable UUID occasionId) {
         return presentService.getPresentsByOccasionId(occasionId);
     }
@@ -38,12 +38,12 @@ public class PresentController {
 
     //todo get presents by type
 
-    @PatchMapping("/update")
+    @PatchMapping("")
     public ResponseEntity<PresentDto> updatePresent(@RequestBody PresentUpdateDto presentDto) {
         return ResponseEntity.ok(presentService.updatePresent(presentDto));
     }
 
-    @DeleteMapping("/delete/{presentId}")
+    @DeleteMapping("/{presentId}")
     public void deletePresent(@PathVariable UUID presentId) {
         presentService.deletePresent(presentId);
     }

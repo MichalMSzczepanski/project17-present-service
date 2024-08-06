@@ -83,7 +83,7 @@ class PersonServiceIntegrationTest {
         //when
         entityManager.flush();
         entityManager.clear();
-        personRepository.deleteById(persistedPerson.getId());
+        personService.deletePersonById(persistedPerson.getId());
 
         //then
         assertTrue(personRepository.findAll().isEmpty());
@@ -120,9 +120,9 @@ class PersonServiceIntegrationTest {
         //when
         entityManager.flush();
         entityManager.clear();
-        var updatePerson = personService.updatePerson(personUpdatedDto);
+        var updatedPerson = personService.updatePerson(personUpdatedDto);
 
         //then
-        assertEquals(PERSON_LASTNAME_CHANGED, updatePerson.getLastname());
+        assertEquals(PERSON_LASTNAME_CHANGED, updatedPerson.getLastname());
     }
 }
