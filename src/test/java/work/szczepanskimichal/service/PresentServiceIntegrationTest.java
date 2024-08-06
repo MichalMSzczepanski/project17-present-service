@@ -80,10 +80,10 @@ class PresentServiceIntegrationTest {
         //when
         entityManager.flush();
         entityManager.clear();
-        var presentUpdated = presentService.updatePresent(updatedPresent);
+        var updatedEntity = presentService.updatePresent(updatedPresent);
 
         //then
-        assertEquals(PRESENT_NAME_UPDATED, presentUpdated.getName());
+        assertEquals(PRESENT_NAME_UPDATED, updatedEntity.getName());
     }
 
 }

@@ -3,9 +3,9 @@ package work.szczepanskimichal.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import work.szczepanskimichal.model.reminder.date.ReminderDate;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCreateDto;
-import work.szczepanskimichal.model.reminder.date.ReminderDateCreatedDto;
+import work.szczepanskimichal.model.reminder.date.ReminderDateDto;
+import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
 import work.szczepanskimichal.service.ReminderDateService;
 
 import java.util.List;
@@ -19,17 +19,28 @@ public class ReminderDateController {
     private final ReminderDateService reminderDateService;
 
     @PostMapping
-    public ResponseEntity<ReminderDateCreatedDto> createReminderDate(@RequestBody ReminderDateCreateDto reminderDateCreateDto) {
+    public ResponseEntity<ReminderDateDto> createReminderDate(@RequestBody ReminderDateCreateDto reminderDateCreateDto) {
         return ResponseEntity.ok(reminderDateService.createReminder(reminderDateCreateDto));
     }
 
     @GetMapping
-    public ReminderDate getReminderDate(@RequestParam UUID id) {
-        return reminderDateService.getReminderDateById(id);
+    public ResponseEntity<ReminderDateDto> getReminderDate(@RequestParam UUID id) {
+        return ResponseEntity.ok(reminderDateService.getReminderDateById(id));
     }
 
     @GetMapping("/all")
-    public List<ReminderDate> getRemindersByReminder(@RequestParam UUID reminderId) {
-        return reminderDateService.getReminderDatesByReminder(reminderId);
+    public ResponseEntity<List<ReminderDateDto>> getRemindersByReminder(@RequestParam UUID reminderId) {
+        return ResponseEntity.ok(reminderDateService.getReminderDatesByReminder(reminderId));
     }
+
+    @PatchMapping()
+    public ResponseEntity<ReminderDateDto> updateReminderDate(@RequestBody ReminderDateUpdateDto reminderDto) {
+        return ResponseEntity.ok(reminderDateService.updateReminderDate(reminderDto));
+    }
+
+    @DeleteMapping("/{reminderDateId}")
+    public void deleteReminderDate(@PathVariable UUID reminderDateId) {
+        reminderDateService.deleteReminderDate(reminderDateId);
+    }
+
 }

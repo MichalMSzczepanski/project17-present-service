@@ -1,5 +1,7 @@
 logic:
 semantics:
+  23 update reminderdate business logic to update and delete reminderdates
+  22 update reminder business logic to update and delete reminders
   21 update person, occasion, present business logic with deleting and updating entities
   20 fix x-user-id aspects to check only create and update endpoints
   19 add integration test for Reminder and ReminderDate

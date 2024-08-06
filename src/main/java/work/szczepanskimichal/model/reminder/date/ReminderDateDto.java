@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Builder(toBuilder = true)
 @Getter
-public class ReminderDateCreatedDto {
+public class ReminderDateDto {
 
     private UUID id;
     private Date date;

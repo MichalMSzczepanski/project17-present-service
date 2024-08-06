@@ -4,14 +4,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import work.szczepanskimichal.model.reminder.date.ReminderDate;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCreateDto;
-import work.szczepanskimichal.model.reminder.date.ReminderDateCreatedDto;
+import work.szczepanskimichal.model.reminder.date.ReminderDateDto;
+import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
 
 @Mapper(componentModel = "spring")
 public abstract class ReminderDateMapper {
 
     public abstract ReminderDate toEntity(ReminderDateCreateDto reminderDateCreateDto);
+    public abstract ReminderDate toEntity(ReminderDateUpdateDto reminderDateCreateDto);
 
     @Mapping(target = "reminderId", source = "reminderDate.id")
-    public abstract ReminderDateCreatedDto toDto(ReminderDate reminderDate);
+    public abstract ReminderDateDto toDto(ReminderDate reminderDate);
 
 }
