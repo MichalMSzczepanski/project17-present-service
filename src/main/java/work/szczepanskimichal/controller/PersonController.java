@@ -25,8 +25,8 @@ public class PersonController {
     }
 
     @GetMapping("/{personId}")
-    public Person getPerson(@PathVariable UUID personId) {
-        return personService.getPersonById(personId);
+    public ResponseEntity<PersonDto> getPerson(@PathVariable UUID personId) {
+        return ResponseEntity.ok(personService.getPersonDtoById(personId));
     }
 
     @GetMapping("/all")

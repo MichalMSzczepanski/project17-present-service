@@ -43,15 +43,13 @@ public class Occasion {
 
     @OneToMany(
             mappedBy = "occasion",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
     private Set<Present> presentIdeas = new HashSet<>();
 
     @OneToMany(
             mappedBy = "occasion",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
     private Set<Reminder> reminders = new HashSet<>();
 

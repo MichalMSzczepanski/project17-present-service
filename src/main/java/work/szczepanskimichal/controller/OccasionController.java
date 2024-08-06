@@ -3,7 +3,6 @@ package work.szczepanskimichal.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import work.szczepanskimichal.model.occasion.Occasion;
 import work.szczepanskimichal.model.occasion.OccasionCreateDto;
 import work.szczepanskimichal.model.occasion.OccasionDto;
 import work.szczepanskimichal.model.occasion.OccasionUpdateDto;
@@ -25,13 +24,13 @@ public class OccasionController {
     }
 
     @GetMapping("/{occasionId}")
-    public Occasion getOccasionById(@PathVariable("occasionId") UUID occasionId) {
-        return occasionService.getOccasionById(occasionId);
+    public ResponseEntity<OccasionDto> getOccasionById(@PathVariable("occasionId") UUID occasionId) {
+        return ResponseEntity.ok(occasionService.getOccasionDtoById((occasionId)));
     }
 
-    @GetMapping("/{personId}")
-    public List<Occasion> getOccasionsByPerson(@PathVariable("personId") UUID personId) {
-        return occasionService.getOccasionsByPersonId(personId);
+    @GetMapping("/byperson/{personId}")
+    public ResponseEntity<List<OccasionDto>> getOccasionsByPerson(@PathVariable("personId") UUID personId) {
+        return ResponseEntity.ok(occasionService.getOccasionsByPersonId(personId));
     }
 
     @PatchMapping()

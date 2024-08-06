@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.exception.OwnerMissmatchException;
+import work.szczepanskimichal.mapper.OccasionMapper;
 import work.szczepanskimichal.mapper.ReminderMapper;
 import work.szczepanskimichal.model.reminder.Reminder;
 import work.szczepanskimichal.model.reminder.ReminderCreateDto;
@@ -21,11 +22,12 @@ public class ReminderService {
     private final ReminderRepository reminderRepository;
     private final OccasionService occasionService;
     private final ReminderMapper reminderMapper;
+    private final OccasionMapper occasionMapper;
     private final UserContext userContext;
 
     public ReminderDto createReminder(ReminderCreateDto reminderCreateDto) {
         validateReminderOwner(reminderCreateDto.getOwner());
-        var parentOccasion = occasionService.getOccasionById(reminderCreateDto.getOccasionId());
+        var parentOccasion =occasionService.getOccasionById(reminderCreateDto.getOccasionId());
         var reminder = reminderMapper.toEntity(reminderCreateDto)
                 .toBuilder()
                 .occasion(parentOccasion)

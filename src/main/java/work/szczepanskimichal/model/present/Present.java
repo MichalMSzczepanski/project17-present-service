@@ -38,7 +38,7 @@ public class Present {
 
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(
             name = "fk_occasion_id",
             nullable = false

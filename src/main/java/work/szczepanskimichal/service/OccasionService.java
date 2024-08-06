@@ -33,12 +33,24 @@ public class OccasionService {
         return occasionMapper.toDto(occasionRepository.save(occasion));
     }
 
+    public OccasionDto getOccasionDtoById(UUID id) {
+        //todo check if user is occasion owner
+        //todo fix generic exception
+        return occasionMapper.toDto(occasionRepository.findById(id).orElseThrow(RuntimeException::new));
+    }
+
     public Occasion getOccasionById(UUID id) {
+        //todo check if user is occasion owner
+        //todo fix generic exception
         return occasionRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    public List<Occasion> getOccasionsByPersonId(UUID personId) {
-        return occasionRepository.findAllByPersonId(personId);
+    public List<OccasionDto> getOccasionsByPersonId(UUID personId) {
+        //todo fetch occasions belonging to user
+        var occasions = occasionRepository.findAllByPersonId(personId);
+        return occasions.stream()
+                .map(occasionMapper::toDto)
+                .toList();
     }
 
     public OccasionDto updateOccasion(OccasionUpdateDto occasionDto) {
@@ -47,6 +59,8 @@ public class OccasionService {
     }
 
     public void deleteOccasion(UUID occasionId) {
+        //todo check if user is occasion owner
+        //todo check if occasion exists
         occasionRepository.deleteById(occasionId);
     }
 

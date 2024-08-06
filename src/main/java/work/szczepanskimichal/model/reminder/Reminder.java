@@ -39,8 +39,10 @@ public class Reminder {
 
     @OneToMany(
             mappedBy = "reminder",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.ALL
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true
+    )
     private Set<ReminderDate> reminderDates;
 
     @Column(nullable = false)

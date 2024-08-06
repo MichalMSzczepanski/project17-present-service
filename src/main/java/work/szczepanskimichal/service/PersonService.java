@@ -28,11 +28,20 @@ public class PersonService {
         return personMapper.toDto(personRepository.save(person));
     }
 
+    public PersonDto getPersonDtoById(UUID id) {
+        //todo check if user is person owner
+        //todo fix generic exception
+        return personMapper.toDto(personRepository.findById(id).orElseThrow(RuntimeException::new));
+    }
+
     public Person getPersonById(UUID id) {
+        //todo check if user is person owner
+        //todo fix generic exception
         return personRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     public List<Person> getAllPersons() {
+        //todo fetch persons belonging to user
         return personRepository.findAll();
     }
 
@@ -42,6 +51,8 @@ public class PersonService {
     }
 
     public void deletePersonById(UUID id) {
+        //todo check if user is person owner
+        //todo check if person exists
         personRepository.deleteById(id);
     }
 

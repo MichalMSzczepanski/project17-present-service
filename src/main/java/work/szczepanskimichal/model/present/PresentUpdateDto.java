@@ -11,6 +11,7 @@ import java.util.UUID;
 public class PresentUpdateDto {
 
     private UUID id;
+    private UUID owner;
     private String name;
     private PresentType type;
     private String description;

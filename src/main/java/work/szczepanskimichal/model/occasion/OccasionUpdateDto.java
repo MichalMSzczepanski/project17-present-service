@@ -11,6 +11,7 @@ import java.util.UUID;
 public class OccasionUpdateDto {
 
     private UUID id;
+    private UUID owner;
     private String name;
     private LocalDateTime date;
     private UUID personId;

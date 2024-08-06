@@ -38,7 +38,7 @@ public class PresentController {
 
     //todo get presents by type
 
-    @PatchMapping("")
+    @PatchMapping()
     public ResponseEntity<PresentDto> updatePresent(@RequestBody PresentUpdateDto presentDto) {
         return ResponseEntity.ok(presentService.updatePresent(presentDto));
     }

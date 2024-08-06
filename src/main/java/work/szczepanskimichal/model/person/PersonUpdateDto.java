@@ -10,6 +10,7 @@ import java.util.UUID;
 public class PersonUpdateDto {
 
     private UUID id;
+    private UUID owner;
     private String name;
     private String lastname;
 

@@ -1,14 +1,18 @@
 logic:
   - lorem
 semantics:
+  - postman reminder and reminderdate endpoints
   - (done) create reminder (to Person many2one; to occasion many2one)
     - (done) reminder controller & service
     - (done) test 
-    - update services with updating and deleting methods
-    - upon managing entities, check if logged in user is the actual owner (x-user-id?) 
+    - (done) update services with updating and deleting methods
+    - (done) upon managing entities, check if logged in user is the actual owner (x-user-id?) 
       - use aspects to save a global, static variable that lives only in that one request/ thread/ request scoped bean?
-    - edge case tests with cascading removals
+      - use in update/ delete/ create
     - exceptions 
+    - additional tests
+      - full crud for each entity
+      - edge case tests with cascading removals
     - earliest reminder next day after midnight
     - create pojo form managing reminders frequency (?); check if recurring
   - add redis

@@ -32,8 +32,8 @@ public class Person {
 
     @OneToMany(
             mappedBy = "person",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.ALL
+    )
     private Set<Occasion> occasions = new HashSet<>();
 
     @CreationTimestamp

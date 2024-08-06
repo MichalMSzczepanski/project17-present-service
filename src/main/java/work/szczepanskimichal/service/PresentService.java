@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.exception.OwnerMissmatchException;
+import work.szczepanskimichal.mapper.OccasionMapper;
 import work.szczepanskimichal.mapper.PresentMapper;
 import work.szczepanskimichal.model.present.Present;
 import work.szczepanskimichal.model.present.PresentCreateDto;
@@ -21,11 +22,12 @@ public class PresentService {
     private final PresentRepository presentRepository;
     private final OccasionService occasionService;
     private final PresentMapper presentMapper;
+    private final OccasionMapper occasionMapper;
     private final UserContext userContext;
 
     public PresentDto createPresent(PresentCreateDto presentDto) {
         validatePresentOwner(presentDto.getOwner());
-        var parentOccasion = occasionService.getOccasionById(presentDto.getOccasionId());
+        var parentOccasion =  occasionService.getOccasionById(presentDto.getOccasionId());
         var present = presentMapper.toEntity(presentDto)
                 .toBuilder()
                 .occasion(parentOccasion)
@@ -34,12 +36,18 @@ public class PresentService {
     }
 
     public Present getPresentById(UUID id) {
+        //todo check if user is present owner
+        //todo fix generic exception
         return presentRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     public List<Present> getPresentsByOccasionId(UUID occasionId) {
+        //todo check if user is present owner
+        //todo fix generic exception
         return presentRepository.getPresentsByOccasionId(occasionId);
     }
+
+    //todo get presents by occasion
 
     public PresentDto updatePresent(PresentUpdateDto presentDto) {
         var present = presentMapper.toEntity(presentDto);
