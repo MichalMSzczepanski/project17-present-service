@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.model.reminder.ReminderUpdateDto;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,8 @@ class ReminderServiceIntegrationTest {
     private ReminderService reminderService;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private UserContext userContext;
 
     final String PERSON_NAME = "personName";
     final String PERSON_LASTNAME = "personLastName";
@@ -76,6 +79,7 @@ class ReminderServiceIntegrationTest {
         //when
         entityManager.flush();
         entityManager.clear();
+        userContext.setUserId(persistedPerson.getOwner());
         var reminderUpdated = reminderService.updateReminder(reminderUpdateDto);
 
         //then

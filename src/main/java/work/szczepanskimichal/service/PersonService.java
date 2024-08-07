@@ -3,7 +3,6 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
-import work.szczepanskimichal.exception.OwnerMissmatchException;
 import work.szczepanskimichal.mapper.PersonMapper;
 import work.szczepanskimichal.model.person.Person;
 import work.szczepanskimichal.model.person.PersonCreateDto;
@@ -21,21 +20,20 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
     private final UserContext userContext;
+    private final ValidationService validationService;
 
     public PersonDto createPerson(PersonCreateDto personDto) {
-        validatePersonOwner(personDto.getOwner());
+        validationService.validateOwner(personDto.getOwner(), userContext);
         var person = personMapper.toEntity(personDto);
         return personMapper.toDto(personRepository.save(person));
     }
 
     public PersonDto getPersonDtoById(UUID id) {
-        //todo check if user is person owner
         //todo fix generic exception
         return personMapper.toDto(personRepository.findById(id).orElseThrow(RuntimeException::new));
     }
 
     public Person getPersonById(UUID id) {
-        //todo check if user is person owner
         //todo fix generic exception
         return personRepository.findById(id).orElseThrow(RuntimeException::new);
     }
@@ -46,19 +44,16 @@ public class PersonService {
     }
 
     public PersonDto updatePerson(PersonUpdateDto personDto) {
+        validationService.validateOwner(personDto.getOwner(), userContext);
         var person = personMapper.toEntity(personDto);
         return personMapper.toDto(personRepository.save(person));
     }
 
     public void deletePersonById(UUID id) {
-        //todo check if user is person owner
-        //todo check if person exists
+        //todo fix generic exception
+        var person = personRepository.findById(id).orElseThrow(RuntimeException::new);
+        validationService.validateOwner(person.getOwner(), userContext);
         personRepository.deleteById(id);
     }
 
-    private void validatePersonOwner(UUID personOwnerId) {
-        if (personOwnerId == userContext.getUserId()) {
-            throw new OwnerMissmatchException(userContext.getUserId(), personOwnerId);
-        }
-    }
 }

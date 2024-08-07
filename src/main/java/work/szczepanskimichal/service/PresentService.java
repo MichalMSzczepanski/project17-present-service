@@ -3,8 +3,6 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
-import work.szczepanskimichal.exception.OwnerMissmatchException;
-import work.szczepanskimichal.mapper.OccasionMapper;
 import work.szczepanskimichal.mapper.PresentMapper;
 import work.szczepanskimichal.model.present.Present;
 import work.szczepanskimichal.model.present.PresentCreateDto;
@@ -22,11 +20,11 @@ public class PresentService {
     private final PresentRepository presentRepository;
     private final OccasionService occasionService;
     private final PresentMapper presentMapper;
-    private final OccasionMapper occasionMapper;
     private final UserContext userContext;
+    private final ValidationService validationService;
 
     public PresentDto createPresent(PresentCreateDto presentDto) {
-        validatePresentOwner(presentDto.getOwner());
+        validationService.validateOwner(presentDto.getOwner(), userContext);
         var parentOccasion =  occasionService.getOccasionById(presentDto.getOccasionId());
         var present = presentMapper.toEntity(presentDto)
                 .toBuilder()
@@ -50,18 +48,15 @@ public class PresentService {
     //todo get presents by occasion
 
     public PresentDto updatePresent(PresentUpdateDto presentDto) {
+        validationService.validateOwner(presentDto.getOwner(), userContext);
         var present = presentMapper.toEntity(presentDto);
         return presentMapper.toDto(presentRepository.save(present));
     }
 
     public void deletePresent(UUID presentId) {
+        //todo fix generic exception
+        var present = presentRepository.findById(presentId).orElseThrow(RuntimeException::new);
+        validationService.validateOwner(present.getOwner(), userContext);
         presentRepository.deleteById(presentId);
     }
-
-    private void validatePresentOwner(UUID personOwnerId) {
-        if (personOwnerId == userContext.getUserId()) {
-            throw new OwnerMissmatchException(userContext.getUserId(), personOwnerId);
-        }
-    }
-
 }

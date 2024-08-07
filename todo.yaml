@@ -1,25 +1,9 @@
 logic:
   - lorem
 semantics:
-  - add logging for creating/ updating/ deleting entities
-  - PersonDto contains OccasionDto contains PresentDto contains ReminderDto contains ReminderDateDto
-  - postman reminder and reminderdate endpoints
-  - (done) create reminder (to Person many2one; to occasion many2one)
-    - (done) reminder controller & service
-    - (done) test 
-    - (done) update services with updating and deleting methods
-    - (done) upon managing entities, check if logged in user is the actual owner (x-user-id?) 
-      - use aspects to save a global, static variable that lives only in that one request/ thread/ request scoped bean?
-      - use in update/ delete/ create
-    - exceptions 
-    - additional tests
-      - full crud for each entity
-      - edge case tests with cascading removals
-    - earliest reminder next day after midnight
-    - create pojo form managing reminders frequency (?); check if recurring
+  - earliest reminder next day after midnight
   - add redis
     - add singleton for daily checking and storing of reminders in redis
-  - add controller read-only for checking redis pojo with reminders
   - trigger reminders with scheduled job each minute
     - one a reminder is triggered, update it in the database
       - do this async so that response is not required (CompletableFuture onSuccess onFailure)
@@ -27,6 +11,14 @@ semantics:
     - mock sending an email once the reminder is triggered
   - kafka with notification-service for sending reminder emails
     - introduce external library configuration
+  - add controller read-only for checking redis pojo with reminders
+  - create pojo form managing reminders frequency (?); check if recurring
+  - PersonDto contains OccasionDto contains PresentDto contains ReminderDto contains ReminderDateDto
+  - exceptions
+  - additional tests
+    - full crud for each entity
+    - edge case tests with cascading removals
+  - add logging for creating/ updating/ deleting entities
   - occasion, reminder relationships with person (bidirectional):
       - scenarios:
           - i want to save an occasion to a person id

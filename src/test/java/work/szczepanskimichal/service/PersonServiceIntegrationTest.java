@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.model.person.PersonUpdateDto;
 import work.szczepanskimichal.repository.*;
 
@@ -31,6 +32,8 @@ class PersonServiceIntegrationTest {
     private PresentService presentService;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private UserContext userContext;
 
     final String PERSON_NAME = "personName";
     final String PERSON_LASTNAME = "personLastName";
@@ -120,6 +123,7 @@ class PersonServiceIntegrationTest {
         //when
         entityManager.flush();
         entityManager.clear();
+        userContext.setUserId(createdPerson.getOwner());
         var updatedPerson = personService.updatePerson(personUpdatedDto);
 
         //then

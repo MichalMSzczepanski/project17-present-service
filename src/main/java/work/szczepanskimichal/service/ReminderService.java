@@ -3,7 +3,6 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
-import work.szczepanskimichal.exception.OwnerMissmatchException;
 import work.szczepanskimichal.mapper.ReminderMapper;
 import work.szczepanskimichal.model.reminder.Reminder;
 import work.szczepanskimichal.model.reminder.ReminderCreateDto;
@@ -22,9 +21,10 @@ public class ReminderService {
     private final OccasionService occasionService;
     private final ReminderMapper reminderMapper;
     private final UserContext userContext;
+    private final ValidationService validationService;
 
     public ReminderDto createReminder(ReminderCreateDto reminderCreateDto) {
-        validateReminderOwner(reminderCreateDto.getOwner());
+        validationService.validateOwner(reminderCreateDto.getOwner(), userContext);
         var parentOccasion =occasionService.getOccasionById(reminderCreateDto.getOccasionId());
         var reminder = reminderMapper.toEntity(reminderCreateDto)
                 .toBuilder()
@@ -33,8 +33,8 @@ public class ReminderService {
         return reminderMapper.toDto(reminderRepository.save(reminder));
     }
 
-    public ReminderDto getReminderDtoById(UUID id) {
-        return reminderMapper.toDto(reminderRepository.findById(id).orElseThrow(RuntimeException::new));
+    public ReminderDto getReminderDtoById(UUID reminderId) {
+        return reminderMapper.toDto(reminderRepository.findById(reminderId).orElseThrow(RuntimeException::new));
     }
 
     public Reminder getReminderById(UUID id) {
@@ -48,20 +48,16 @@ public class ReminderService {
                 .toList();
     }
 
-    public ReminderDto updateReminder(ReminderUpdateDto reminderDto) {
-        var reminder = reminderMapper.toEntity(reminderDto);
+    public ReminderDto updateReminder(ReminderUpdateDto reminderUpdateDto) {
+        validationService.validateOwner(reminderUpdateDto.getOwner(), userContext);
+        var reminder = reminderMapper.toEntity(reminderUpdateDto);
         return reminderMapper.toDto(reminderRepository.save(reminder));
     }
 
     public void deleteReminder(UUID id) {
         var reminder = reminderRepository.findById(id).orElseThrow(RuntimeException::new);
-        validateReminderOwner(reminder.getOwner());
+        validationService.validateOwner(reminder.getOwner(), userContext);
         reminderRepository.deleteById(id);
     }
 
-    private void validateReminderOwner(UUID personOwnerId) {
-        if (personOwnerId == userContext.getUserId()) {
-            throw new OwnerMissmatchException(userContext.getUserId(), personOwnerId);
-        }
-    }
 }

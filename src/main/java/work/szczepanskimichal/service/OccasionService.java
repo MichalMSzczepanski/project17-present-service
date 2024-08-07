@@ -3,7 +3,6 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
-import work.szczepanskimichal.exception.OwnerMissmatchException;
 import work.szczepanskimichal.mapper.OccasionMapper;
 import work.szczepanskimichal.model.occasion.Occasion;
 import work.szczepanskimichal.model.occasion.OccasionCreateDto;
@@ -22,9 +21,10 @@ public class OccasionService {
     private final PersonService personService;
     private final OccasionMapper occasionMapper;
     private final UserContext userContext;
+    private final ValidationService validationService;
 
     public OccasionDto createOccasion(OccasionCreateDto occasionDto) {
-        validateOccasionOwner(occasionDto.getOwner());
+        validationService.validateOwner(occasionDto.getOwner(), userContext);
         var parentPerson = personService.getPersonById(occasionDto.getPersonId());
         var occasion = occasionMapper.toEntity(occasionDto)
                 .toBuilder()
@@ -33,16 +33,16 @@ public class OccasionService {
         return occasionMapper.toDto(occasionRepository.save(occasion));
     }
 
-    public OccasionDto getOccasionDtoById(UUID id) {
+    public OccasionDto getOccasionDtoById(UUID occasionId) {
         //todo check if user is occasion owner
         //todo fix generic exception
-        return occasionMapper.toDto(occasionRepository.findById(id).orElseThrow(RuntimeException::new));
+        return occasionMapper.toDto(occasionRepository.findById(occasionId).orElseThrow(RuntimeException::new));
     }
 
-    public Occasion getOccasionById(UUID id) {
+    public Occasion getOccasionById(UUID occasionId) {
         //todo check if user is occasion owner
         //todo fix generic exception
-        return occasionRepository.findById(id).orElseThrow(RuntimeException::new);
+        return occasionRepository.findById(occasionId).orElseThrow(RuntimeException::new);
     }
 
     public List<OccasionDto> getOccasionsByPersonId(UUID personId) {
@@ -54,19 +54,15 @@ public class OccasionService {
     }
 
     public OccasionDto updateOccasion(OccasionUpdateDto occasionDto) {
+        validationService.validateOwner(occasionDto.getOwner(), userContext);
         var occasion = occasionMapper.toEntity(occasionDto);
         return occasionMapper.toDto(occasionRepository.save(occasion));
     }
 
     public void deleteOccasion(UUID occasionId) {
-        //todo check if user is occasion owner
-        //todo check if occasion exists
+        //todo generic exception
+        var occasion = occasionRepository.findById(occasionId).orElseThrow(RuntimeException::new);
+        validationService.validateOwner(occasion.getOwner(), userContext);
         occasionRepository.deleteById(occasionId);
-    }
-
-    private void validateOccasionOwner(UUID occasionOwnerId) {
-        if (occasionOwnerId == userContext.getUserId()) {
-            throw new OwnerMissmatchException(userContext.getUserId(), occasionOwnerId);
-        }
     }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.model.occasion.OccasionUpdateDto;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,8 @@ class OccasionServiceIntegrationTest {
     private OccasionService occasionService;
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private UserContext userContext;
 
     final String PERSON_NAME = "personName";
     final String PERSON_LASTNAME = "personLastName";
@@ -69,6 +72,7 @@ class OccasionServiceIntegrationTest {
         //when
         entityManager.flush();
         entityManager.clear();
+        userContext.setUserId(persistedPerson.getOwner());
         var occasionUpdated = occasionService.updateOccasion(updatedOccasion);
 
         //then
