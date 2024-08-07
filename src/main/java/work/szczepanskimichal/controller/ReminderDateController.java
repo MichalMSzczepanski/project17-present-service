@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController()
-@RequestMapping("/v1/reminderdate")
+@RequestMapping("/v1/present/reminderdate")
 @RequiredArgsConstructor
 public class ReminderDateController {
 
@@ -23,13 +23,13 @@ public class ReminderDateController {
         return ResponseEntity.ok(reminderDateService.createReminder(reminderDateCreateDto));
     }
 
-    @GetMapping
-    public ResponseEntity<ReminderDateDto> getReminderDate(@RequestParam UUID id) {
-        return ResponseEntity.ok(reminderDateService.getReminderDateById(id));
+    @GetMapping("/{reminderDateId}")
+    public ResponseEntity<ReminderDateDto> getReminderDate(@PathVariable UUID reminderDateId) {
+        return ResponseEntity.ok(reminderDateService.getReminderDateById(reminderDateId));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ReminderDateDto>> getRemindersByReminder(@RequestParam UUID reminderId) {
+    @GetMapping("/byreminder/{reminderId}")
+    public ResponseEntity<List<ReminderDateDto>> getRemindersByReminder(@PathVariable UUID reminderId) {
         return ResponseEntity.ok(reminderDateService.getReminderDatesByReminder(reminderId));
     }
 
