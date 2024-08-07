@@ -11,6 +11,7 @@ import work.szczepanskimichal.model.reminder.ReminderUpdateDto;
 public abstract class ReminderMapper {
 
     public abstract Reminder toEntity(ReminderCreateDto reminderCreateDto);
+    @Mapping(target = "occasion.id", source = "occasionId")
     public abstract Reminder toEntity(ReminderUpdateDto reminderUpdateDto);
     @Mapping(target = "occasionId", source = "occasion.id")
     public abstract ReminderDto toDto(Reminder reminder);

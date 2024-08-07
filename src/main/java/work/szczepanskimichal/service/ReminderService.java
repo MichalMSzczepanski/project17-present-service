@@ -35,12 +35,19 @@ public class ReminderService {
         return reminderMapper.toDto(reminderRepository.save(reminder));
     }
 
+    public ReminderDto getReminderDtoById(UUID id) {
+        return reminderMapper.toDto(reminderRepository.findById(id).orElseThrow(RuntimeException::new));
+    }
+
     public Reminder getReminderById(UUID id) {
         return reminderRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    public List<Reminder> getRemindersByOccasion(UUID occasionId) {
-        return reminderRepository.getRemindersByOccasionId(occasionId);
+    public List<ReminderDto> getRemindersByOccasion(UUID occasionId) {
+        var reminders = reminderRepository.getRemindersByOccasionId(occasionId);
+        return reminders.stream()
+                .map(reminderMapper::toDto)
+                .toList();
     }
 
     public ReminderDto updateReminder(ReminderUpdateDto reminderDto) {

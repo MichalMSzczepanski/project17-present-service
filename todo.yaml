@@ -1,6 +1,8 @@
 logic:
   - lorem
 semantics:
+  - add logging for creating/ updating/ deleting entities
+  - PersonDto contains OccasionDto contains PresentDto contains ReminderDto contains ReminderDateDto
   - postman reminder and reminderdate endpoints
   - (done) create reminder (to Person many2one; to occasion many2one)
     - (done) reminder controller & service

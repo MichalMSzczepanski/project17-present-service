@@ -25,11 +25,11 @@ public class PresentController {
     }
 
     @GetMapping("/{presentId}")
-    public Present getPerson(@PathVariable UUID presentId) {
+    public Present getPresent(@PathVariable UUID presentId) {
         return presentService.getPresentById(presentId);
     }
 
-    @GetMapping("/{occasionId}")
+    @GetMapping("/byoccasion/{occasionId}")
     public List<Present> getPresentsByOccasion(@PathVariable UUID occasionId) {
         return presentService.getPresentsByOccasionId(occasionId);
     }

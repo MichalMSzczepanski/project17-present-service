@@ -3,7 +3,6 @@ package work.szczepanskimichal.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import work.szczepanskimichal.model.reminder.Reminder;
 import work.szczepanskimichal.model.reminder.ReminderCreateDto;
 import work.szczepanskimichal.model.reminder.ReminderDto;
 import work.szczepanskimichal.model.reminder.ReminderUpdateDto;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController()
-@RequestMapping("/v1/reminder")
+@RequestMapping("/v1/present/reminder")
 @RequiredArgsConstructor
 public class ReminderController {
 
@@ -24,19 +23,19 @@ public class ReminderController {
         return ResponseEntity.ok(reminderService.createReminder(reminderCreateDto));
     }
 
-    @GetMapping
-    public Reminder getReminder(@RequestParam UUID id) {
-        return reminderService.getReminderById(id);
+    @GetMapping("/{reminderId}")
+    public ResponseEntity<ReminderDto> getReminder(@PathVariable UUID reminderId) {
+        return ResponseEntity.ok(reminderService.getReminderDtoById(reminderId));
     }
 
-    @GetMapping("/{occasionId}")
-    public List<Reminder> getRemindersByOccasion(@PathVariable UUID occasionId) {
-        return reminderService.getRemindersByOccasion(occasionId);
+    @GetMapping("/byoccasion/{occasionId}")
+    public ResponseEntity<List<ReminderDto>> getRemindersByOccasion(@PathVariable UUID occasionId) {
+        return ResponseEntity.ok(reminderService.getRemindersByOccasion(occasionId));
     }
 
     @PatchMapping()
-    public ReminderDto updateReminder(@RequestBody ReminderUpdateDto reminderDto) {
-        return reminderService.updateReminder(reminderDto);
+    public ResponseEntity<ReminderDto> updateReminder(@RequestBody ReminderUpdateDto reminderDto) {
+        return ResponseEntity.ok(reminderService.updateReminder(reminderDto));
     }
 
     @DeleteMapping("/{reminderId}")

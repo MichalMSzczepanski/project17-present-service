@@ -10,6 +10,7 @@ import java.util.UUID;
 public class ReminderUpdateDto {
 
     private UUID id;
+    private UUID owner;
     private UUID occasionId;
     private String name;
     private boolean recurring;
