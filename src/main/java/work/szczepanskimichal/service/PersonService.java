@@ -3,6 +3,7 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
+import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.PersonMapper;
 import work.szczepanskimichal.model.person.Person;
 import work.szczepanskimichal.model.person.PersonCreateDto;
@@ -29,18 +30,24 @@ public class PersonService {
     }
 
     public PersonDto getPersonDtoById(UUID id) {
-        //todo fix generic exception
-        return personMapper.toDto(personRepository.findById(id).orElseThrow(RuntimeException::new));
+        var person = personRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
+        validationService.validateOwner(person.getOwner(), userContext);
+        return personMapper.toDto(person);
     }
 
     public Person getPersonById(UUID id) {
-        //todo fix generic exception
-        return personRepository.findById(id).orElseThrow(RuntimeException::new);
+        return personRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
     }
 
-    public List<Person> getAllPersons() {
-        //todo fetch persons belonging to user
-        return personRepository.findAll();
+    public List<PersonDto> getAllUserPersons() {
+        var persons = personRepository.findAll();
+        if (persons.isEmpty()) {
+            throw new DataNotFoundException();
+        }
+        validationService.validateOwner(persons.get(0).getOwner(), userContext);
+        return persons.stream()
+                .map(personMapper::toDto)
+                .toList();
     }
 
     public PersonDto updatePerson(PersonUpdateDto personDto) {
@@ -50,8 +57,7 @@ public class PersonService {
     }
 
     public void deletePersonById(UUID id) {
-        //todo fix generic exception
-        var person = personRepository.findById(id).orElseThrow(RuntimeException::new);
+        var person = personRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
         validationService.validateOwner(person.getOwner(), userContext);
         personRepository.deleteById(id);
     }

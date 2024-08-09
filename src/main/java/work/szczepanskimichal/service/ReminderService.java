@@ -3,6 +3,7 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
+import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.ReminderMapper;
 import work.szczepanskimichal.model.reminder.Reminder;
 import work.szczepanskimichal.model.reminder.ReminderCreateDto;
@@ -33,12 +34,14 @@ public class ReminderService {
         return reminderMapper.toDto(reminderRepository.save(reminder));
     }
 
-    public ReminderDto getReminderDtoById(UUID reminderId) {
-        return reminderMapper.toDto(reminderRepository.findById(reminderId).orElseThrow(RuntimeException::new));
+    public ReminderDto getReminderDtoById(UUID id) {
+        var reminder = reminderRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
+        validationService.validateOwner(reminder.getOwner(), userContext);
+        return reminderMapper.toDto(reminder);
     }
 
     public Reminder getReminderById(UUID id) {
-        return reminderRepository.findById(id).orElseThrow(RuntimeException::new);
+        return reminderRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
     }
 
     public List<ReminderDto> getRemindersByOccasion(UUID occasionId) {
@@ -55,7 +58,7 @@ public class ReminderService {
     }
 
     public void deleteReminder(UUID id) {
-        var reminder = reminderRepository.findById(id).orElseThrow(RuntimeException::new);
+        var reminder = reminderRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
         validationService.validateOwner(reminder.getOwner(), userContext);
         reminderRepository.deleteById(id);
     }

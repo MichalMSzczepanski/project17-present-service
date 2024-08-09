@@ -3,7 +3,6 @@ package work.szczepanskimichal.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import work.szczepanskimichal.model.person.Person;
 import work.szczepanskimichal.model.person.PersonCreateDto;
 import work.szczepanskimichal.model.person.PersonDto;
 import work.szczepanskimichal.model.person.PersonUpdateDto;
@@ -30,8 +29,8 @@ public class PersonController {
     }
 
     @GetMapping("/all")
-    public List<Person> getAllPersons() {
-        return personService.getAllPersons();
+    public List<PersonDto> getAllPersons() {
+        return personService.getAllUserPersons();
     }
 
     @PatchMapping()
