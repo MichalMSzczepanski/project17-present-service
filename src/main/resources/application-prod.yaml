@@ -8,4 +8,7 @@ spring:
   #      host: mongo
   kafka:
     bootstrap-servers: kafka:9092
-
+  data:
+    redis:
+      host: redis
+      port: 6379
