@@ -2,6 +2,7 @@ package work.szczepanskimichal.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.ReminderDateMapper;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCreateDto;
 import work.szczepanskimichal.model.reminder.date.ReminderDateDto;
@@ -29,11 +30,14 @@ public class ReminderDateService {
     }
 
     public ReminderDateDto getReminderDateById(UUID id) {
-        return reminderMapper.toDto(reminderDateRepository.findById(id).orElseThrow(RuntimeException::new));
+        return reminderMapper.toDto(reminderDateRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id)));
     }
 
     public List<ReminderDateDto> getReminderDatesByReminder(UUID reminderId) {
         var reminders = reminderDateRepository.getReminderDatesByReminderId(reminderId);
+        if (reminders.isEmpty()) {
+            throw new DataNotFoundException(reminderId, "Reminder");
+        }
         return reminders.stream()
                 .map(reminderMapper::toDto)
                 .toList();

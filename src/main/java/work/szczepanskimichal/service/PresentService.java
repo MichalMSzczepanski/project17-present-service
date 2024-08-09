@@ -3,8 +3,8 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
+import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.PresentMapper;
-import work.szczepanskimichal.model.present.Present;
 import work.szczepanskimichal.model.present.PresentCreateDto;
 import work.szczepanskimichal.model.present.PresentDto;
 import work.szczepanskimichal.model.present.PresentUpdateDto;
@@ -25,7 +25,7 @@ public class PresentService {
 
     public PresentDto createPresent(PresentCreateDto presentDto) {
         validationService.validateOwner(presentDto.getOwner(), userContext);
-        var parentOccasion =  occasionService.getOccasionById(presentDto.getOccasionId());
+        var parentOccasion = occasionService.getOccasionById(presentDto.getOccasionId());
         var present = presentMapper.toEntity(presentDto)
                 .toBuilder()
                 .occasion(parentOccasion)
@@ -33,16 +33,21 @@ public class PresentService {
         return presentMapper.toDto(presentRepository.save(present));
     }
 
-    public Present getPresentById(UUID id) {
-        //todo check if user is present owner
-        //todo fix generic exception
-        return presentRepository.findById(id).orElseThrow(RuntimeException::new);
+    public PresentDto getPresentDtoById(UUID id) {
+        var present = presentRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
+        validationService.validateOwner(present.getOwner(), userContext);
+        return presentMapper.toDto(present);
     }
 
-    public List<Present> getPresentsByOccasionId(UUID occasionId) {
-        //todo check if user is present owner
-        //todo fix generic exception
-        return presentRepository.getPresentsByOccasionId(occasionId);
+    public List<PresentDto> getPresentsByOccasionId(UUID occasionId) {
+        var presents = presentRepository.getPresentsByOccasionId(occasionId);
+        if (presents.isEmpty()) {
+            throw new DataNotFoundException(occasionId, "Occasion");
+        }
+        validationService.validateOwner(presents.get(0).getOwner(), userContext);
+        return presents.stream()
+                .map(presentMapper::toDto)
+                .toList();
     }
 
     //todo get presents by occasion
@@ -53,10 +58,9 @@ public class PresentService {
         return presentMapper.toDto(presentRepository.save(present));
     }
 
-    public void deletePresent(UUID presentId) {
-        //todo fix generic exception
-        var present = presentRepository.findById(presentId).orElseThrow(RuntimeException::new);
+    public void deletePresent(UUID id) {
+        var present = presentRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
         validationService.validateOwner(present.getOwner(), userContext);
-        presentRepository.deleteById(presentId);
+        presentRepository.deleteById(id);
     }
 }

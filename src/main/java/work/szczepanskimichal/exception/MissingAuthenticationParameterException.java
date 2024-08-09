@@ -7,6 +7,6 @@ public class MissingAuthenticationParameterException extends RuntimeException {
 
     public MissingAuthenticationParameterException(String parameterName) {
         super(String.format("missing authentication parameter: %s", parameterName));
-        log.error(String.format("missing authentication parameter: %s", parameterName));
+        log.error("missing authentication parameter: {}", parameterName);
     }
 }

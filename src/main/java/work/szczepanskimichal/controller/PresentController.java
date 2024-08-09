@@ -3,7 +3,6 @@ package work.szczepanskimichal.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import work.szczepanskimichal.model.present.Present;
 import work.szczepanskimichal.model.present.PresentCreateDto;
 import work.szczepanskimichal.model.present.PresentDto;
 import work.szczepanskimichal.model.present.PresentUpdateDto;
@@ -25,12 +24,12 @@ public class PresentController {
     }
 
     @GetMapping("/{presentId}")
-    public Present getPresent(@PathVariable UUID presentId) {
-        return presentService.getPresentById(presentId);
+    public PresentDto getPresent(@PathVariable UUID presentId) {
+        return presentService.getPresentDtoById(presentId);
     }
 
     @GetMapping("/byoccasion/{occasionId}")
-    public List<Present> getPresentsByOccasion(@PathVariable UUID occasionId) {
+    public List<PresentDto> getPresentsByOccasion(@PathVariable UUID occasionId) {
         return presentService.getPresentsByOccasionId(occasionId);
     }
 
