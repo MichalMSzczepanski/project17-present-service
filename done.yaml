@@ -1,5 +1,6 @@
 logic:
 semantics:
+  25 introduce DataNotFoundException for validating if fetched entities exist
   24 update business logic in updating preson, occasion and present
   23 update reminderdate business logic to update and delete reminderdates
   22 update reminder business logic to update and delete reminders

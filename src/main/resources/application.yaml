@@ -9,6 +9,11 @@ spring:
     user: postgres
     password: postgres_password
     locations: classpath:db/migration/main
+  data:
+    redis:
+      reminder:
+        dates:
+          key: reminderDates
 #  data:
 #    mongodb:
 #      port: 27017

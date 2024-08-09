@@ -3,6 +3,7 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
+import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.OccasionMapper;
 import work.szczepanskimichal.model.occasion.Occasion;
 import work.szczepanskimichal.model.occasion.OccasionCreateDto;
@@ -33,16 +34,16 @@ public class OccasionService {
         return occasionMapper.toDto(occasionRepository.save(occasion));
     }
 
-    public OccasionDto getOccasionDtoById(UUID occasionId) {
-        //todo check if user is occasion owner
-        //todo fix generic exception
-        return occasionMapper.toDto(occasionRepository.findById(occasionId).orElseThrow(RuntimeException::new));
+    public OccasionDto getOccasionDtoById(UUID id) {
+        var occasion = occasionRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
+        validationService.validateOwner(occasion.getOwner(), userContext);
+        return occasionMapper.toDto(occasion);
     }
 
-    public Occasion getOccasionById(UUID occasionId) {
-        //todo check if user is occasion owner
-        //todo fix generic exception
-        return occasionRepository.findById(occasionId).orElseThrow(RuntimeException::new);
+    public Occasion getOccasionById(UUID id) {
+        var occasion = occasionRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
+        validationService.validateOwner(occasion.getOwner(), userContext);
+        return occasion;
     }
 
     public List<OccasionDto> getOccasionsByPersonId(UUID personId) {
@@ -59,10 +60,9 @@ public class OccasionService {
         return occasionMapper.toDto(occasionRepository.save(occasion));
     }
 
-    public void deleteOccasion(UUID occasionId) {
-        //todo generic exception
-        var occasion = occasionRepository.findById(occasionId).orElseThrow(RuntimeException::new);
+    public void deleteOccasion(UUID id) {
+        var occasion = occasionRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
         validationService.validateOwner(occasion.getOwner(), userContext);
-        occasionRepository.deleteById(occasionId);
+        occasionRepository.deleteById(id);
     }
 }

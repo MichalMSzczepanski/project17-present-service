@@ -11,6 +11,7 @@ import work.szczepanskimichal.model.present.PresentUpdateDto;
 public abstract class PresentMapper {
 
     public abstract Present toEntity(PresentCreateDto presentCreatedDto);
+
     @Mapping(target = "occasion.id", source = "occasionId")
     public abstract Present toEntity(PresentUpdateDto presentUpdatedDto);
 

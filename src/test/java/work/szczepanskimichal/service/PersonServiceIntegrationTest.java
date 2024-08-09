@@ -2,7 +2,6 @@ package work.szczepanskimichal.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -105,7 +104,7 @@ class PersonServiceIntegrationTest {
         //when
         entityManager.flush();
         entityManager.clear();
-        var persons = personService.getAllPersons();
+        var persons = personService.getAllUserPersons();
 
         //then
         assertEquals(2, persons.size());
