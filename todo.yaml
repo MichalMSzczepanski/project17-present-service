@@ -1,9 +1,11 @@
 logic:
   - lorem
 semantics:
+  - update ReminderDateServiceIntegrationTest to check cached data
+  - update logic in reminderdate job (generally just started)
   - earliest reminder next day after midnight
   - add redis
-    - add singleton for daily checking and storing of reminders in redis
+    - add singleton for daily checking and storing of reminders in redis (currently checking reddis each 15 minutes, singleton is better)
   - trigger reminders with scheduled job each minute
     - one a reminder is triggered, update it in the database
       - do this async so that response is not required (CompletableFuture onSuccess onFailure)
@@ -19,6 +21,7 @@ semantics:
     - full crud for each entity
     - edge case tests with cascading removals
   - add logging for creating/ updating/ deleting entities
+  - switch to testcontainers with embedded redis
   - occasion, reminder relationships with person (bidirectional):
       - scenarios:
           - i want to save an occasion to a person id

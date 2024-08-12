@@ -1,5 +1,6 @@
 logic:
 semantics:
+  26 introduce redis with tests
   25 introduce DataNotFoundException for validating if fetched entities exist
   24 update business logic in updating preson, occasion and present
   23 update reminderdate business logic to update and delete reminderdates

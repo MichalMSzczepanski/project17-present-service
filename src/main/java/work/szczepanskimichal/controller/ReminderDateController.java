@@ -20,7 +20,7 @@ public class ReminderDateController {
 
     @PostMapping
     public ResponseEntity<ReminderDateDto> createReminderDate(@RequestBody ReminderDateCreateDto reminderDateCreateDto) {
-        return ResponseEntity.ok(reminderDateService.createReminder(reminderDateCreateDto));
+        return ResponseEntity.ok(reminderDateService.createReminderDate(reminderDateCreateDto));
     }
 
     @GetMapping("/{reminderDateId}")

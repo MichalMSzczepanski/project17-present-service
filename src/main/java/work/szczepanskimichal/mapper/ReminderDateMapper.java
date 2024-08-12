@@ -2,10 +2,7 @@ package work.szczepanskimichal.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import work.szczepanskimichal.model.reminder.date.ReminderDate;
-import work.szczepanskimichal.model.reminder.date.ReminderDateCreateDto;
-import work.szczepanskimichal.model.reminder.date.ReminderDateDto;
-import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
+import work.szczepanskimichal.model.reminder.date.*;
 
 @Mapper(componentModel = "spring")
 public abstract class ReminderDateMapper {
@@ -16,4 +13,6 @@ public abstract class ReminderDateMapper {
     @Mapping(target = "reminderId", source = "reminder.id")
     public abstract ReminderDateDto toDto(ReminderDate reminderDate);
 
+    @Mapping(target = "reminderId", source = "reminder.id")
+    public abstract ReminderDateCache toCache(ReminderDate reminderDate);
 }

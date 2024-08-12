@@ -10,6 +10,7 @@ import java.util.UUID;
 @Getter
 public class ReminderDateCreateDto {
 
+    private UUID id;
     private Date date;
     private UUID reminderId;
 }

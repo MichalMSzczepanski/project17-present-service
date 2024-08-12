@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCache;
-import work.szczepanskimichal.repository.redis.ReminderDateRedisRepository;
+import work.szczepanskimichal.repository.cache.ReminderDateCacheRepository;
 
 import java.util.Date;
 import java.util.Set;
@@ -15,14 +15,14 @@ import java.util.Set;
 @Slf4j
 public class ReminderSchedulerService {
 
-    private final ReminderDateRedisRepository reminderDateCustomRepository;
+    private final ReminderDateCacheRepository reminderDateCustomRepository;
 //    private final NotificationService notificationService; // Example service for notifications
 
 
     @Scheduled(fixedRate = 60000) // Check every minute
     public void checkUpcomingReminders() {
-        long currentTime = new Date().getTime(); // Get the current timestamp
-        Set<ReminderDateCache> upcomingReminders = reminderDateCustomRepository.getUpcomingReminderDates(currentTime);
+        Set<ReminderDateCache> upcomingReminders = reminderDateCustomRepository.getReminderDatesForNextFifteenMinutes();
+        log.info("reminder scheduler checking for reminders in cache for the next 15 minutes...");
 
         // Handle upcoming reminders (e.g., send notifications)
         for (ReminderDateCache reminderDate : upcomingReminders) {

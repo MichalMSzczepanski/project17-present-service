@@ -26,7 +26,7 @@ public class ReminderService {
 
     public ReminderDto createReminder(ReminderCreateDto reminderCreateDto) {
         validationService.validateOwner(reminderCreateDto.getOwner(), userContext);
-        var parentOccasion =occasionService.getOccasionById(reminderCreateDto.getOccasionId());
+        var parentOccasion = occasionService.getOccasionById(reminderCreateDto.getOccasionId());
         var reminder = reminderMapper.toEntity(reminderCreateDto)
                 .toBuilder()
                 .occasion(parentOccasion)
