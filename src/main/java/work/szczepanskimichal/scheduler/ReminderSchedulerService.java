@@ -1,4 +1,4 @@
-package work.szczepanskimichal.service;
+package work.szczepanskimichal.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import work.szczepanskimichal.mapper.ReminderDateMapper;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCache;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepository;
+import work.szczepanskimichal.service.ReminderDateService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

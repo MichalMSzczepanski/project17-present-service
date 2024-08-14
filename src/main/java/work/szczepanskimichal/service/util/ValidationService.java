@@ -1,4 +1,4 @@
-package work.szczepanskimichal.service;
+package work.szczepanskimichal.service.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

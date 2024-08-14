@@ -9,6 +9,9 @@ import org.springframework.test.context.ActiveProfiles;
 import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.model.person.PersonUpdateDto;
 import work.szczepanskimichal.repository.*;
+import work.szczepanskimichal.service.assembler.OccasionAssembler;
+import work.szczepanskimichal.service.assembler.PersonAssembler;
+import work.szczepanskimichal.service.assembler.PresentAssembler;
 
 import java.time.LocalDateTime;
 

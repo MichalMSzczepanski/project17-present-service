@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.model.occasion.OccasionUpdateDto;
+import work.szczepanskimichal.service.assembler.OccasionAssembler;
+import work.szczepanskimichal.service.assembler.PersonAssembler;
 
 import java.time.LocalDateTime;
 

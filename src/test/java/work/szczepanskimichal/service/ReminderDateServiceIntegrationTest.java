@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import redis.embedded.RedisServer;
-import work.szczepanskimichal.model.reminder.date.ReminderDateCache;
 import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepositoryImpl;
+import work.szczepanskimichal.service.assembler.OccasionAssembler;
+import work.szczepanskimichal.service.assembler.PersonAssembler;
+import work.szczepanskimichal.service.assembler.ReminderAssembler;
+import work.szczepanskimichal.service.assembler.ReminderDateAssembler;
 
 import java.io.IOException;
 import java.time.Instant;

@@ -10,6 +10,7 @@ import work.szczepanskimichal.model.reminder.ReminderCreateDto;
 import work.szczepanskimichal.model.reminder.ReminderDto;
 import work.szczepanskimichal.model.reminder.ReminderUpdateDto;
 import work.szczepanskimichal.repository.ReminderRepository;
+import work.szczepanskimichal.service.util.ValidationService;
 
 import java.util.List;
 import java.util.UUID;
