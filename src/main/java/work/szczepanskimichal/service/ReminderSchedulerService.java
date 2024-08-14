@@ -4,31 +4,63 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import work.szczepanskimichal.mapper.ReminderDateMapper;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCache;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepository;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ReminderSchedulerService {
 
-    private final ReminderDateCacheRepository reminderDateCustomRepository;
-//    private final NotificationService notificationService; // Example service for notifications
+    private final ReminderDateCacheRepository reminderDateCacheRepository;
+    private final ReminderDateService reminderDateService;
+    private final ReminderDateMapper reminderDateMapper;
+
+    @Scheduled(cron = "1 0 0 * * *")
+    public void getReminderDateCachesForNext24h() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        log.info("Puring cache for {} entries", today.format(formatter));
+
+        reminderDateCacheRepository.clearCache();
+
+        log.info("Fetching and caching reminder dates for the next 24 hours. Date: {}", today.format(formatter));
+
+        var reminderDates = reminderDateService.getReminderDatesForNext24h();
+        var reminderDateCaches = reminderDates.stream()
+                .map(reminderDateMapper::toCache)
+                .collect(Collectors.toSet());
+        reminderDateCacheRepository.addReminderDateCaches(reminderDateCaches);
+        log.info("Reminder dates for {} have been cached successfully. Number of records: {}",
+                today.format(formatter), reminderDateCaches.size());
+    }
 
 
     @Scheduled(fixedRate = 60000) // Check every minute
     public void checkUpcomingReminders() {
-        Set<ReminderDateCache> upcomingReminders = reminderDateCustomRepository.getReminderDatesForNextFifteenMinutes();
-        log.info("reminder scheduler checking for reminders in cache for the next 15 minutes...");
+        log.info("Reminder scheduler checking for reminder dates in cache for the next 15 minutes...");
 
-        // Handle upcoming reminders (e.g., send notifications)
+        Set<ReminderDateCache> upcomingReminders =
+                reminderDateCacheRepository.getReminderDateCachesForNextFifteenMinutes();
+
+        log.info("Fetched {} reminder dates", upcomingReminders.size());
+
         for (ReminderDateCache reminderDate : upcomingReminders) {
             // Process reminderDate
-//            notificationService.sendReminderNotification(reminderDate);
-            log.info("Checking upcoming reminder date: {}", reminderDate);
+            // send notification via notificationService
+            // get user details from user service (email) via userService
+            // get details about reminder/occasion/person
+            log.info("sent notification for reminder: {}", reminderDate.getId());
+            // remove reminderdate from database
         }
+
+        //todo manage failure on different steps
     }
 }

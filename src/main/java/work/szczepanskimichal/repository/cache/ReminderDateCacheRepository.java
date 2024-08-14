@@ -6,11 +6,16 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface ReminderDateCacheRepository {
-    void addReminderDate(ReminderDateCache reminderDate);
+
+    void addReminderDateCache(ReminderDateCache reminderDate);
+
+    void addReminderDateCaches(Set<ReminderDateCache> reminderDates);
 
     ReminderDateCache getReminderDateById(UUID id);
 
-    Set<ReminderDateCache> getReminderDatesForNextFifteenMinutes();
+    Set<ReminderDateCache> getReminderDateCachesForNextFifteenMinutes();
 
-    void removeReminderDate(UUID id);
+    void removeReminderDateCache(UUID id);
+
+    void clearCache();
 }

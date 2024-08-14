@@ -27,7 +27,7 @@ class ReminderDateCacheTest {
     private RedisTemplate<String, ReminderDateCache> redisTemplate;
 
     @Autowired
-    private ReminderDateCacheRepositoryImpl reminderDateCustomRepository;
+    private ReminderDateCacheRepositoryImpl reminderDateCacheRepository;
 
     private static final String reminderDatesKey = "reminderDates";
 
@@ -56,7 +56,7 @@ class ReminderDateCacheTest {
                 .date(date)
                 .build();
 
-        reminderDateCustomRepository.addReminderDate(reminderDateCache);
+        reminderDateCacheRepository.addReminderDateCache(reminderDateCache);
 
         Set<ReminderDateCache> reminders = redisTemplate.opsForZSet().rangeByScore(reminderDatesKey, date.getTime(),
                 date.getTime());
@@ -77,7 +77,7 @@ class ReminderDateCacheTest {
                 .date(date1)
                 .build();
 
-        reminderDateCustomRepository.addReminderDate(reminderDateCache1);
+        reminderDateCacheRepository.addReminderDateCache(reminderDateCache1);
 
         UUID id2 = UUID.randomUUID();
         UUID reminderId2 = UUID.randomUUID();
@@ -89,10 +89,10 @@ class ReminderDateCacheTest {
                 .date(date2)
                 .build();
 
-        reminderDateCustomRepository.addReminderDate(reminderDateCache2);
+        reminderDateCacheRepository.addReminderDateCache(reminderDateCache2);
 
         Set<ReminderDateCache> upcomingReminders =
-                reminderDateCustomRepository.getReminderDatesForNextFifteenMinutes();
+                reminderDateCacheRepository.getReminderDateCachesForNextFifteenMinutes();
 
         assertNotNull(upcomingReminders);
         assertTrue(upcomingReminders.contains(reminderDateCache1));
@@ -112,7 +112,7 @@ class ReminderDateCacheTest {
                     .date(date)
                     .build();
 
-            reminderDateCustomRepository.addReminderDate(reminderDateCache);
+            reminderDateCacheRepository.addReminderDateCache(reminderDateCache);
         }
 
         for (int i = 0; i < 5; i++) {
@@ -126,12 +126,12 @@ class ReminderDateCacheTest {
                     .date(date)
                     .build();
 
-            reminderDateCustomRepository.addReminderDate(reminderDateCache);
+            reminderDateCacheRepository.addReminderDateCache(reminderDateCache);
         }
 
         // Get reminders within the next 15 minutes
         Set<ReminderDateCache> upcomingReminders =
-                reminderDateCustomRepository.getReminderDatesForNextFifteenMinutes();
+                reminderDateCacheRepository.getReminderDateCachesForNextFifteenMinutes();
 
         assertNotNull(upcomingReminders);
         assertEquals(5, upcomingReminders.size());
@@ -158,9 +158,9 @@ class ReminderDateCacheTest {
                 .date(date)
                 .build();
 
-        reminderDateCustomRepository.addReminderDate(reminderDateCache);
+        reminderDateCacheRepository.addReminderDateCache(reminderDateCache);
 
-        reminderDateCustomRepository.removeReminderDate(id);
+        reminderDateCacheRepository.removeReminderDateCache(id);
 
         Set<ReminderDateCache> reminders = redisTemplate.opsForZSet().rangeByScore(reminderDatesKey, date.getTime(),
                 date.getTime());

@@ -6,6 +6,8 @@ import work.szczepanskimichal.mapper.ReminderDateMapper;
 import work.szczepanskimichal.model.reminder.date.ReminderDate;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class ReminderDateCacheService {
@@ -15,7 +17,10 @@ public class ReminderDateCacheService {
 
     public void cacheReminderDate(ReminderDate reminderDate) {
         var reminderDateCache = reminderMapper.toCache(reminderDate);
-        reminderDateCacheRepository.addReminderDate(reminderDateCache);
+        reminderDateCacheRepository.addReminderDateCache(reminderDateCache);
     }
 
+    public void removeReminderDateFromCache(UUID id) {
+        reminderDateCacheRepository.removeReminderDateCache(id);
+    }
 }
