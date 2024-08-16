@@ -3,7 +3,7 @@ package work.szczepanskimichal.model.reminder.date;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
@@ -11,6 +11,6 @@ import java.util.UUID;
 public class ReminderDateCreateDto {
 
     private UUID id;
-    private Date date;
+    private LocalDateTime date;
     private UUID reminderId;
 }

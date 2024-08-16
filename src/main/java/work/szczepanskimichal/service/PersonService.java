@@ -40,6 +40,11 @@ public class PersonService {
         return personRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
     }
 
+    public Person getPersonWithOccasionsAndRemindersByReminderDateId(UUID reminderDateId) {
+        return personRepository.findPersonWithOccasionsAndRemindersByReminderDateId(reminderDateId)
+                .orElseThrow(() -> new DataNotFoundException(reminderDateId));
+    }
+
     public List<PersonDto> getAllUserPersons() {
         var persons = personRepository.findAll();
         if (persons.isEmpty()) {

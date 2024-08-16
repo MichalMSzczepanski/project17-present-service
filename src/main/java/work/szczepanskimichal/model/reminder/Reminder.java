@@ -6,9 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import work.szczepanskimichal.model.occasion.Occasion;
 import work.szczepanskimichal.model.reminder.date.ReminderDate;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,6 +45,10 @@ public class Reminder {
     )
     private Set<ReminderDate> reminderDates;
 
-    @Column(nullable = false)
-    private boolean recurring;
+    @Enumerated(EnumType.STRING)
+    private RecurringPeriods recurring;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }

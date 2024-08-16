@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCache;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,16 +30,18 @@ public class ReminderDateCacheRepositoryImpl implements ReminderDateCacheReposit
 
     @Override
     public void addReminderDateCaches(Set<ReminderDateCache> reminderDates) {
-        // Use the RedisTemplate's ZSetOperations to add elements in bulk
         ZSetOperations<String, ReminderDateCache> zSetOps = redisTemplate.opsForZSet();
 
-        // Create a list of ZSetOperations.TypedTuple to hold the data
         Set<ZSetOperations.TypedTuple<ReminderDateCache>> tuples = reminderDates.stream()
                 .map(reminderDate -> new DefaultTypedTuple<>(reminderDate, (double) reminderDate.getDate().getTime()))
                 .collect(Collectors.toSet());
 
-        // Add all elements to the sorted set in one batch
         zSetOps.add(reminderDatesKey, tuples);
+    }
+
+    @Override
+    public Set<ReminderDateCache> getAllReminderDateCaches() {
+       return redisTemplate.opsForZSet().range(reminderDatesKey, 0, -1);
     }
 
     @Override
@@ -56,10 +59,11 @@ public class ReminderDateCacheRepositoryImpl implements ReminderDateCacheReposit
 
     @Override
     public Set<ReminderDateCache> getReminderDateCachesForNextFifteenMinutes() {
-        long currentTime = System.currentTimeMillis();
-        long fifteenMinutesLater = currentTime + 15 * 60 * 1000; // 15 minutes in milliseconds
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date fifteenMinutesLaterDate = new Date(System.currentTimeMillis() + 15 * 60 * 1000);
+
         return redisTemplate.opsForZSet()
-                .rangeByScore(reminderDatesKey, currentTime, fifteenMinutesLater);
+                .rangeByScore(reminderDatesKey, currentDate.getTime(), fifteenMinutesLaterDate.getTime());
     }
 
     @Override

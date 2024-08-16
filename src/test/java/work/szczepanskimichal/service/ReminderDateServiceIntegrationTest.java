@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import redis.embedded.RedisServer;
+import work.szczepanskimichal.model.reminder.RecurringPeriods;
 import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepositoryImpl;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
@@ -15,9 +16,7 @@ import work.szczepanskimichal.service.assembler.ReminderAssembler;
 import work.szczepanskimichal.service.assembler.ReminderDateAssembler;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,8 +40,8 @@ class ReminderDateServiceIntegrationTest {
     final String PERSON_LASTNAME = "personLastName";
     final String OCCASION_NAME = "occasionName";
     final String REMINDER_NAME = "reminderName";
-    final Date REMINDER_DATE_DATE = Date.from(Instant.now());
-    final Date REMINDER_DATE_DATE_UPDATED = Date.from(Instant.now().plusSeconds(100));
+    final LocalDateTime REMINDER_DATE_DATE = LocalDateTime.now();
+    final LocalDateTime REMINDER_DATE_DATE_UPDATED = LocalDateTime.now().plusSeconds(100);
     final LocalDateTime NOW = LocalDateTime.now();
 
     @Autowired
@@ -68,7 +67,7 @@ class ReminderDateServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, false,
+        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
                 persistedOccasion.getId());
         var persistedReminder = reminderService.createReminder(reminderCreateDtoOne);
         var reminderDateCreateDto = ReminderDateAssembler.AssembleReminderDateCreateDto(REMINDER_DATE_DATE,
@@ -101,7 +100,7 @@ class ReminderDateServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, false,
+        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
                 persistedOccasion.getId());
         var persistedReminder = reminderService.createReminder(reminderCreateDtoOne);
         var reminderDateCreateDto = ReminderDateAssembler.AssembleReminderDateCreateDto(REMINDER_DATE_DATE,

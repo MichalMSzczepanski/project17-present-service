@@ -1,36 +1,18 @@
 logic:
   - lorem
 semantics:
-  - update ReminderDateServiceIntegrationTest to check cached data
-  - update logic in reminderdate job (generally just started)
-  - earliest reminder next day after midnight
-  - add redis
-    - add singleton for daily checking and storing of reminders in redis (currently checking reddis each 15 minutes, singleton is better)
-  - trigger reminders with scheduled job each minute
-    - one a reminder is triggered, update it in the database
-      - do this async so that response is not required (CompletableFuture onSuccess onFailure)
-      - create a pojo singleton for storing failed db transactions for future update/ deletion
-    - mock sending an email once the reminder is triggered
+  - test jobs
+  - endpoints tests
+  - communicate with user-service to get user details for sending email about reminders
   - kafka with notification-service for sending reminder emails
     - introduce external library configuration
   - add controller read-only for checking redis pojo with reminders
   - create pojo form managing reminders frequency (?); check if recurring
-  - PersonDto contains OccasionDto contains PresentDto contains ReminderDto contains ReminderDateDto
-  - exceptions
-  - additional tests
-    - full crud for each entity
-    - edge case tests with cascading removals
   - add logging for creating/ updating/ deleting entities
   - switch to testcontainers with embedded redis
-  - occasion, reminder relationships with person (bidirectional):
-      - scenarios:
-          - i want to save an occasion to a person id
-          - i want to save a reminder to an occasion id
   - entities with relationships - person, occasion, present + reminders about occasions:
       - present type IDEA once purchased has type changed to PURCHASED
-  - communication with user service
 config:
-  - ensure users manage their own data in service (filter via aspects like in user-service)
 git:
   - lorem
 

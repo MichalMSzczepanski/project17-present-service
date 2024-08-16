@@ -11,6 +11,8 @@ public interface ReminderDateCacheRepository {
 
     void addReminderDateCaches(Set<ReminderDateCache> reminderDates);
 
+    Set<ReminderDateCache> getAllReminderDateCaches();
+
     ReminderDateCache getReminderDateById(UUID id);
 
     Set<ReminderDateCache> getReminderDateCachesForNextFifteenMinutes();

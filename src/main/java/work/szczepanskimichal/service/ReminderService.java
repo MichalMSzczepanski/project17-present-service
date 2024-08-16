@@ -1,6 +1,7 @@
 package work.szczepanskimichal.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.exception.DataNotFoundException;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReminderService {
 
     private final ReminderRepository reminderRepository;
@@ -62,6 +64,7 @@ public class ReminderService {
         var reminder = reminderRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
         validationService.validateOwner(reminder.getOwner(), userContext);
         reminderRepository.deleteById(id);
+        log.info("deleted reminder: {}", reminder.getId());
     }
 
 }

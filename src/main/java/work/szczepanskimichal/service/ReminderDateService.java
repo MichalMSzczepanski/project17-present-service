@@ -11,6 +11,9 @@ import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
 import work.szczepanskimichal.repository.ReminderDateRepository;
 import work.szczepanskimichal.service.cache.ReminderDateCacheService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -23,6 +26,7 @@ public class ReminderDateService {
     private final ReminderDateCacheService reminderDateCacheService;
 
     public ReminderDateDto createReminderDate(ReminderDateCreateDto reminderCreateDto) {
+        //todo validate if reminder is set to trigger at least next midnight
         var parentReminder = reminderService.getReminderById(reminderCreateDto.getReminderId());
         var reminder = reminderMapper.toEntity(reminderCreateDto)
                 .toBuilder()
@@ -37,21 +41,10 @@ public class ReminderDateService {
     }
 
     public Set<ReminderDate> getReminderDatesForNext24h() {
-        Calendar calendar = Calendar.getInstance();
-
-        // Start of the day
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        Date startOfDay = calendar.getTime();
-
-        // End of the day
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        Date endOfDay = calendar.getTime();
-
-        // Fetch the reminders from the repository
+        var startOfDay = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
+        var endOfDay = startOfDay.plusDays(1);
         return reminderDateRepository.getReminderDatesForNext24h(startOfDay, endOfDay);
+
     }
 
     public List<ReminderDateDto> getReminderDatesByReminder(UUID id) {
@@ -65,16 +58,19 @@ public class ReminderDateService {
     }
 
     public ReminderDateDto updateReminderDate(ReminderDateUpdateDto reminderDto) {
-        if (isDateSetUntilMidnight(reminderDto.getDate())) {
+        if (isDateSetUntilMidnight(Date.from((reminderDto.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
             reminderDateCacheService.removeReminderDateFromCache(reminderDto.getId());
         }
         var reminderDate = reminderMapper.toEntity(reminderDto);
         return reminderMapper.toDto(reminderDateRepository.save(reminderDate));
     }
 
-    public void deleteReminderDate(UUID reminderDateId) {
-        reminderDateCacheService.removeReminderDateFromCache(reminderDateId);
-        reminderDateRepository.deleteById(reminderDateId);
+    public void deleteReminderDate(UUID id) {
+        var reminder = reminderDateRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
+        if (isDateSetUntilMidnight(Date.from((reminder.getDate().atZone(ZoneId.systemDefault()).toInstant()))))  {
+            reminderDateCacheService.removeReminderDateFromCache(reminder.getId());
+        }
+        reminderDateRepository.deleteById(id);
     }
 
     public static boolean isDateSetUntilMidnight(Date date) {

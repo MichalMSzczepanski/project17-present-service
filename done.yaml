@@ -1,5 +1,6 @@
 logic:
 semantics:
+  28 fix date issues with redis
   27 fetch reminderDates for next 24h, populate redis with them, ping redis each 15 minutes for upcoming reminders, manage dummy logic for each reminder
   26 introduce redis with tests
   25 introduce DataNotFoundException for validating if fetched entities exist
