@@ -46,6 +46,7 @@ public class PersonService {
     }
 
     public List<PersonDto> getAllUserPersons() {
+        //todo fetch only user persons, currently all
         var persons = personRepository.findAll();
         if (persons.isEmpty()) {
             throw new DataNotFoundException();
@@ -63,6 +64,7 @@ public class PersonService {
     }
 
     public void deletePersonById(UUID id) {
+        //todo you can only delete your own user, get details from user context
         var person = personRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
         validationService.validateOwner(person.getOwner(), userContext);
         personRepository.deleteById(id);

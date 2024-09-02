@@ -12,3 +12,7 @@ spring:
     redis:
       host: redis
       port: 6379
+
+services:
+  address:
+    user: "http://user-service:8080"

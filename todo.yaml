@@ -1,7 +1,8 @@
 logic:
   - lorem
 semantics:
-  - test jobs
+  - continue creating reminder date with details
+  - write tests for jobs
   - endpoints tests
   - communicate with user-service to get user details for sending email about reminders
   - kafka with notification-service for sending reminder emails

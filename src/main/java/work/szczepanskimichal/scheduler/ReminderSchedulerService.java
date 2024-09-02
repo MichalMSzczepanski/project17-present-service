@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import work.szczepanskimichal.exception.UserNotFoundException;
+import work.szczepanskimichal.feign.UserServiceFeignClient;
 import work.szczepanskimichal.mapper.ReminderDateMapper;
 import work.szczepanskimichal.model.reminder.date.ReminderDateCache;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepository;
@@ -26,6 +28,7 @@ public class ReminderSchedulerService {
     private final ReminderDateMapper reminderDateMapper;
     private final PersonService personService;
     private final ReminderService reminderService;
+    private final UserServiceFeignClient userServiceFeignClient;
 
     //    @Scheduled(cron = "1 0 0 * * *") correct
     @Scheduled(cron = "1 */2 * * * *") // for tests
@@ -33,11 +36,11 @@ public class ReminderSchedulerService {
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+        log.info("Fetching and caching reminder dates for the next 24 hours. Date: {}", today.format(formatter));
         log.info("Purging cache for {} entries", today.format(formatter));
 
         reminderDateCacheRepository.clearCache();
 
-        log.info("Fetching and caching reminder dates for the next 24 hours. Date: {}", today.format(formatter));
 
         var reminderDates = reminderDateService.getReminderDatesForNext24h();
         var reminderDateCaches = reminderDates.stream()
@@ -55,7 +58,7 @@ public class ReminderSchedulerService {
     //    @Scheduled(cron = "1 */15 * * * *")  correct
     @Scheduled(cron = "1 * * * * *") // for tests
     public void checkUpcomingReminders() {
-        log.info("Reminder scheduler checking for reminder dates in cache for the next 15 minutes...");
+        log.info("Checking for reminder dates in cache for the next 15 minutes...");
 
         Set<ReminderDateCache> upcomingReminders =
                 reminderDateCacheRepository.getReminderDateCachesForNextFifteenMinutes();
@@ -63,16 +66,17 @@ public class ReminderSchedulerService {
         log.info("Fetched {} reminder dates", upcomingReminders.size());
 
         for (ReminderDateCache reminderDate : upcomingReminders) {
+
             log.info("processing reminder date: {}", reminderDate);
-            // get details about occasion and it's parent person
             var person = personService.getPersonWithOccasionsAndRemindersByReminderDateId(reminderDate.getId());
             log.info("fetched details for reminder: {}", person);
-            // get user details from user service (email) via userService
-            log.info("TBD - going to fetch user details for notification instructions");
+            var userCommsDto = userServiceFeignClient.getUserComms(person.getOwner()).orElseThrow(() -> new UserNotFoundException(person.getOwner()));
+            log.info("fetched user details for communication: {}", userCommsDto);
             // send notification via notificationService
             log.info("TBD - sent notification for reminder: {}", reminderDate.getId());
             // remove reminderdate from database
             reminderDateService.deleteReminderDate(reminderDate.getId());
+            //remove reminderdate from cache
         }
 
         //todo manage failure on different steps
