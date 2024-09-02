@@ -12,6 +12,7 @@ import work.szczepanskimichal.repository.cache.ReminderDateCacheRepository;
 import work.szczepanskimichal.service.PersonService;
 import work.szczepanskimichal.service.ReminderDateService;
 import work.szczepanskimichal.service.ReminderService;
+import work.szczepanskimichal.service.notification.NotificationService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,8 +28,8 @@ public class ReminderSchedulerService {
     private final ReminderDateService reminderDateService;
     private final ReminderDateMapper reminderDateMapper;
     private final PersonService personService;
-    private final ReminderService reminderService;
     private final UserServiceFeignClient userServiceFeignClient;
+    private final NotificationService notificationService;
 
     //    @Scheduled(cron = "1 0 0 * * *") correct
     @Scheduled(cron = "1 */2 * * * *") // for tests
@@ -72,10 +73,11 @@ public class ReminderSchedulerService {
             log.info("fetched details for reminder: {}", person);
             var userCommsDto = userServiceFeignClient.getUserComms(person.getOwner()).orElseThrow(() -> new UserNotFoundException(person.getOwner()));
             log.info("fetched user details for communication: {}", userCommsDto);
-            // send notification via notificationService
-            log.info("TBD - sent notification for reminder: {}", reminderDate.getId());
+            notificationService.sendReminderMessage(userCommsDto.getEmail(), person);
+            log.info("dispatched notification for reminder: {} to: {}", reminderDate, userCommsDto.getEmail());
             // remove reminderdate from database
             reminderDateService.deleteReminderDate(reminderDate.getId());
+            //check recurrance of reminder if we need to set a new date
             //remove reminderdate from cache
         }
 

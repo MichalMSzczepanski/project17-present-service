@@ -10,7 +10,6 @@ import work.szczepanskimichal.model.occasion.OccasionCreateDto;
 import work.szczepanskimichal.model.occasion.OccasionDto;
 import work.szczepanskimichal.model.occasion.OccasionUpdateDto;
 import work.szczepanskimichal.repository.OccasionRepository;
-import work.szczepanskimichal.service.util.ValidationService;
 
 import java.util.List;
 import java.util.UUID;
