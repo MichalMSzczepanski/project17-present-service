@@ -14,6 +14,8 @@ public abstract class ReminderDateMapper {
     public abstract ReminderDate toEntity(ReminderDateCreateDto reminderDateCreateDto);
     @Mapping(target = "reminder.id", source = "reminderId")
     public abstract ReminderDate toEntity(ReminderDateUpdateDto reminderDateCreateDto);
+    @Mapping(target = "reminder.id", source = "reminderId")
+    public abstract ReminderDate toEntity(ReminderDateDto persistedReminderDateDto);
     @Mapping(target = "reminderId", source = "reminder.id")
     public abstract ReminderDateDto toDto(ReminderDate reminderDate);
 
@@ -30,4 +32,5 @@ public abstract class ReminderDateMapper {
         long offset = TimeZone.getDefault().getOffset(date.getTime());
         return new Date(date.getTime() - offset);
     }
+
 }

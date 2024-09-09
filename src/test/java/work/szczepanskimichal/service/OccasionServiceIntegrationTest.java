@@ -35,7 +35,6 @@ class OccasionServiceIntegrationTest {
     final String OCCASION_UPDATED_NAME = "occasionUpdatedName";
     final LocalDateTime NOW = LocalDateTime.now();
 
-
     @Test
     void shouldCreatePerson_withMultipleOccasions() {
 

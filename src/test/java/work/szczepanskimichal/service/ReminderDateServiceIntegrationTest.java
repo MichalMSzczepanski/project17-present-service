@@ -6,16 +6,13 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import redis.embedded.RedisServer;
 import work.szczepanskimichal.model.reminder.RecurringPeriods;
 import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
-import work.szczepanskimichal.repository.cache.ReminderDateCacheRepositoryImpl;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
 import work.szczepanskimichal.service.assembler.PersonAssembler;
 import work.szczepanskimichal.service.assembler.ReminderAssembler;
 import work.szczepanskimichal.service.assembler.ReminderDateAssembler;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,21 +41,6 @@ class ReminderDateServiceIntegrationTest {
     final LocalDateTime REMINDER_DATE_DATE_UPDATED = LocalDateTime.now().plusSeconds(100);
     final LocalDateTime NOW = LocalDateTime.now();
 
-    @Autowired
-    private ReminderDateCacheRepositoryImpl reminderDateCacheRepositoryImpl;
-
-    private RedisServer redisServer;
-    @BeforeEach
-    public void setUp() throws IOException {
-        redisServer = new RedisServer(6379);
-        redisServer.start();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        redisServer.stop();
-    }
-
     @Test
     void shouldCreatePerson_withOccasion_withReminder_withReminderDate() {
 
@@ -83,13 +65,6 @@ class ReminderDateServiceIntegrationTest {
         assertNotNull(reminderDate);
         assertEquals(persistedReminderDateDto.getReminderId(), reminderDate.getReminderId());
 
-//        //and then
-//        ReminderDateCache cachedReminderDate =
-//                reminderDateCacheRepositoryImpl.getReminderDateById(persistedReminderDateDto.getId());
-//        assertNotNull(cachedReminderDate);
-//        assertEquals(persistedReminderDateDto.getId(), cachedReminderDate.getId());
-//        assertEquals(persistedReminderDateDto.getDate(), cachedReminderDate.getDate());
-//        assertEquals(persistedReminderDateDto.getReminderId(), cachedReminderDate.getReminderId());
     }
 
     @Test

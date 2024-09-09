@@ -45,7 +45,6 @@ class PersonServiceIntegrationTest {
     final String PRESENT_DESCRIPTION = "presentIdeaDescription";
     final LocalDateTime NOW = LocalDateTime.now();
 
-
     @Test
     void shouldCreatePerson_withOccasion_withPresent() {
         //given

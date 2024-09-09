@@ -16,7 +16,7 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
             "JOIN FETCH p.occasions o " +
             "JOIN FETCH o.reminders r " +
             "JOIN FETCH r.reminderDates rd " +
-            "JOIN FETCH o.presentIdeas pi " + // Added to fetch presentIdeas
+            "LEFT JOIN FETCH o.presentIdeas pi " +
             "WHERE rd.id = :reminderDateId")
     Optional<Person> findPersonWithOccasionsAndRemindersByReminderDateId(@Param("reminderDateId") UUID reminderDateId);
 
