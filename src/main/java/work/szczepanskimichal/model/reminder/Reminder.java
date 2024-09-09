@@ -46,7 +46,7 @@ public class Reminder {
     private Set<ReminderDate> reminderDates;
 
     @Enumerated(EnumType.STRING)
-    private RecurringPeriods recurring;
+    private Recurrence recurring;
 
     @CreationTimestamp
     @Column(name = "created_at")

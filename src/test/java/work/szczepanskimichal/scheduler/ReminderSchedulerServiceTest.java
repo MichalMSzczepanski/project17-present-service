@@ -10,13 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import redis.embedded.RedisServer;
 import work.szczepanskimichal.mapper.ReminderDateMapperImpl;
-import work.szczepanskimichal.model.reminder.RecurringPeriods;
+import work.szczepanskimichal.model.reminder.Recurrence;
 import work.szczepanskimichal.model.user.UserCommsDto;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepositoryImpl;
 import work.szczepanskimichal.service.OccasionService;
 import work.szczepanskimichal.service.PersonService;
-import work.szczepanskimichal.service.ReminderDateService;
-import work.szczepanskimichal.service.ReminderService;
+import work.szczepanskimichal.service.reminder.ReminderDateService;
+import work.szczepanskimichal.service.reminder.ReminderService;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
 import work.szczepanskimichal.service.assembler.PersonAssembler;
 import work.szczepanskimichal.service.assembler.ReminderAssembler;
@@ -78,7 +78,7 @@ class ReminderSchedulerServiceTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
+        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, Recurrence.NON,
                 persistedOccasion.getId());
         var persistedReminder = reminderService.createReminder(reminderCreateDtoOne);
         var reminderDateCreateDto = ReminderDateAssembler.AssembleReminderDateCreateDto(REMINDER_DATE_DATE,

@@ -1,4 +1,4 @@
-package work.szczepanskimichal.service;
+package work.szczepanskimichal.service.reminder;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -87,4 +87,5 @@ public class ReminderDateService {
         long midnightTime = calendar.getTimeInMillis();
         return time <= midnightTime;
     }
+
 }

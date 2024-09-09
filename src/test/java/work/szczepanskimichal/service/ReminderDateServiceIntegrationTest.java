@@ -6,12 +6,14 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import work.szczepanskimichal.model.reminder.RecurringPeriods;
+import work.szczepanskimichal.model.reminder.Recurrence;
 import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
 import work.szczepanskimichal.service.assembler.PersonAssembler;
 import work.szczepanskimichal.service.assembler.ReminderAssembler;
 import work.szczepanskimichal.service.assembler.ReminderDateAssembler;
+import work.szczepanskimichal.service.reminder.ReminderDateService;
+import work.szczepanskimichal.service.reminder.ReminderService;
 
 import java.time.LocalDateTime;
 
@@ -49,7 +51,7 @@ class ReminderDateServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
+        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, Recurrence.NON,
                 persistedOccasion.getId());
         var persistedReminder = reminderService.createReminder(reminderCreateDtoOne);
         var reminderDateCreateDto = ReminderDateAssembler.AssembleReminderDateCreateDto(REMINDER_DATE_DATE,
@@ -75,7 +77,7 @@ class ReminderDateServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
+        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, Recurrence.NON,
                 persistedOccasion.getId());
         var persistedReminder = reminderService.createReminder(reminderCreateDtoOne);
         var reminderDateCreateDto = ReminderDateAssembler.AssembleReminderDateCreateDto(REMINDER_DATE_DATE,

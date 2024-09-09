@@ -12,5 +12,5 @@ public class ReminderCreateDto {
     private UUID owner;
     private String name;
     private UUID occasionId;
-    private RecurringPeriods recurring;
+    private Recurrence recurring;
 }

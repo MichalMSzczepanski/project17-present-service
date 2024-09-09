@@ -1,6 +1,6 @@
 package work.szczepanskimichal.service.assembler;
 
-import work.szczepanskimichal.model.reminder.RecurringPeriods;
+import work.szczepanskimichal.model.reminder.Recurrence;
 import work.szczepanskimichal.model.reminder.ReminderCreateDto;
 
 import java.util.UUID;
@@ -8,7 +8,7 @@ import java.util.UUID;
 public abstract class ReminderAssembler {
 
     public static ReminderCreateDto AssembleReminderCreateDto(String name,
-                                                              RecurringPeriods recurring,
+                                                              Recurrence recurring,
                                                               UUID occasionId) {
         return ReminderCreateDto.builder()
                 .owner(UUID.randomUUID())

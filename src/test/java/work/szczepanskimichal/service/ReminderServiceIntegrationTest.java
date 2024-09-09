@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import work.szczepanskimichal.context.UserContext;
-import work.szczepanskimichal.model.reminder.RecurringPeriods;
+import work.szczepanskimichal.model.reminder.Recurrence;
 import work.szczepanskimichal.model.reminder.ReminderUpdateDto;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
 import work.szczepanskimichal.service.assembler.PersonAssembler;
 import work.szczepanskimichal.service.assembler.ReminderAssembler;
+import work.szczepanskimichal.service.reminder.ReminderService;
 
 import java.time.LocalDateTime;
 
@@ -47,10 +48,10 @@ class ReminderServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
+        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, Recurrence.NON,
                 persistedOccasion.getId());
         reminderService.createReminder(reminderCreateDtoOne);
-        var reminderCreateDtoTwo = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
+        var reminderCreateDtoTwo = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, Recurrence.NON,
                 persistedOccasion.getId());
         reminderService.createReminder(reminderCreateDtoTwo);
 
@@ -70,7 +71,7 @@ class ReminderServiceIntegrationTest {
         var persistedPerson = personService.createPerson(personCreateDto);
         var occasionCreateDto = OccasionAssembler.assembleOccasion(OCCASION_NAME, NOW, persistedPerson.getId());
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
-        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, RecurringPeriods.NON,
+        var reminderCreateDtoOne = ReminderAssembler.AssembleReminderCreateDto(REMINDER_NAME, Recurrence.NON,
                 persistedOccasion.getId());
         var reminder = reminderService.createReminder(reminderCreateDtoOne);
         var reminderUpdateDto = ReminderUpdateDto.builder()

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import work.szczepanskimichal.model.reminder.ReminderCreateDto;
 import work.szczepanskimichal.model.reminder.ReminderDto;
 import work.szczepanskimichal.model.reminder.ReminderUpdateDto;
-import work.szczepanskimichal.service.ReminderService;
+import work.szczepanskimichal.service.reminder.ReminderService;
 
 import java.util.List;
 import java.util.UUID;
