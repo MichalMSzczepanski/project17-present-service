@@ -1,7 +1,6 @@
 package work.szczepanskimichal.service.reminder;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.ReminderDateMapper;
@@ -29,7 +28,7 @@ public class ReminderDateService {
 
     public ReminderDateDto createReminderDate(ReminderDateCreateDto reminderCreateDto) {
         //commented out ofr testing purposes
-//        if (isDateSetUntilMidnight(reminderCreateDto.getDate())) {
+//        if (isDateSetUntilMidnightWithQuarterHourCheck(reminderCreateDto.getDate())) {
 //            throw new IllegalIdentifierException("Date has to be set after midnight");
 //        }
         var parentReminder = reminderService.getReminderById(reminderCreateDto.getReminderId());
@@ -63,7 +62,7 @@ public class ReminderDateService {
     }
 
     public ReminderDateDto updateReminderDate(ReminderDateUpdateDto reminderDto) {
-        if (isDateSetUntilMidnight(Date.from((reminderDto.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
+        if (isDateSetUntilMidnightWithQuarterHourCheck(Date.from((reminderDto.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
             reminderDateCacheService.removeReminderDateFromCache(reminderDto.getId());
         }
         var reminderDate = reminderMapper.toEntity(reminderDto);
@@ -72,37 +71,48 @@ public class ReminderDateService {
 
     public void deleteReminderDate(UUID id) {
         var reminder = reminderDateRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
-        if (isDateSetUntilMidnight(Date.from((reminder.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
+        if (isDateSetUntilMidnightWithQuarterHourCheck(Date.from((reminder.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
             reminderDateCacheService.removeReminderDateFromCache(reminder.getId());
         }
         reminderDateRepository.deleteById(id);
     }
 
-    public static boolean isDateSetUntilMidnight(Date date) {
+    public static boolean isDateSetUntilMidnightWithQuarterHourCheck(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("Date cannot be null");
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+
+        int minutes = calendar.get(Calendar.MINUTE);
+        if (minutes != 0 && minutes != 15 && minutes != 30 && minutes != 45) {
+            return false;
+        }
+
         long time = calendar.getTimeInMillis();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         long midnightTime = calendar.getTimeInMillis();
+
         return time <= midnightTime;
     }
 
-    public static boolean isDateSetUntilMidnight(LocalDateTime localDateTime) {
+    public static boolean isDateSetUntilMidnightWithQuarterHourCheck(LocalDateTime localDateTime) {
         if (localDateTime == null) {
             throw new IllegalArgumentException("LocalDateTime cannot be null");
         }
 
-        // Get the time from the LocalDateTime object
         LocalTime time = localDateTime.toLocalTime();
+        int minutes = time.getMinute();
 
-        // Check if the time is before or equal to midnight (00:00:00)
+        if (minutes != 0 && minutes != 15 && minutes != 30 && minutes != 45) {
+            return false;
+        }
+
         return !time.isAfter(LocalTime.MIDNIGHT);
     }
+
 
 }

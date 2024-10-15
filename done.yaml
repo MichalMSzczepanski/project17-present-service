@@ -1,5 +1,6 @@
 logic:
 semantics:
+  32 update process of reminderdate triggering (message, triggering, tests, recurrence of reminderdates)
   30 introduce tests for scheduler
   29 introduce feing client
   28 fix date issues with redis
