@@ -1,6 +1,9 @@
 logic:
   - lorem
 semantics:
+  - add wiremock to test reminderSchedulerService jobs
+  - write JS test to check reminderSchedulerService jobs
+  - upon creating entities, fetch OWNER from usercontext, don't allow declarative setting of field "owner"
   - continue creating reminder date with details
   - write tests for jobs
   - endpoints tests

@@ -32,8 +32,7 @@ public class ReminderSchedulerService {
     private final UserServiceFeignClient userServiceFeignClient;
     private final NotificationService notificationService;
 
-    //    @Scheduled(cron = "1 0 0 * * *") correct
-    @Scheduled(cron = "1 */2 * * * *") // for tests
+    @Scheduled(cron = "1 0 0 * * *")
     public void getReminderDateCachesForNext24h() {
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -42,7 +41,6 @@ public class ReminderSchedulerService {
         log.info("Purging cache for {} entries", today.format(formatter));
 
         reminderDateCacheService.clearCache();
-
 
         var reminderDates = reminderDateService.getReminderDatesForNext24h();
         var reminderDateCaches = reminderDates.stream()
@@ -57,8 +55,7 @@ public class ReminderSchedulerService {
                 today.format(formatter), reminderDateCaches.size());
     }
 
-    //    @Scheduled(cron = "1 */15 * * * *")  correct
-    @Scheduled(cron = "1 * * * * *") // for tests
+    @Scheduled(cron = "1 */15 * * * *")
     public void checkUpcomingReminders() {
         log.info("Checking for reminder dates in cache for the next 15 minutes...");
 
@@ -76,8 +73,8 @@ public class ReminderSchedulerService {
             log.info("fetched user details for communication: {}", userCommsDto);
             notificationService.sendReminderMessage(userCommsDto.getEmail(), person);
             log.info("dispatched notification for reminder: {} to: {}", reminderDateCache, userCommsDto.getEmail());
-            reminderRecurrenceService.manageReminderRecurrence(reminderDateCache.getReminderId(), reminderDateCache.getDate());
             reminderDateService.deleteReminderDate(reminderDateCache.getId());
+            reminderRecurrenceService.manageReminderRecurrence(reminderDateCache.getReminderId(), reminderDateCache.getDate());
             log.info("deleted successfully processed reminder date: {}", reminderDateCache.getId());
             reminderDateCacheService.removeReminderDateFromCache(reminderDateCache.getId());
             log.info("deleted successfully processed reminder date cache: {} from cache", reminderDateCache.getId());

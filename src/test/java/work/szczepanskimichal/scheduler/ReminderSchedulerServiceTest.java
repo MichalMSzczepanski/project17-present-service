@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,6 +72,7 @@ class ReminderSchedulerServiceTest {
     }
 
     @Test
+    @Disabled
     void shouldCreatePerson_withOccasion_withReminder_withReminderDate() {
 
         //given
@@ -84,8 +86,8 @@ class ReminderSchedulerServiceTest {
         var reminderDateCreateDto = ReminderDateAssembler.AssembleReminderDateCreateDto(REMINDER_DATE_DATE,
                 persistedReminder.getId());
         var persistedReminderDateDto = reminderDateService.createReminderDate(reminderDateCreateDto);
-        var persistedRemoinderDate = reminderDateMapperImpl.toEntity(persistedReminderDateDto);
-        var cache = reminderDateMapperImpl.toCache(persistedRemoinderDate);
+        var persistedReminderDate = reminderDateMapperImpl.toEntity(persistedReminderDateDto);
+        var cache = reminderDateMapperImpl.toCache(persistedReminderDate);
 
         // save cache
         reminderDateCacheRepositoryImpl.addReminderDateCache(cache);

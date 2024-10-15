@@ -17,6 +17,6 @@ public enum Recurrence {
     }
 
     public LocalDateTime applyStrategy(LocalDateTime dateTime) {
-        return strategy.calculateNextReminder(dateTime);
+        return strategy.calculateNextReminderDate(dateTime);
     }
 }

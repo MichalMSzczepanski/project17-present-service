@@ -5,7 +5,7 @@ import java.util.UUID;
 public class DataNotFoundException extends RuntimeException {
 
     public DataNotFoundException() {
-        super(String.format("No data of type %s not found", getEntityName()));
+        super(String.format("No data of type %s found", getEntityName()));
     }
 
     public DataNotFoundException(UUID id) {

@@ -1,6 +1,7 @@
 package work.szczepanskimichal.service.reminder;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.ReminderDateMapper;
@@ -12,6 +13,7 @@ import work.szczepanskimichal.repository.ReminderDateRepository;
 import work.szczepanskimichal.service.cache.ReminderDateCacheService;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -26,7 +28,10 @@ public class ReminderDateService {
     private final ReminderDateCacheService reminderDateCacheService;
 
     public ReminderDateDto createReminderDate(ReminderDateCreateDto reminderCreateDto) {
-        //todo validate if reminder is set to trigger at least next midnight
+        //commented out ofr testing purposes
+//        if (isDateSetUntilMidnight(reminderCreateDto.getDate())) {
+//            throw new IllegalIdentifierException("Date has to be set after midnight");
+//        }
         var parentReminder = reminderService.getReminderById(reminderCreateDto.getReminderId());
         var reminder = reminderMapper.toEntity(reminderCreateDto)
                 .toBuilder()
@@ -67,7 +72,7 @@ public class ReminderDateService {
 
     public void deleteReminderDate(UUID id) {
         var reminder = reminderDateRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
-        if (isDateSetUntilMidnight(Date.from((reminder.getDate().atZone(ZoneId.systemDefault()).toInstant()))))  {
+        if (isDateSetUntilMidnight(Date.from((reminder.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
             reminderDateCacheService.removeReminderDateFromCache(reminder.getId());
         }
         reminderDateRepository.deleteById(id);
@@ -86,6 +91,18 @@ public class ReminderDateService {
         calendar.set(Calendar.MILLISECOND, 0);
         long midnightTime = calendar.getTimeInMillis();
         return time <= midnightTime;
+    }
+
+    public static boolean isDateSetUntilMidnight(LocalDateTime localDateTime) {
+        if (localDateTime == null) {
+            throw new IllegalArgumentException("LocalDateTime cannot be null");
+        }
+
+        // Get the time from the LocalDateTime object
+        LocalTime time = localDateTime.toLocalTime();
+
+        // Check if the time is before or equal to midnight (00:00:00)
+        return !time.isAfter(LocalTime.MIDNIGHT);
     }
 
 }

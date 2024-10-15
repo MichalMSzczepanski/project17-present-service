@@ -4,6 +4,6 @@ import java.time.LocalDateTime;
 
 public interface RecurrenceStrategy {
 
-    LocalDateTime calculateNextReminder(LocalDateTime dateTime);
+    LocalDateTime calculateNextReminderDate(LocalDateTime dateTime);
 
 }

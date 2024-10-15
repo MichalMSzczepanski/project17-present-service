@@ -17,9 +17,9 @@ public class NotificationService {
 
     public void sendReminderMessage(String userEmail, Person person) {
         var parameters = new HashMap<String, String>();
-        parameters.put("person", String.valueOf(person.getName() + " " + person.getLastname()));
-//        parameters.put("occasion", person.getOccasions().stream().findFirst());
-        //
+        parameters.put("person", person.getName() + " " + person.getLastname());
+        parameters.put("occasion", person.getOccasions().stream().findFirst().get().getName());
+        parameters.put("date", person.getOccasions().stream().findFirst().get().getDate().toString());
         var notification = Notification.builder()
                 .addressee(userEmail)
                 .type(NotificationType.EMAIL)
