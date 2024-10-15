@@ -77,6 +77,10 @@ public class ReminderDateService {
         reminderDateRepository.deleteById(id);
     }
 
+    public void deleteExpiredReminderDates() {
+        reminderDateRepository.deleteReminderDatesByDateBefore(LocalDateTime.now());
+    }
+
     public static boolean isDateSetUntilMidnightWithQuarterHourCheck(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("Date cannot be null");

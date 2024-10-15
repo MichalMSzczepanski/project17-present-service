@@ -78,11 +78,11 @@ public class ReminderSchedulerService {
             log.info("deleted successfully processed reminder date: {}", reminderDateCache.getId());
             reminderDateCacheService.removeReminderDateFromCache(reminderDateCache.getId());
             log.info("deleted successfully processed reminder date cache: {} from cache", reminderDateCache.getId());
-
         }
-
-        //todo manage failure on different steps
     }
 
-    //todo scheduled action for removing old, not triggered reminders
+    @Scheduled(cron = "0 0 0 * * *")
+    public void deleteExpiredReminderDates() {
+        reminderDateService.deleteExpiredReminderDates();
+    }
 }

@@ -21,4 +21,6 @@ public interface ReminderDateRepository extends JpaRepository<ReminderDate, UUID
     Set<ReminderDate> getReminderDatesForNext24h(
             @Param("startOfDay") LocalDateTime startOfDay,
             @Param("endOfDay") LocalDateTime endOfDay);
+
+    void deleteReminderDatesByDateBefore(LocalDateTime date);
 }
