@@ -53,9 +53,10 @@ public class ReminderSchedulerService {
         reminderDateCacheService.addReminderDateCaches(reminderDateCaches);
         log.info("Reminder dates for {} have been cached successfully. Number of records: {}",
                 today.format(formatter), reminderDateCaches.size());
+        checkUpcomingReminders();
     }
 
-    @Scheduled(cron = "1 */15 * * * *")
+    @Scheduled(cron = "1 15-59/15 * * * *")
     public void checkUpcomingReminders() {
         log.info("Checking for reminder dates in cache for the next 15 minutes...");
 

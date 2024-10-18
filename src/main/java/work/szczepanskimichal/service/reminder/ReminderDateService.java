@@ -78,7 +78,7 @@ public class ReminderDateService {
         reminderDateRepository.deleteReminderDatesByDateBefore(LocalDateTime.now());
     }
 
-    public static boolean isDateSetUntilMidnightWithQuarterHourCheck(Date date) {
+    public boolean isDateSetUntilMidnightWithQuarterHourCheck(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("Date cannot be null");
         }
@@ -100,7 +100,7 @@ public class ReminderDateService {
         return time <= midnightTime;
     }
 
-    public static void isDateSetUntilMidnightWithQuarterHourCheck(LocalDateTime localDateTime) {
+    public void isDateSetUntilMidnightWithQuarterHourCheck(LocalDateTime localDateTime) {
         if (localDateTime == null) {
             throw new IllegalArgumentException("LocalDateTime cannot be null");
         }
