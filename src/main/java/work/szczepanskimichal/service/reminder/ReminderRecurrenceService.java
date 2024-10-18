@@ -25,6 +25,7 @@ public class ReminderRecurrenceService {
 
         if (newTime == null) {
             reminderService.deleteReminder(reminder.getId());
+
             return;
         }
 

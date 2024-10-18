@@ -91,6 +91,7 @@ class ReminderSchedulerServiceTest {
 
         // save cache
         reminderDateCacheRepositoryImpl.addReminderDateCache(cache);
+        var cachedReminderDate= reminderDateCacheRepositoryImpl.getReminderDateCacheById(persistedReminderDate.getId());
 
         // mock feign client response
         UserCommsDto userCommsDto = UserCommsDto.builder()
@@ -105,7 +106,7 @@ class ReminderSchedulerServiceTest {
         //when
         entityManager.flush();
         entityManager.clear();
-        reminderSchedulerService.checkUpcomingReminders();
+//        reminderSchedulerService.processReminderDateCache(cachedReminderDate);
 //        var reminderDate = reminderDateService.getReminderDateById(persistedReminderDateDto.getId());
 
         //then

@@ -13,7 +13,7 @@ public interface ReminderDateCacheRepository {
 
     Set<ReminderDateCache> getAllReminderDateCaches();
 
-    ReminderDateCache getReminderDateById(UUID id);
+    ReminderDateCache getReminderDateCacheById(UUID id);
 
     Set<ReminderDateCache> getReminderDateCachesForNextFifteenMinutes();
 

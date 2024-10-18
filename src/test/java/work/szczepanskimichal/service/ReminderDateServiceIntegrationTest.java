@@ -39,8 +39,8 @@ class ReminderDateServiceIntegrationTest {
     final String PERSON_LASTNAME = "personLastName";
     final String OCCASION_NAME = "occasionName";
     final String REMINDER_NAME = "reminderName";
-    final LocalDateTime REMINDER_DATE_DATE = LocalDateTime.now();
-    final LocalDateTime REMINDER_DATE_DATE_UPDATED = LocalDateTime.now().plusSeconds(100);
+    final LocalDateTime REMINDER_DATE_DATE = LocalDateTime.of(2000, 1, 1, 10, 15);
+    final LocalDateTime REMINDER_DATE_DATE_UPDATED = LocalDateTime.of(2000, 1, 1, 10, 30);
     final LocalDateTime NOW = LocalDateTime.now();
 
     @Test

@@ -45,7 +45,7 @@ public class ReminderDateCacheRepositoryImpl implements ReminderDateCacheReposit
     }
 
     @Override
-    public ReminderDateCache getReminderDateById(UUID id) {
+    public ReminderDateCache getReminderDateCacheById(UUID id) {
         Set<ReminderDateCache> reminders = redisTemplate.opsForZSet().range(reminderDatesKey, 0, -1);
 
         if (reminders != null) {

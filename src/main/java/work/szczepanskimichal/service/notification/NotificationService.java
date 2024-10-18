@@ -1,6 +1,7 @@
 package work.szczepanskimichal.service.notification;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.model.notification.Notification;
 import work.szczepanskimichal.model.notification.NotificationSubject;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NotificationService {
 
     private final KafkaService kafkaService;
@@ -27,6 +29,7 @@ public class NotificationService {
                 .messageParameters(parameters)
                 .build();
         kafkaService.sendMessage(notification);
+        log.info("dispatched notification to {}. subject: {}", userEmail, NotificationSubject.REMINDER_TRIGGERING);
     }
 
 
