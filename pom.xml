@@ -83,14 +83,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
-        <!--        h2 for test-->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.2.220</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--        kafka-->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
@@ -118,11 +110,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+<!--        test dependencies-->
         <!--        redis testing-->
         <dependency>
             <groupId>com.github.kstyrc</groupId>
             <artifactId>embedded-redis</artifactId>
             <version>0.6</version>
+            <scope>test</scope>
+        </dependency>
+        <!--        h2 testing-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.220</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
