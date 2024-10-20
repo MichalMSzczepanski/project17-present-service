@@ -1,10 +1,7 @@
 logic:
   - lorem
 semantics:
-  - add wiremock to test reminderSchedulerService jobs
-  - add facade for ReminderScheduler logic for checkUpcomingReminders
-    - move logs to methods
-  - write JS test to check reminderSchedulerService jobs
+  - fix spring context & add assertions to ReminderDateCacheProcessorIntegrationTest
   - upon creating entities, fetch OWNER from usercontext, don't allow declarative setting of field "owner"
   - continue creating reminder date with details
   - write tests for jobs

@@ -11,7 +11,7 @@ public abstract class PresentAssembler {
                                                             String description,
                                                             UUID occasionId) {
         return PresentCreateDto.builder()
-                .owner(UUID.randomUUID())
+                .owner(UUID.fromString("989fc7f9-9c4e-4fca-b96c-603aea01909c"))
                 .name(name)
                 .description(description)
                 .price(BigDecimal.valueOf(11L))

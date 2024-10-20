@@ -11,7 +11,7 @@ public abstract class ReminderAssembler {
                                                               Recurrence recurring,
                                                               UUID occasionId) {
         return ReminderCreateDto.builder()
-                .owner(UUID.randomUUID())
+                .owner(UUID.fromString("989fc7f9-9c4e-4fca-b96c-603aea01909c"))
                 .name(name)
                 .occasionId(occasionId)
                 .recurring(recurring)

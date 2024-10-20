@@ -9,7 +9,7 @@ public abstract class OccasionAssembler {
 
     public static OccasionCreateDto assembleOccasion(String name, LocalDateTime occasionDate, UUID personId) {
         return OccasionCreateDto.builder()
-                .owner(UUID.randomUUID())
+                .owner(UUID.fromString("989fc7f9-9c4e-4fca-b96c-603aea01909c"))
                 .name(name)
                 .date(occasionDate)
                 .personId(personId)
