@@ -27,7 +27,7 @@ public class ReminderDateService {
     private final ReminderDateCacheService reminderDateCacheService;
 
     public ReminderDateDto createReminderDate(ReminderDateCreateDto reminderCreateDto) {
-        isDateSetUntilMidnightWithQuarterHourCheck(reminderCreateDto.getDate());
+        isDateSetAfterMidnightWithQuarterHourCheck(reminderCreateDto.getDate());
         var parentReminder = reminderService.getReminderById(reminderCreateDto.getReminderId());
         var reminder = reminderMapper.toEntity(reminderCreateDto)
                 .toBuilder()
@@ -59,7 +59,7 @@ public class ReminderDateService {
     }
 
     public ReminderDateDto updateReminderDate(ReminderDateUpdateDto reminderDto) {
-        if (isDateSetUntilMidnightWithQuarterHourCheck(Date.from((reminderDto.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
+        if (isDateSetAfterMidnightWithQuarterHourCheck(Date.from((reminderDto.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
             reminderDateCacheService.removeReminderDateFromCache(reminderDto.getId());
         }
         var reminderDate = reminderMapper.toEntity(reminderDto);
@@ -68,7 +68,7 @@ public class ReminderDateService {
 
     public void deleteReminderDate(UUID id) {
         var reminder = reminderDateRepository.findById(id).orElseThrow(() -> new DataNotFoundException(id));
-        if (isDateSetUntilMidnightWithQuarterHourCheck(Date.from((reminder.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
+        if (isDateSetAfterMidnightWithQuarterHourCheck(Date.from((reminder.getDate().atZone(ZoneId.systemDefault()).toInstant())))) {
             reminderDateCacheService.removeReminderDateFromCache(reminder.getId());
         }
         reminderDateRepository.deleteById(id);
@@ -78,7 +78,7 @@ public class ReminderDateService {
         reminderDateRepository.deleteReminderDatesByDateBefore(LocalDateTime.now());
     }
 
-    public boolean isDateSetUntilMidnightWithQuarterHourCheck(Date date) {
+    public boolean isDateSetAfterMidnightWithQuarterHourCheck(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("Date cannot be null");
         }
@@ -97,10 +97,10 @@ public class ReminderDateService {
         calendar.set(Calendar.MILLISECOND, 0);
         long midnightTime = calendar.getTimeInMillis();
 
-        return time <= midnightTime;
+        return time > midnightTime;
     }
 
-    public void isDateSetUntilMidnightWithQuarterHourCheck(LocalDateTime localDateTime) {
+    public void isDateSetAfterMidnightWithQuarterHourCheck(LocalDateTime localDateTime) {
         if (localDateTime == null) {
             throw new IllegalArgumentException("LocalDateTime cannot be null");
         }
@@ -109,11 +109,11 @@ public class ReminderDateService {
 
         int minutes = time.getMinute();
         if (minutes != 0 && minutes != 15 && minutes != 30 && minutes != 45) {
-            throw new IllegalArgumentException("ReminderDate date can be set in 15 minute intervals");
+            throw new IllegalArgumentException("ReminderDate must be set in 15-minute intervals");
         }
 
         if (!time.isAfter(LocalTime.MIDNIGHT)) {
-            throw new IllegalArgumentException("ReminderDate date has to be set after midnight");
+            throw new IllegalArgumentException("ReminderDate must be set after midnight");
         }
     }
 
