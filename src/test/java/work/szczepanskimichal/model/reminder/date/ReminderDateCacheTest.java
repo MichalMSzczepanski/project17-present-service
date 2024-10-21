@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import redis.embedded.RedisServer;
 import work.szczepanskimichal.repository.cache.ReminderDateCacheRepositoryImpl;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -29,17 +27,9 @@ class ReminderDateCacheTest {
 
     private static final String reminderDatesKey = "reminderDates";
 
-    private RedisServer redisServer;
-
     @BeforeEach
-    public void setUp() throws IOException {
-        redisServer = new RedisServer(6379);
-        redisServer.start();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        redisServer.stop();
+    void purgeCache() {
+        redisTemplate.delete(reminderDatesKey); // Clear the specific key
     }
 
     @Test
