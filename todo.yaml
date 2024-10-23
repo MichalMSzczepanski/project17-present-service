@@ -1,23 +1,17 @@
 logic:
-  - lorem
+  - user needs endpoint to cancel further reminders for specific occasion
+  - add images of present receipts (blob in postgres? s3 on localstack?)
+  - update notification for occasion with current ideas for present
+  - update notification with link to presents already purchased
+  - update Present with custom categories for each user
+  - sms with notification
 semantics:
-  - fix spring context & add assertions to ReminderDateCacheProcessorIntegrationTest
   - upon creating entities, fetch OWNER from usercontext, don't allow declarative setting of field "owner"
-  - continue creating reminder date with details
-  - write tests for jobs
+  - switch to testcontainers with embedded redis? might fix tests
   - endpoints tests
-  - communicate with user-service to get user details for sending email about reminders
-  - kafka with notification-service for sending reminder emails
+  - fix spring context & add assertions to ReminderDateCacheProcessorIntegrationTest
     - introduce external library configuration
   - add controller read-only for checking redis pojo with reminders
-  - create pojo form managing reminders frequency (?); check if recurring
-  - add logging for creating/ updating/ deleting entities
-  - switch to testcontainers with embedded redis
-  - entities with relationships - person, occasion, present + reminders about occasions:
-      - present type IDEA once purchased has type changed to PURCHASED
 config:
 git:
-  - lorem
-
 wishlist:
-  - lorem

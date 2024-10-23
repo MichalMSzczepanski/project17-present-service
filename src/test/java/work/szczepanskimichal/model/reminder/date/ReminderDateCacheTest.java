@@ -29,7 +29,7 @@ class ReminderDateCacheTest {
 
     @BeforeEach
     void purgeCache() {
-        redisTemplate.delete(reminderDatesKey); // Clear the specific key
+        redisTemplate.delete(reminderDatesKey);
     }
 
     @Test
