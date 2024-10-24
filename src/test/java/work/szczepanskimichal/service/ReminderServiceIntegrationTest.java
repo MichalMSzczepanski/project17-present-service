@@ -56,8 +56,6 @@ class ReminderServiceIntegrationTest {
         reminderService.createReminder(reminderCreateDtoTwo);
 
         //when
-        entityManager.flush();
-        entityManager.clear();
         var reminders = reminderService.getRemindersByOccasion(persistedOccasion.getId());
 
         //then
