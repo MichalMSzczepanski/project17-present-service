@@ -14,10 +14,19 @@ spring:
       reminder:
         dates:
           key: reminderDates
-#  data:
-#    mongodb:
-#      port: 27017
-#      database: users
-#      username: mongo
-#      password: mongo_password
-#      authentication-database: admin
+
+cloud:
+  aws:
+    s3:
+      bucket: present-service-bucket
+    region:
+      static: us-east-1
+    credentials:
+      access-key: test # Use test credentials since LocalStack doesn't validate them
+      secret-key: test
+    endpoint:
+      s3: http://localhost:4566 # LocalStack's S3 endpoint
+
+  localstack:
+    s3:
+      bucket: present-service-bucket # Same as the one you plan to use

@@ -1,3 +1,6 @@
+custom:
+  environment: prod
+
 spring:
   datasource:
     url: jdbc:postgresql://postgres-presents:5432/presents

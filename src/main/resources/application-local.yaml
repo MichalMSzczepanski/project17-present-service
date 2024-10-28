@@ -1,3 +1,6 @@
+custom:
+  environment: local
+
 server:
   port: 8082
 
@@ -6,9 +9,6 @@ spring:
     url: jdbc:postgresql://localhost:5434/presents
   flyway:
     url: jdbc:postgresql://localhost:5434/presents
-  #  data:
-  #    mongodb:
-  #      host: localhost
   kafka:
     bootstrap-servers: localhost:9092
   data:
@@ -19,11 +19,3 @@ spring:
 services:
   address:
     user: "http://localhost:8081"
-
-#logging:
-#  level:
-#    org.flywaydb: TRACE
-#    root: DEBUG  # Set root logger to DEBUG level to capture all logs
-#    org.springframework.web: DEBUG  # Set Spring Web logs to DEBUG level for request logging
-#    org.hibernate.SQL: DEBUG  # Set Hibernate SQL logs to DEBUG level
-#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Set
