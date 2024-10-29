@@ -1,5 +1,11 @@
 custom:
   environment: prod
+  max:
+    file:
+      size: 2097152
+  aspect:
+    enableHttpHeaderCheck: true
+
 
 spring:
   datasource:

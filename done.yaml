@@ -1,5 +1,6 @@
 logic:
 semantics:
+  38 add s3 to application.*.yaml
   37 add ReminderDateCacheProcessorTest and extract Redis instantiation in tests to external config file
   32 update process of reminderdate triggering (message, triggering, tests, recurrence of reminderdates)
   30 introduce tests for scheduler

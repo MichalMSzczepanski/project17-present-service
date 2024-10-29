@@ -1,5 +1,10 @@
 custom:
   environment: local
+  max:
+    file:
+      size: 2097152
+  aspect:
+    enableHttpHeaderCheck: false
 
 server:
   port: 8082

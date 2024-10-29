@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,9 +24,16 @@ public class HttpHeaderAspect {
     @Autowired
     private UserContext userContext;
 
+    @Value("${custom.aspect.enableHttpHeaderCheck}")
+    private boolean enableHttpHeaderCheck;
+
     @Before("execution(* work.szczepanskimichal.controller..*(..)) && " +
             "(execution(* *.update*(..)) || execution(* *.create*(..)) || execution(* *.delete*(..)))")
     public void checkForUserIdHeader() {
+        if (!enableHttpHeaderCheck) {
+            return;
+        }
+
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             throw new MissingHeadersException();

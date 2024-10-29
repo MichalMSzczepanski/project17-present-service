@@ -1,3 +1,8 @@
+custom:
+  allowed:
+    file:
+      types: image/jpeg,image/png
+
 spring:
   profiles:
     active: local
