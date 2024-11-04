@@ -27,11 +27,11 @@ cloud:
     region:
       static: us-east-1
     credentials:
-      access-key: test # Use test credentials since LocalStack doesn't validate them
+      access-key: test
       secret-key: test
     endpoint:
-      s3: http://localhost:4566 # LocalStack's S3 endpoint
+      s3: http://localhost:4566
 
   localstack:
     s3:
-      bucket: present-service-bucket # Same as the one you plan to use
+      bucket: present-service-bucket

@@ -18,13 +18,13 @@ public class ReceiptController {
 
     @PostMapping("")
     public ResponseEntity<String> createReceipt(@RequestParam("file") MultipartFile file) {
-        var receipt = receiptService.createReceiptImage(file);
+        var receipt = receiptService.createReceipt(file);
         return ResponseEntity.ok("File uploaded successfully: " + receipt);
     }
 
     @GetMapping("/{fileName}")
     public ResponseEntity<ByteArrayResource> getReceipt(@PathVariable String fileName) {
-        byte[] imageBytes = receiptService.getReceiptImage(fileName);
+        byte[] imageBytes = receiptService.getReceipt(fileName);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                 .contentLength(imageBytes.length)
@@ -34,7 +34,7 @@ public class ReceiptController {
 
     @DeleteMapping("/{fileName}")
     public ResponseEntity<String> deleteReceipt(@PathVariable String fileName) {
-        receiptService.deleteReceiptImage(fileName);
+        receiptService.deleteReceipt(fileName);
         return ResponseEntity.ok("successfully deleted Receipt: " + fileName);
     }
 

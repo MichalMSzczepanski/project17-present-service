@@ -15,15 +15,15 @@ public class ReceiptService {
 
     private final S3Service s3Service;
 
-    public String createReceiptImage(MultipartFile file) {
+    public String createReceipt(MultipartFile file) {
         return s3Service.uploadImage(file, FileType.RECEIPT);
     }
 
-    public byte[] getReceiptImage(String fileName) {
+    public byte[] getReceipt(String fileName) {
         return s3Service.getImage(fileName, FileType.RECEIPT);
     }
 
-    public void deleteReceiptImage(String fileName) {
+    public void deleteReceipt(String fileName) {
         s3Service.deleteImage(fileName, FileType.RECEIPT);
     }
 

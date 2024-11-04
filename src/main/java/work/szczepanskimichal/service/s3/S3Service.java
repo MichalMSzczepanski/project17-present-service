@@ -39,6 +39,7 @@ public class S3Service {
     @Value("#{'${custom.allowed.file.types}'.split(',')}")
     private List<String> allowedFileTypes;
 
+    //todo return link to aws
     public byte[] getImage(String fileName, FileType type) {
         var fullFileName = type.getName() + fileName;
         try {
@@ -50,7 +51,7 @@ public class S3Service {
         } catch (NoSuchKeyException e) {
             throw new FileNotFoundException(fullFileName, bucketName);
         } catch (S3Exception e) {
-            throw new CustomS3Exception("error encountered during image fetching.", e.awsErrorDetails().errorMessage());
+            throw new CustomS3Exception("Error encountered during image fetching.", e.awsErrorDetails().errorMessage());
         }
     }
 
@@ -60,11 +61,11 @@ public class S3Service {
         var contentType = file.getContentType();
 
         if (file.getSize() > maxFileSize) {
-            throw new InvalidFileException("file size exceeds the 2 MB limit.");
+            throw new InvalidFileException("File size exceeds the limit.");
         }
 
         if (!allowedFileTypes.contains(contentType)) {
-            throw new InvalidFileException("Only JPG and PNG images are allowed.");
+            throw new InvalidFileException("Only allowed image types are JPG and PNG.");
         }
 
         var key = UUID.randomUUID().toString();
@@ -78,11 +79,11 @@ public class S3Service {
 
         try (var inputStream = file.getInputStream()) {
             s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, file.getSize()));
-            return key;
+            return getRegularUrl(keyName); // Return regular URL instead of presigned URL
         } catch (S3Exception e) {
-            throw new CustomS3Exception("error encountered during image upload.", e.awsErrorDetails().errorMessage());
+            throw new CustomS3Exception("Error encountered during image upload.", e.awsErrorDetails().errorMessage());
         } catch (IOException e) {
-            throw new RuntimeException(String.format("Error getting input stream from file: %s", e.getMessage()));
+            throw new RuntimeException("Error getting input stream from file: " + e.getMessage());
         }
     }
 
@@ -98,7 +99,7 @@ public class S3Service {
         } catch (NoSuchKeyException e) {
             throw new FileNotFoundException(fullFileName, bucketName);
         } catch (S3Exception e) {
-            throw new CustomS3Exception("error encountered during image deletion.", e.awsErrorDetails().errorMessage());
+            throw new CustomS3Exception("Error encountered during image deletion.", e.awsErrorDetails().errorMessage());
         }
     }
 
@@ -127,10 +128,22 @@ public class S3Service {
                 s3Client.createBucket(createBucketRequest);
                 log.info("Bucket {} created successfully.", bucketName);
             } catch (S3Exception ex) {
-                throw new CustomS3Exception(String.format("error encountered during bucket %s creation.", bucketName), ex.awsErrorDetails().errorMessage());
+                throw new CustomS3Exception("Error encountered during bucket creation.", ex.awsErrorDetails().errorMessage());
             }
         } catch (S3Exception ex) {
-            throw new CustomS3Exception(String.format("error checking if bucket %s exists.", bucketName), ex.awsErrorDetails().errorMessage());
+            throw new CustomS3Exception("Error checking if bucket exists.", ex.awsErrorDetails().errorMessage());
         }
+    }
+
+    public String getRegularUrl(String fileName) {
+        String url;
+
+        if ("local".equalsIgnoreCase(environment)) {
+            url = String.format("http://localhost:4566/%s/%s", bucketName, fileName);
+        } else {
+            url = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, awsRegion, fileName);
+        }
+
+        return url;
     }
 }

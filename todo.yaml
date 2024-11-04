@@ -1,9 +1,11 @@
 logic:
+  - receiptservice - return link to aws in get
   - receipt entity crud including image persistence in s3
   - move @Value to a bean in all cases
   - move aws credentials to properties library
   - move MAX_FILE_SIZE to property
   - check all @Value usages
+  - check aws credentials and general config local/prod
   - graphql
   - user needs endpoint to cancel further reminders for specific occasion
   - add images of present receipts (blob in postgres? s3 on localstack?)
