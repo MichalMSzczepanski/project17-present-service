@@ -39,8 +39,25 @@ public class S3Service {
     @Value("#{'${custom.allowed.file.types}'.split(',')}")
     private List<String> allowedFileTypes;
 
-    //todo return link to aws
-    public byte[] getImage(String fileName, FileType type) {
+    public String getImage(String fileName, FileType type) {
+        var fullFileName = type.getName() + fileName;
+        try {
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fullFileName)
+                    .build();
+
+            s3Client.getObject(getObjectRequest);
+
+            return getRegularUrl(fullFileName);
+        } catch (NoSuchKeyException e) {
+            throw new FileNotFoundException(fullFileName, bucketName);
+        } catch (S3Exception e) {
+            throw new CustomS3Exception("Error encountered during image fetching.", e.awsErrorDetails().errorMessage());
+        }
+    }
+
+    public byte[] getImageByteArray(String fileName, FileType type) {
         var fullFileName = type.getName() + fileName;
         try {
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
@@ -88,7 +105,7 @@ public class S3Service {
     }
 
     public void deleteImage(String fileName, FileType type) {
-        getImage(fileName, type);
+        checkIfImageExists(fileName, type);
         var fullFileName = type.getName() + fileName;
         try {
             DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
@@ -101,6 +118,10 @@ public class S3Service {
         } catch (S3Exception e) {
             throw new CustomS3Exception("Error encountered during image deletion.", e.awsErrorDetails().errorMessage());
         }
+    }
+
+    private void checkIfImageExists(String fileName, FileType type) {
+        getImageByteArray(fileName, type);
     }
 
     private void checkIfBucketExists() {

@@ -1,5 +1,4 @@
 logic:
-  - receiptservice - return link to aws in get
   - receipt entity crud including image persistence in s3
   - move @Value to a bean in all cases
   - move aws credentials to properties library

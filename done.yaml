@@ -1,5 +1,6 @@
 logic:
 semantics:
+  41 update aws service to return links to persisted image
   40 return link to aws image instead of byte array
   39 introduce saving images to s3
   38 add s3 to application.*.yaml

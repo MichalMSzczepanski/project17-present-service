@@ -19,7 +19,7 @@ public class ReceiptService {
         return s3Service.uploadImage(file, FileType.RECEIPT);
     }
 
-    public byte[] getReceipt(String fileName) {
+    public String getReceipt(String fileName) {
         return s3Service.getImage(fileName, FileType.RECEIPT);
     }
 

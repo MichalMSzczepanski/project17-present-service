@@ -1,9 +1,6 @@
 package work.szczepanskimichal.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,13 +20,10 @@ public class ReceiptController {
     }
 
     @GetMapping("/{fileName}")
-    public ResponseEntity<ByteArrayResource> getReceipt(@PathVariable String fileName) {
-        byte[] imageBytes = receiptService.getReceipt(fileName);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
-                .contentLength(imageBytes.length)
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(new ByteArrayResource(imageBytes));
+    public ResponseEntity<String> getReceipt(@PathVariable String fileName) {
+        var imageAwsLink = receiptService.getReceipt(fileName);
+        return ResponseEntity.ok(imageAwsLink);
+
     }
 
     @DeleteMapping("/{fileName}")
