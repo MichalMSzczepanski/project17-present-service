@@ -1,4 +1,3 @@
--- Create tables if not exists
 CREATE TABLE IF NOT EXISTS persons
 (
     id         UUID PRIMARY KEY,
@@ -32,7 +31,6 @@ CREATE TABLE IF NOT EXISTS presents
     CONSTRAINT fk_occasion_id_pre FOREIGN KEY (fk_occasion_id) REFERENCES occasions (id) ON DELETE CASCADE
 );
 
--- Create reminders table
 CREATE TABLE IF NOT EXISTS reminders
 (
     id             UUID PRIMARY KEY,
@@ -44,7 +42,6 @@ CREATE TABLE IF NOT EXISTS reminders
     CONSTRAINT fk_occasion_id_rem FOREIGN KEY (fk_occasion_id) REFERENCES occasions (id) ON DELETE CASCADE
 );
 
--- Create reminder_dates table with foreign key
 CREATE TABLE IF NOT EXISTS reminder_dates
 (
     id             UUID PRIMARY KEY,

@@ -3,9 +3,17 @@ package work.szczepanskimichal.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import work.szczepanskimichal.exception.DataNotFoundException;
+import work.szczepanskimichal.mapper.ReceiptMapper;
+import work.szczepanskimichal.model.present.receipt.ReceiptCreateDto;
+import work.szczepanskimichal.model.present.receipt.ReceiptDto;
+import work.szczepanskimichal.model.present.receipt.ReceiptImageUpdateDto;
+import work.szczepanskimichal.model.present.receipt.ReceiptUpdateDto;
+import work.szczepanskimichal.repository.ReceiptRepository;
 import work.szczepanskimichal.service.s3.FileType;
 import work.szczepanskimichal.service.s3.S3Service;
+
+import java.util.UUID;
 
 
 @Service
@@ -13,18 +21,44 @@ import work.szczepanskimichal.service.s3.S3Service;
 @Slf4j
 public class ReceiptService {
 
+    private final ReceiptRepository receiptRepository;
+    private final ReceiptMapper receiptMapper;
     private final S3Service s3Service;
 
-    public String createReceipt(MultipartFile file) {
-        return s3Service.uploadImage(file, FileType.RECEIPT);
+    public ReceiptDto createReceipt(ReceiptCreateDto dto) {
+        String s3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
+        dto = dto.toBuilder().s3key(s3link).build();
+        try {
+            var receipt = receiptRepository.save(receiptMapper.toEntity(dto));
+            return receiptMapper.toDto(receipt);
+        } catch (Exception e) {
+            s3Service.deleteImage(s3link, FileType.RECEIPT);
+            throw e;
+        }
     }
 
-    public String getReceipt(String fileName) {
-        return s3Service.getImage(fileName, FileType.RECEIPT);
+    public ReceiptDto getReceipt(UUID receiptId) {
+        var receipt = receiptRepository.findById(receiptId).orElseThrow(() -> new DataNotFoundException(receiptId));
+        return receiptMapper.toDto(receipt);
     }
 
-    public void deleteReceipt(String fileName) {
-        s3Service.deleteImage(fileName, FileType.RECEIPT);
+    public ReceiptDto updateReceipt(ReceiptUpdateDto receiptDto) {
+        var receipt = receiptMapper.toEntity(receiptDto);
+        var receiptUpdated = receiptRepository.save(receipt);
+        return receiptMapper.toDto(receiptUpdated);
     }
 
+    public ReceiptDto updateReceiptImage(ReceiptImageUpdateDto dto) {
+        var receipt = receiptRepository.findById(dto.getId()).orElseThrow(() -> new DataNotFoundException(dto.getId()));
+        s3Service.deleteImage(receipt.getS3key(), FileType.RECEIPT);
+        var updatedS3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
+        receipt = receipt.toBuilder().s3key(updatedS3link).build();
+        var receiptUpdated = receiptRepository.save(receipt);
+        return receiptMapper.toDto(receiptUpdated);
+    }
+
+    public void deleteReceipt(UUID receiptId) {
+        var receipt = receiptRepository.findById(receiptId).orElseThrow(() -> new DataNotFoundException(receiptId));
+        s3Service.deleteImage(receipt.getS3key(), FileType.RECEIPT);
+    }
 }

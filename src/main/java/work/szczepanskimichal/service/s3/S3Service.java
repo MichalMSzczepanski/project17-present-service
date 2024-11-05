@@ -39,7 +39,7 @@ public class S3Service {
     @Value("#{'${custom.allowed.file.types}'.split(',')}")
     private List<String> allowedFileTypes;
 
-    public String getImage(String fileName, FileType type) {
+    public String getImageRegularUrl(String fileName, FileType type) {
         var fullFileName = type.getName() + fileName;
         try {
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
@@ -96,7 +96,7 @@ public class S3Service {
 
         try (var inputStream = file.getInputStream()) {
             s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, file.getSize()));
-            return getRegularUrl(keyName); // Return regular URL instead of presigned URL
+            return getRegularUrl(keyName);
         } catch (S3Exception e) {
             throw new CustomS3Exception("Error encountered during image upload.", e.awsErrorDetails().errorMessage());
         } catch (IOException e) {
