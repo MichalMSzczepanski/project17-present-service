@@ -26,8 +26,13 @@ public class ReceiptService {
     private final S3Service s3Service;
 
     public ReceiptDto createReceipt(ReceiptCreateDto dto) {
+        var currentPresentOptional = receiptRepository.findByPresentId(dto.getPresentId());
+        if (currentPresentOptional.isPresent()) {
+            s3Service.deleteImage(dto.getAwsS3Url(), FileType.RECEIPT);
+            receiptRepository.deleteById(currentPresentOptional.get().getId());
+        }
         String s3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
-        dto = dto.toBuilder().s3key(s3link).build();
+        dto = dto.toBuilder().awsS3Url(s3link).build();
         try {
             var receipt = receiptRepository.save(receiptMapper.toEntity(dto));
             return receiptMapper.toDto(receipt);
@@ -50,15 +55,15 @@ public class ReceiptService {
 
     public ReceiptDto updateReceiptImage(ReceiptImageUpdateDto dto) {
         var receipt = receiptRepository.findById(dto.getId()).orElseThrow(() -> new DataNotFoundException(dto.getId()));
-        s3Service.deleteImage(receipt.getS3key(), FileType.RECEIPT);
+        s3Service.deleteImage(receipt.getAwsS3Url(), FileType.RECEIPT);
         var updatedS3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
-        receipt = receipt.toBuilder().s3key(updatedS3link).build();
+        receipt = receipt.toBuilder().awsS3Url(updatedS3link).build();
         var receiptUpdated = receiptRepository.save(receipt);
         return receiptMapper.toDto(receiptUpdated);
     }
 
     public void deleteReceipt(UUID receiptId) {
         var receipt = receiptRepository.findById(receiptId).orElseThrow(() -> new DataNotFoundException(receiptId));
-        s3Service.deleteImage(receipt.getS3key(), FileType.RECEIPT);
+        s3Service.deleteImage(receipt.getAwsS3Url(), FileType.RECEIPT);
     }
 }

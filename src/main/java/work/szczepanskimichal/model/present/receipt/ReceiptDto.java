@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ReceiptDto {
 
     private UUID id;
-    private String s3key;
+    private String awsS3Url;
     private UUID presentId;
     private MultipartFile image;
 

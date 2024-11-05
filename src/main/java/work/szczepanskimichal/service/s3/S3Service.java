@@ -14,6 +14,7 @@ import work.szczepanskimichal.exception.FileNotFoundException;
 import work.szczepanskimichal.exception.InvalidFileException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,7 +50,7 @@ public class S3Service {
 
             s3Client.getObject(getObjectRequest);
 
-            return getRegularUrl(fullFileName);
+            return getAwsS3Url(fullFileName);
         } catch (NoSuchKeyException e) {
             throw new FileNotFoundException(fullFileName, bucketName);
         } catch (S3Exception e) {
@@ -86,17 +87,17 @@ public class S3Service {
         }
 
         var key = UUID.randomUUID().toString();
-        var keyName = type.getName() + key;
+        var fullKeyName = type.getName() + key;
 
         var putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
-                .key(keyName)
+                .key(fullKeyName)
                 .contentType(contentType)
                 .build();
 
         try (var inputStream = file.getInputStream()) {
             s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, file.getSize()));
-            return getRegularUrl(keyName);
+            return getAwsS3Url(fullKeyName);
         } catch (S3Exception e) {
             throw new CustomS3Exception("Error encountered during image upload.", e.awsErrorDetails().errorMessage());
         } catch (IOException e) {
@@ -118,6 +119,28 @@ public class S3Service {
         } catch (S3Exception e) {
             throw new CustomS3Exception("Error encountered during image deletion.", e.awsErrorDetails().errorMessage());
         }
+    }
+
+    public List<String> fetchKeysWithPrefix(String bucketName, String prefix) {
+        List<String> filteredKeys = new ArrayList<>();
+        String continuationToken = null;
+
+        do {
+            ListObjectsV2Request request = ListObjectsV2Request.builder()
+                    .bucket(bucketName)
+                    .prefix(prefix)
+                    .continuationToken(continuationToken)
+                    .build();
+
+            ListObjectsV2Response response = s3Client.listObjectsV2(request);
+            for (S3Object s3Object : response.contents()) {
+                filteredKeys.add(s3Object.key());
+            }
+
+            continuationToken = response.isTruncated() ? response.nextContinuationToken() : null;
+        } while (continuationToken != null);
+
+        return filteredKeys;
     }
 
     private void checkIfImageExists(String fileName, FileType type) {
@@ -156,7 +179,7 @@ public class S3Service {
         }
     }
 
-    public String getRegularUrl(String fileName) {
+    public String getAwsS3Url(String fileName) {
         String url;
 
         if ("local".equalsIgnoreCase(environment)) {

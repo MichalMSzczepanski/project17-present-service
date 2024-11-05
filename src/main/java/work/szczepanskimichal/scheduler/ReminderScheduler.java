@@ -14,7 +14,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ReminderSchedulerService {
+public class ReminderScheduler {
 
     private final ReminderDateCacheProcessor reminderDateCacheProcessor;
     private final ReminderDateCacheService reminderDateCacheService;

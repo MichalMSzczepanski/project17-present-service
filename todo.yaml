@@ -1,5 +1,8 @@
 logic:
-  - receipt entity crud including image persistence in s3
+  - manual test receipt crud and what happens in aws
+  - create mockito tests for s3
+  - create screenshot per present one to many entity with s3 persistance
+  - create S3CleanupService to check periodically if there are any images in the db which do not have corresponding receipt entities
   - move @Value to a bean in all cases
   - move aws credentials to properties library
   - move MAX_FILE_SIZE to property
@@ -20,5 +23,4 @@ semantics:
     - introduce external library configuration
   - add controller read-only for checking redis pojo with reminders
 config:
-git:
 wishlist:

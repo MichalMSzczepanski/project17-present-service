@@ -23,7 +23,7 @@ public class Receipt {
     private UUID id;
 
     @Column(name = "s3key", nullable = false)
-    private String s3key;
+    private String awsS3Url;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
