@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import work.szczepanskimichal.model.present.Present;
 
 import java.time.LocalDateTime;
@@ -25,13 +26,15 @@ public class Receipt {
     @Column(name = "s3key", nullable = false)
     private String awsS3Url;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @OneToOne
     @JoinColumn(
             name = "fk_present_id",
-            nullable = false
+            nullable = false,
+            unique = true
     )
     private Present present;
 

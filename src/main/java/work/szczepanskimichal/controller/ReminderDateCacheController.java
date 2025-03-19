@@ -14,13 +14,13 @@ public class ReminderDateCacheController {
     private final ReminderScheduler reminderScheduler;
 
     @PostMapping("/getReminderDateCachesForNext24h")
-    public ResponseEntity<Void> getReminderDateCachesForNext24h(@RequestBody ReminderCreateDto reminderCreateDto) {
+    public ResponseEntity<Void> getReminderDateCachesForNext24h() {
         reminderScheduler.getReminderDateCachesForNext24h();
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/checkUpcomingReminders")
-    public ResponseEntity<Void> checkUpcomingReminders(@RequestBody ReminderCreateDto reminderCreateDto) {
+    public ResponseEntity<Void> checkUpcomingReminders() {
         reminderScheduler.checkUpcomingReminders();
         return ResponseEntity.ok().build();
     }

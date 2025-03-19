@@ -59,7 +59,7 @@ public class S3Service {
     }
 
     public byte[] getImageByteArray(String fileName, FileType type) {
-        var fullFileName = type.getName() + fileName;
+        var fullFileName = fileName.replaceFirst(".*/receipt/", "receipt/");
         try {
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                     .bucket(bucketName)

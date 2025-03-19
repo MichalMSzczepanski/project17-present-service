@@ -10,6 +10,7 @@ import work.szczepanskimichal.model.present.receipt.ReceiptUpdateDto;
 @Mapper(componentModel = "spring")
 public abstract class ReceiptMapper {
 
+    @Mapping(target = "present.id", source = "presentId")
     public abstract Receipt toEntity(ReceiptCreateDto receiptCreateDto);
 
     @Mapping(target = "present.id", source = "presentId")

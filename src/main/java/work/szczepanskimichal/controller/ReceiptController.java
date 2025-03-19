@@ -1,6 +1,7 @@
 package work.szczepanskimichal.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import work.szczepanskimichal.model.present.receipt.ReceiptCreateDto;
@@ -18,7 +19,7 @@ public class ReceiptController {
 
     private final ReceiptService receiptService;
 
-    @PostMapping("")
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ReceiptDto> createReceipt(@ModelAttribute ReceiptCreateDto receiptCreateDto) {
         var receiptDto = receiptService.createReceipt(receiptCreateDto);
         return ResponseEntity.ok(receiptDto);

@@ -11,6 +11,7 @@ import work.szczepanskimichal.model.reminder.date.ReminderDateUpdateDto;
 import work.szczepanskimichal.repository.ReminderDateRepository;
 import work.szczepanskimichal.service.cache.ReminderDateCacheService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -107,15 +108,18 @@ public class ReminderDateService {
 
         LocalTime time = localDateTime.toLocalTime();
 
+        // Ensure time is in 15-minute intervals
         int minutes = time.getMinute();
         if (minutes != 0 && minutes != 15 && minutes != 30 && minutes != 45) {
             throw new IllegalArgumentException("ReminderDate must be set in 15-minute intervals");
         }
 
-        if (!time.isAfter(LocalTime.MIDNIGHT)) {
-            throw new IllegalArgumentException("ReminderDate must be set after midnight");
+        // Calculate the next midnight
+        LocalDateTime midnight = LocalDate.now().atStartOfDay();
+
+        // Check if the date-time is after the next midnight
+        if (!localDateTime.isAfter(midnight)) {
+            throw new IllegalArgumentException("ReminderDate must be set after the next midnight");
         }
     }
-
-
 }

@@ -28,13 +28,15 @@ public class ReceiptService {
     public ReceiptDto createReceipt(ReceiptCreateDto dto) {
         var currentPresentOptional = receiptRepository.findByPresentId(dto.getPresentId());
         if (currentPresentOptional.isPresent()) {
-            s3Service.deleteImage(dto.getAwsS3Url(), FileType.RECEIPT);
+            var aws3url = receiptRepository.findByPresentId(dto.getPresentId()).get().getAwsS3Url();
+            s3Service.deleteImage(aws3url, FileType.RECEIPT);
             receiptRepository.deleteById(currentPresentOptional.get().getId());
         }
         String s3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
         dto = dto.toBuilder().awsS3Url(s3link).build();
         try {
-            var receipt = receiptRepository.save(receiptMapper.toEntity(dto));
+            var receiptEntity = receiptMapper.toEntity(dto);
+            var receipt = receiptRepository.save(receiptEntity);
             return receiptMapper.toDto(receipt);
         } catch (Exception e) {
             s3Service.deleteImage(s3link, FileType.RECEIPT);
