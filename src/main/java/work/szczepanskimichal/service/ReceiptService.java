@@ -26,6 +26,7 @@ public class ReceiptService {
     public ReceiptDto createReceipt(ReceiptCreateDto dto) {
         var currentPresentOptional = receiptRepository.findByPresentIdeaId(dto.getPresentId());
         if (currentPresentOptional.isPresent()) {
+            //todo missed opitonal check
             var aws3url = receiptRepository.findByPresentIdeaId(dto.getPresentId()).get().getImageUrl();
             s3Service.deleteImage(aws3url, FileType.RECEIPT);
             receiptRepository.deleteById(currentPresentOptional.get().getId());

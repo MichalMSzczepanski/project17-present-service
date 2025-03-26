@@ -14,7 +14,7 @@ public class PresentConverter {
     private final PersonService personService;
     private final ReceiptService receiptService;
     private final PresentPurchasedRepository presentPurchasedRepository;
-    private final OccasionService occasionService;;
+    private final OccasionService occasionService;
 
     PresentPurchasedDto convertToPresentPurchased(PresentIdea presentIdea) {
         //fetch person - need it for presentPurchased relationship

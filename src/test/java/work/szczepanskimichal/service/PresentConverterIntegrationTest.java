@@ -8,14 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import work.szczepanskimichal.context.UserContext;
 import work.szczepanskimichal.mapper.PresentMapper;
-import work.szczepanskimichal.model.present.PresentIdeaUpdateDto;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
 import work.szczepanskimichal.service.assembler.PersonAssembler;
 import work.szczepanskimichal.service.assembler.PresentAssembler;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -34,15 +32,12 @@ class PresentConverterIntegrationTest {
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private UserContext userContext;
-    @Autowired
     private PresentMapper presentMapper;
 
     final String PERSON_NAME = "personName";
     final String PERSON_LASTNAME = "personLastName";
     final String OCCASION_NAME = "occasionName";
     final String PRESENT_NAME = "presentIdeaName";
-    final String PRESENT_NAME_UPDATED = "presentNameUpdated";
     final String PRESENT_DESCRIPTION = "presentIdeaDescription";
     final LocalDateTime NOW = LocalDateTime.now();
 
