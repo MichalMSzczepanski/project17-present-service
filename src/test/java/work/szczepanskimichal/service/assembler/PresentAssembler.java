@@ -18,4 +18,17 @@ public abstract class PresentAssembler {
                 .occasionId(occasionId)
                 .build();
     }
+
+    public static PresentCreateDto assemblePresentCreateDto(String name,
+                                                            String description,
+                                                            UUID occasionId,
+                                                            UUID personId) {
+        return PresentCreateDto.builder()
+                .owner(personId)
+                .name(name)
+                .description(description)
+                .price(BigDecimal.valueOf(11L))
+                .occasionId(occasionId)
+                .build();
+    }
 }

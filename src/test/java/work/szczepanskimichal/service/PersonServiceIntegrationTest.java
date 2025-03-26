@@ -54,7 +54,7 @@ class PersonServiceIntegrationTest {
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
         var presentCreateDto = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
                 persistedOccasion.getId());
-        var persistedPresent = presentService.createPresent(presentCreateDto);
+        var persistedPresent = presentService.createPresentIdea(presentCreateDto);
 
         //when
         entityManager.flush();
@@ -82,7 +82,7 @@ class PersonServiceIntegrationTest {
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
         var presentCreateDto = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
                 persistedOccasion.getId());
-        presentService.createPresent(presentCreateDto);
+        presentService.createPresentIdea(presentCreateDto);
 
         //when
         entityManager.flush();

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import work.szczepanskimichal.model.person.Person;
-import work.szczepanskimichal.model.present.Present;
+import work.szczepanskimichal.model.present.PresentIdea;
 import work.szczepanskimichal.model.reminder.Reminder;
 
 import java.time.LocalDateTime;
@@ -45,7 +45,7 @@ public class Occasion {
             mappedBy = "occasion",
             cascade = CascadeType.ALL
     )
-    private Set<Present> presentIdeas = new HashSet<>();
+    private Set<PresentIdea> presentIdeas = new HashSet<>();
 
     @OneToMany(
             mappedBy = "occasion",

@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface ReceiptRepository extends JpaRepository<Receipt, UUID> {
 
-    Optional<Receipt> findByPresentId(UUID presentId);
+    Optional<Receipt> findByPresentIdeaId(UUID presentId);
 
 }

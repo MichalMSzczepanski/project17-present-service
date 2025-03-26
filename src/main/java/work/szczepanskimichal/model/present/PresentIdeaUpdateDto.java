@@ -6,14 +6,13 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
-public class PresentDto {
+public class PresentIdeaUpdateDto {
 
     private UUID id;
     private UUID owner;
     private String name;
-    private PresentType type;
     private String description;
     private BigDecimal price;
     private UUID occasionId;

@@ -1,4 +1,8 @@
 logic:
+  - test manually presentIdea to presentPurchased
+  - add fetching presentsPurchased by personId
+  - gcp instead of aws for images
+  - when converting a presentIdea to presentPurchased add option for adding another image (pic of present)
   - check if s3 updates photo for present (allowed one photo) - /v1/present/receipt
   - create receipt broken in delete old photo moment (file name should be uppdated, it isnt') ???
   - update creating receipt with unique constraint in database on presentId

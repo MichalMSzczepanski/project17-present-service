@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "presents")
+@Table(name = "present_ideas")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Getter
-public class Present {
+public class PresentIdea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,9 +30,6 @@ public class Present {
 
     @Column(nullable = false)
     private String name;
-
-    @Enumerated(EnumType.STRING)
-    private PresentType type;
 
     private String description;
 

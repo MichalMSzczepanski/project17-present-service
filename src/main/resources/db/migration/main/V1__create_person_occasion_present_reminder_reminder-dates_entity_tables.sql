@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS occasions
     CONSTRAINT fk_person_id_occ FOREIGN KEY (fk_person_id) REFERENCES persons (id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS presents
+CREATE TABLE IF NOT EXISTS present_ideas
 (
     id             UUID PRIMARY KEY,
     owner          UUID         NOT NULL,

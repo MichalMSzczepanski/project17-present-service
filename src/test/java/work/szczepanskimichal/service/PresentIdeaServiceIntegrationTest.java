@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import work.szczepanskimichal.context.UserContext;
-import work.szczepanskimichal.model.present.PresentUpdateDto;
+import work.szczepanskimichal.model.present.PresentIdeaUpdateDto;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
 import work.szczepanskimichal.service.assembler.PersonAssembler;
 import work.szczepanskimichal.service.assembler.PresentAssembler;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class PresentServiceIntegrationTest {
+class PresentIdeaServiceIntegrationTest {
 
     @Autowired
     private PersonService personService;
@@ -50,10 +50,10 @@ class PresentServiceIntegrationTest {
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
         var presentCreateDtoOne = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
                 persistedOccasion.getId());
-        presentService.createPresent(presentCreateDtoOne);
+        presentService.createPresentIdea(presentCreateDtoOne);
         var presentCreateDtoTwo = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
                 persistedOccasion.getId());
-        presentService.createPresent(presentCreateDtoTwo);
+        presentService.createPresentIdea(presentCreateDtoTwo);
 
         //when
         entityManager.flush();
@@ -73,11 +73,10 @@ class PresentServiceIntegrationTest {
         var persistedOccasion = occasionService.createOccasion(occasionCreateDto);
         var presentCreateDtoOne = PresentAssembler.assemblePresentCreateDto(PRESENT_NAME, PRESENT_DESCRIPTION,
                 persistedOccasion.getId());
-        var present = presentService.createPresent(presentCreateDtoOne);
-        var updatedPresent = PresentUpdateDto.builder()
+        var present = presentService.createPresentIdea(presentCreateDtoOne);
+        var updatedPresent = PresentIdeaUpdateDto.builder()
                 .id(present.getId())
                 .name(PRESENT_NAME_UPDATED)
-                .type(present.getType())
                 .description(present.getDescription())
                 .price(present.getPrice())
                 .occasionId(present.getOccasionId())
