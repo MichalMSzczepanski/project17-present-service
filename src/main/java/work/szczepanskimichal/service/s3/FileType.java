@@ -9,6 +9,7 @@ import lombok.Getter;
 public enum FileType {
 
     RECEIPT("receipt/"),
+    PRESENT_PURCHASED("presentPurchased/"),
     SCREENSHOT("screenshot/");
 
     private final String name;

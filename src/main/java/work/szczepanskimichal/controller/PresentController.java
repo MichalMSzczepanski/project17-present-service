@@ -34,10 +34,9 @@ public class PresentController {
         return presentService.getPresentsByOccasionId(occasionId);
     }
 
-    //todo get presents by personId
+    //todo get presentIdeas by personId
 
-
-    //todo get presents by type
+    //todo get presentsPurchased by personId
 
     @PatchMapping()
     public ResponseEntity<PresentIdeaDto> updatePresentIdea(@RequestBody PresentIdeaUpdateDto presentDto) {
@@ -53,4 +52,6 @@ public class PresentController {
     public ResponseEntity<PresentPurchasedDto> convertToPresentPurchased(@PathVariable UUID presentId) {
         return ResponseEntity.ok(presentService.convertToPresentPurchased(presentId));
     }
+
+    //todo upload image to presentPurchased
 }

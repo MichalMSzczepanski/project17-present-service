@@ -1,9 +1,8 @@
-logic:
-  - test manually presentIdea to presentPurchased
+todo:
   - add fetching presentsPurchased by personId
-  - gcp instead of aws for images
-  - when converting a presentIdea to presentPurchased add option for adding another image (pic of present)
+  - when converting a presentIdea to presentPurchased add option for adding another image (pic of present) (make sure only one can be added per entity)
   - check if s3 updates photo for present (allowed one photo) - /v1/present/receipt
+  - finish S3CleanupScheduler
   - create receipt broken in delete old photo moment (file name should be uppdated, it isnt') ???
   - update creating receipt with unique constraint in database on presentId
   - manual test receipt crud and what happens in aws
@@ -14,19 +13,19 @@ logic:
   - move aws credentials and details to properties library
   - check aws credentials and general config local/prod
   - move MAX_FILE_SIZE to property
-  - graphql
   - user needs endpoint to cancel further reminders for specific occasion
   - add images of present receipts (blob in postgres? s3 on localstack?)
   - update notification for occasion with current ideas for present
   - update notification with link to presents already purchased
   - update Present with custom categories for each user
-  - sms with notification
-semantics:
   - upon creating entities, fetch OWNER from usercontext, don't allow declarative setting of field "owner"
   - switch to testcontainers with embedded redis? might fix tests
   - endpoints tests
   - fix spring context & add assertions to ReminderDateCacheProcessorIntegrationTest
     - introduce external library configuration
   - add controller read-only for checking redis pojo with reminders
-config:
+
 wishlist:
+  - gcp instead of aws for images
+  - sms with notification
+  - graphql

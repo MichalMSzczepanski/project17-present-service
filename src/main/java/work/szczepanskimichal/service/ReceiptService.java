@@ -1,7 +1,9 @@
 package work.szczepanskimichal.service;
 
+import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import work.szczepanskimichal.exception.DataNotFoundException;
 import work.szczepanskimichal.mapper.ReceiptMapper;
@@ -13,7 +15,6 @@ import work.szczepanskimichal.service.s3.S3Service;
 import java.util.Optional;
 import java.util.UUID;
 
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,22 +25,16 @@ public class ReceiptService {
     private final S3Service s3Service;
 
     public ReceiptDto createReceipt(ReceiptCreateDto dto) {
-        var currentPresentOptional = receiptRepository.findByPresentIdeaId(dto.getPresentId());
-        if (currentPresentOptional.isPresent()) {
-            //todo missed opitonal check
-            var aws3url = receiptRepository.findByPresentIdeaId(dto.getPresentId()).get().getImageUrl();
-            s3Service.deleteImage(aws3url, FileType.RECEIPT);
-            receiptRepository.deleteById(currentPresentOptional.get().getId());
-        }
-        String s3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
+        deletePotentialReceiptImageFromAWS(dto);
+        var s3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
         dto = dto.toBuilder().imageUrl(s3link).build();
         try {
             var receiptEntity = receiptMapper.toEntity(dto);
             var receipt = receiptRepository.save(receiptEntity);
             return receiptMapper.toDto(receipt);
-        } catch (Exception e) {
+        } catch (DataAccessException | PersistenceException e) {
             s3Service.deleteImage(s3link, FileType.RECEIPT);
-            throw e;
+            throw new RuntimeException("Error occurred while saving receipt and uploading image.", e);
         }
     }
 
@@ -74,5 +69,14 @@ public class ReceiptService {
     public void deleteReceipt(UUID receiptId) {
         var receipt = receiptRepository.findById(receiptId).orElseThrow(() -> new DataNotFoundException(receiptId));
         s3Service.deleteImage(receipt.getImageUrl(), FileType.RECEIPT);
+    }
+
+    private void deletePotentialReceiptImageFromAWS(ReceiptCreateDto dto) {
+        var currentPresentOptional = receiptRepository.findByPresentIdeaId(dto.getPresentId());
+        currentPresentOptional.ifPresent(receipt -> {
+            var aws3url = receipt.getImageUrl();
+            s3Service.deleteImage(aws3url, FileType.RECEIPT);
+            receiptRepository.deleteById(receipt.getId());
+        });
     }
 }

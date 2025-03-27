@@ -75,4 +75,6 @@ public class PresentService {
         presentIdeaRepository.deleteById(presentId);
         return presentPurchased;
     }
+
+    //get presentsPurchased by personId
 }
