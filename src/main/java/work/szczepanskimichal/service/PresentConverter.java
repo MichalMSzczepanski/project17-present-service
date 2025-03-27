@@ -14,7 +14,6 @@ public class PresentConverter {
     private final PersonService personService;
     private final ReceiptService receiptService;
     private final PresentPurchasedRepository presentPurchasedRepository;
-    private final OccasionService occasionService;
 
     PresentPurchasedDto convertToPresentPurchased(PresentIdea presentIdea) {
         var person = personService.getPersonById(presentIdea.getOccasion().getPerson().getId());

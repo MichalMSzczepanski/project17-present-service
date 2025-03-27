@@ -2,20 +2,18 @@ package work.szczepanskimichal.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import work.szczepanskimichal.context.UserContext;
-import work.szczepanskimichal.mapper.PresentMapper;
+import work.szczepanskimichal.repository.PresentIdeaRepository;
 import work.szczepanskimichal.service.assembler.OccasionAssembler;
 import work.szczepanskimichal.service.assembler.PersonAssembler;
 import work.szczepanskimichal.service.assembler.PresentAssembler;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -33,7 +31,7 @@ class PresentConverterIntegrationTest {
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private PresentMapper presentMapper;
+    private PresentIdeaRepository presentIdeaRepository;
 
     final String PERSON_NAME = "personName";
     final String PERSON_LASTNAME = "personLastName";
@@ -43,8 +41,6 @@ class PresentConverterIntegrationTest {
     final LocalDateTime NOW = LocalDateTime.now();
 
     @Test
-    @Disabled
-    //todo constructing objects fails for personService.getPersonById(presentIdea.getOccasion().getPerson().getId())
     void shouldConvert_presentIdea_to_presentPurchased() {
 
         //given
@@ -58,13 +54,14 @@ class PresentConverterIntegrationTest {
         var persistedPresentIdea = presentService.createPresentIdea(presentCreateDto);
 
         //when
+        var presentIdea = presentIdeaRepository.findById(persistedPresentIdea.getId()).get();
+        var presentPurchased = presentConverter.convertToPresentPurchased(presentIdea);
         entityManager.flush();
         entityManager.clear();
-        var presentIdea = presentMapper.toEntity(persistedPresentIdea);
-        var presentPurchased = presentConverter.convertToPresentPurchased(presentIdea);
 
         //then
         assertNotNull(presentPurchased);
+        assertEquals(presentPurchased.getPersonId(), persistedPerson.getId());
     }
 
 }
