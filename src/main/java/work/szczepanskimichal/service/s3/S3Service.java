@@ -40,48 +40,17 @@ public class S3Service {
     @Value("#{'${custom.allowed.file.types}'.split(',')}")
     private List<String> allowedFileTypes;
 
-    public String getImageRegularUrl(String fileName, FileType type) {
-        var fullFileName = type.getName() + fileName;
-        try {
-            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(fullFileName)
-                    .build();
-
-            s3Client.getObject(getObjectRequest);
-
-            return getAwsS3Url(fullFileName);
-        } catch (NoSuchKeyException e) {
-            throw new FileNotFoundException(fullFileName, bucketName);
-        } catch (S3Exception e) {
-            throw new CustomS3Exception("Error encountered during image fetching.", e.awsErrorDetails().errorMessage());
-        }
-    }
-
-    public byte[] getImageByteArray(String fileName, FileType type) {
-        var fullFileName = fileName.replaceFirst(".*/receipt/", "receipt/");
-        try {
-            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(fullFileName)
-                    .build();
-            return s3Client.getObjectAsBytes(getObjectRequest).asByteArray();
-        } catch (NoSuchKeyException e) {
-            throw new FileNotFoundException(fullFileName, bucketName);
-        } catch (S3Exception e) {
-            throw new CustomS3Exception("Error encountered during image fetching.", e.awsErrorDetails().errorMessage());
-        }
-    }
-
     public String uploadImage(MultipartFile file, FileType type) {
         checkIfBucketExists();
 
         var contentType = file.getContentType();
 
+        //todo extract
         if (file.getSize() > maxFileSize) {
             throw new InvalidFileException("File size exceeds the limit.");
         }
 
+        //todo extract
         if (!allowedFileTypes.contains(contentType)) {
             throw new InvalidFileException("Only allowed image types are JPG and PNG.");
         }
@@ -106,7 +75,7 @@ public class S3Service {
     }
 
     public void deleteImage(String fileName, FileType type) {
-        checkIfImageExists(fileName, type);
+        checkIfImageExists(fileName);
         var fullFileName = type.getName() + fileName;
         try {
             DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
@@ -143,8 +112,19 @@ public class S3Service {
         return filteredKeys;
     }
 
-    private void checkIfImageExists(String fileName, FileType type) {
-        getImageByteArray(fileName, type);
+    private void checkIfImageExists(String fileName) {
+        var fullFileName = fileName.replaceFirst(".*/receipt/", "receipt/");
+        try {
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fullFileName)
+                    .build();
+            s3Client.getObjectAsBytes(getObjectRequest).asByteArray();
+        } catch (NoSuchKeyException e) {
+            throw new FileNotFoundException(fullFileName, bucketName);
+        } catch (S3Exception e) {
+            throw new CustomS3Exception("Error encountered during image fetching.", e.awsErrorDetails().errorMessage());
+        }
     }
 
     private void checkIfBucketExists() {
@@ -179,15 +159,29 @@ public class S3Service {
         }
     }
 
-    public String getAwsS3Url(String fileName) {
-        String url;
-
+    private String getAwsS3Url(String fileName) {
         if ("local".equalsIgnoreCase(environment)) {
-            url = String.format("http://localhost:4566/%s/%s", bucketName, fileName);
+            return String.format("http://localhost:4566/%s/%s", bucketName, fileName);
         } else {
-            url = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, awsRegion, fileName);
+            return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, awsRegion, fileName);
         }
-
-        return url;
     }
+
+//    public String getImageRegularUrl(String fileName, FileType type) {
+//        var fullFileName = type.getName() + fileName;
+//        try {
+//            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+//                    .bucket(bucketName)
+//                    .key(fullFileName)
+//                    .build();
+//
+//            s3Client.getObject(getObjectRequest);
+//
+//            return getAwsS3Url(fullFileName);
+//        } catch (NoSuchKeyException e) {
+//            throw new FileNotFoundException(fullFileName, bucketName);
+//        } catch (S3Exception e) {
+//            throw new CustomS3Exception("Error encountered during image fetching.", e.awsErrorDetails().errorMessage());
+//        }
+//    }
 }

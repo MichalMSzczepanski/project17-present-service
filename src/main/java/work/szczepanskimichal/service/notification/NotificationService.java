@@ -20,6 +20,7 @@ public class NotificationService {
     public void sendReminderMessage(String userEmail, Person person) {
         var parameters = new HashMap<String, String>();
         parameters.put("person", person.getName() + " " + person.getLastname());
+        //todo findFirst? will that be the correct occasion?
         parameters.put("occasion", person.getOccasions().stream().findFirst().get().getName());
         parameters.put("date", person.getOccasions().stream().findFirst().get().getDate().toString());
         var notification = Notification.builder()

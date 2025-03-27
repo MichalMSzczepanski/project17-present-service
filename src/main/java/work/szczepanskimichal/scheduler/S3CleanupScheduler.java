@@ -24,6 +24,7 @@ public class S3CleanupScheduler {
     public void runCleanup() {
         List<String> receiptKeys = service.fetchKeysWithPrefix(bucketName, FileType.RECEIPT.getName());
         // check if in postgres in receipts table the keys from s3 are NOT IN the table
+        // check if in postgres in presentsPurchased table the keys from s3 are NOT IN the table
         // delete all that are not in the table
     }
 

@@ -1,5 +1,7 @@
 todo:
+  - in receipt manually create id, instaed of automatic generation (the s3 will have the same key thanks to that)
   - add fetching presentsPurchased by personId
+  - job for cleaning s3 images without parent entities (S3CleanupScheduler)
   - when converting a presentIdea to presentPurchased add option for adding another image (pic of present) (make sure only one can be added per entity)
   - check if s3 updates photo for present (allowed one photo) - /v1/present/receipt
   - finish S3CleanupScheduler

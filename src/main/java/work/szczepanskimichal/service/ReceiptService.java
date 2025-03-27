@@ -25,6 +25,7 @@ public class ReceiptService {
     private final S3Service s3Service;
 
     public ReceiptDto createReceipt(ReceiptCreateDto dto) {
+        //todo instead of this check, just overwrite whatever is in the s3
         deletePotentialReceiptImageFromAWS(dto);
         var s3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
         dto = dto.toBuilder().imageUrl(s3link).build();
