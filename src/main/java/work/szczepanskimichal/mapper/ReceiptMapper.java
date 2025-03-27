@@ -17,6 +17,7 @@ public abstract class ReceiptMapper {
     public abstract Receipt toEntity(ReceiptUpdateDto reminderUpdateDto);
 
     @Mapping(target = "presentId", source = "presentIdea.id")
+    @Mapping(target = "imageUrl", source = "imageUrl")
     public abstract ReceiptDto toDto(Receipt reminder);
 
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import work.szczepanskimichal.model.present.PresentIdea;
 import work.szczepanskimichal.model.present.PresentPurchased;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Table(name = "receipts")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@SuperBuilder(toBuilder = true)
 @Getter
 public class Receipt {
 

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 public class ReceiptCreateDto {
 
-    private String awsS3Url;
+    private String imageUrl;
     private UUID presentId;
     private MultipartFile image;
 

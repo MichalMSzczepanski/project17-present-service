@@ -32,7 +32,7 @@ public class ReceiptService {
             receiptRepository.deleteById(currentPresentOptional.get().getId());
         }
         String s3link = s3Service.uploadImage(dto.getImage(), FileType.RECEIPT);
-        dto = dto.toBuilder().awsS3Url(s3link).build();
+        dto = dto.toBuilder().imageUrl(s3link).build();
         try {
             var receiptEntity = receiptMapper.toEntity(dto);
             var receipt = receiptRepository.save(receiptEntity);

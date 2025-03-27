@@ -23,7 +23,6 @@ CREATE TABLE IF NOT EXISTS present_ideas
     id             UUID PRIMARY KEY,
     owner          UUID         NOT NULL,
     name           VARCHAR(255) NOT NULL,
-    type           VARCHAR(255),
     description    TEXT,
     price          DECIMAL(10, 2),
     fk_occasion_id UUID,
