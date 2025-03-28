@@ -21,7 +21,6 @@ import java.util.UUID;
 public class Receipt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(name = "imageUrl", nullable = false)

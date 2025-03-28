@@ -1,5 +1,7 @@
 todo:
-  - in receipt manually create id, instaed of automatic generation (the s3 will have the same key thanks to that)
+  - in receipt manually create id, instead of automatic generation (the s3 will have the same key thanks to that)
+    - done, now manually test if one receipt with one aws image is created per presentIdea / presentPurchased
+    - clean up ReceiptService
   - add fetching presentsPurchased by personId
   - job for cleaning s3 images without parent entities (S3CleanupScheduler)
   - when converting a presentIdea to presentPurchased add option for adding another image (pic of present) (make sure only one can be added per entity)

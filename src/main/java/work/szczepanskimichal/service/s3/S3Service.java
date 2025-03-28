@@ -40,7 +40,7 @@ public class S3Service {
     @Value("#{'${custom.allowed.file.types}'.split(',')}")
     private List<String> allowedFileTypes;
 
-    public String uploadImage(MultipartFile file, FileType type) {
+    public String uploadImage(MultipartFile file, FileType type, UUID id) {
         checkIfBucketExists();
 
         var contentType = file.getContentType();
@@ -55,7 +55,7 @@ public class S3Service {
             throw new InvalidFileException("Only allowed image types are JPG and PNG.");
         }
 
-        var key = UUID.randomUUID().toString();
+        var key = id;
         var fullKeyName = type.getName() + key;
 
         var putObjectRequest = PutObjectRequest.builder()
