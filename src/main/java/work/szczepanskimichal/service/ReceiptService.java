@@ -34,7 +34,7 @@ public class ReceiptService {
                 .build();
         try {
             var receiptEntity = receiptMapper.toEntity(dto);
-            receiptEntity.toBuilder().id(id).build();
+            receiptEntity = receiptEntity.toBuilder().id(id).build();
             var receipt = receiptRepository.save(receiptEntity);
             return receiptMapper.toDto(receipt);
         } catch (DataAccessException | PersistenceException e) {
